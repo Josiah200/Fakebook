@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace FakeBook.Infrastructure.Data.Migrations
+namespace Fakebook.Infrastructure.Data.Migrations
 {
     public partial class Initial : Migration
     {

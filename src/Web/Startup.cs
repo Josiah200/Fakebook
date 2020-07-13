@@ -9,27 +9,27 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using FakeBook.Core.Entities;
-using FakeBook.Infrastructure.Data;
-using FakeBook.Core.Interfaces;
+using Fakebook.Core.Entities;
+using Fakebook.Infrastructure.Data;
+using Fakebook.Core.Interfaces;
 
-namespace FakeBook.Web
+namespace Fakebook.Web
 {
     public class Startup
     {
-		public Startup(IConfiguration configuration)
+		public Startup(IConfiguration configuration) 
 		{
 			Configuration = configuration;
 		}
-		private IConfiguration Configuration;
+		private readonly IConfiguration Configuration;
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
 			services.AddControllersWithViews();
-			services.AddDbContext<FakeBookContext>(o => {
+			services.AddDbContext<FakebookContext>(o => {
 				o.UseSqlServer(
-					Configuration["ConnectionStrings:FakeBookConnection"]);
+					Configuration["ConnectionStrings:FakebookConnection"]);
 			});
 			services.AddScoped<IPostRepository, PostRepository>();
         }

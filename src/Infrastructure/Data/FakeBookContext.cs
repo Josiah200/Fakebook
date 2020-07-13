@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using FakeBook.Core.Entities;
+using Fakebook.Core.Entities;
 
-namespace FakeBook.Infrastructure.Data
+namespace Fakebook.Infrastructure.Data
 {
-    public class FakeBookContext : DbContext
+    public class FakebookContext : DbContext
     {
-        public FakeBookContext(DbContextOptions<FakeBookContext> options) : base(options)
+        public FakebookContext(DbContextOptions<FakebookContext> options) : base(options)
 		{
 
 		}

@@ -1,9 +1,9 @@
-namespace FakeBook.Infrastructure.Data
+namespace Fakebook.Infrastructure.Data
 {
     public class EfRepository<T>
     {
-		protected readonly FakeBookContext _dbContext;
-        public EfRepository(FakeBookContext dbContext)
+		protected readonly FakebookContext _dbContext;
+        public EfRepository(FakebookContext dbContext)
 		{
 			_dbContext = dbContext;
 		}

@@ -1,7 +1,7 @@
 using System.Linq;
-using FakeBook.Core.Entities;
+using Fakebook.Core.Entities;
 
-namespace FakeBook.Core.Interfaces
+namespace Fakebook.Core.Interfaces
 {
     public interface IPostRepository
     {

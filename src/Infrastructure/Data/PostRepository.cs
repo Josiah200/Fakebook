@@ -1,12 +1,12 @@
 using System.Linq;
-using FakeBook.Core.Entities;
-using FakeBook.Core.Interfaces;
+using Fakebook.Core.Entities;
+using Fakebook.Core.Interfaces;
 
-namespace FakeBook.Infrastructure.Data
+namespace Fakebook.Infrastructure.Data
 {
 	public class PostRepository : EfRepository<Post>, IPostRepository
 	{
-		public PostRepository(FakeBookContext dbContext) : base(dbContext)
+		public PostRepository(FakebookContext dbContext) : base(dbContext)
 		{
 		}
 		public IQueryable<Post> Posts => throw new System.NotImplementedException();

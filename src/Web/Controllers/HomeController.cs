@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace FakeBook.Web.Controllers
+namespace Fakebook.Web.Controllers
 {
     public class HomeController : Controller
     {

@@ -11,7 +11,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
-		<RootNamespace>FakeBook.Infrastructure</RootNamespace>
+		<RootNamespace>Fakebook.Infrastructure</RootNamespace>
 	</PropertyGroup>
 
 </Project>
