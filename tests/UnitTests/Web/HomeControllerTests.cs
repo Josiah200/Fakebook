@@ -7,32 +7,33 @@ using Fakebook.Web.Controllers;
 using Fakebook.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Fakebook.UnitTests.Web
 {
     public class HomeControllerTests
     {
-        [Fact]
-		public void Can_Use_Repository()
+		[Fact]
+		public async Task Can_Use_RepositoryAsync()
 		{
 			// Arrange
-			private readonly Mock<IPostRepository> mock = new Mock<IPostRepository>();
-			mock.Setup(m => m.ListAllAsync()).ReturnsAsync((new Post[] {
+			Mock<IPostRepository> mockRepo = new Mock<IPostRepository>();
+			mockRepo.Setup(m => m.ListAllAsync()).ReturnsAsync(new List<Post> {
 				new Post { PostId = 0001, AuthorId = 0001, Text = "Test post data", DatePosted = DateTime.Now },
 				new Post { PostId = 0002, AuthorId = 0002, Text = "Second test post data", DatePosted = DateTime.Now }
-			}).AsQueryable<Post>());
+			});
 
-			HomeController controller = new HomeController(mock.Object);
+			HomeController controller = new HomeController(mockRepo.Object);
 
 			// Act
-			IEnumerable<Post> result = 
-				(controller.Index() as ViewResult).ViewData.Model
-					as IEnumerable<Post>;
+			List<Post> result = 
+				(await controller.Index() as ViewResult).ViewData.Model
+					as List<Post>;
 			// Assert
-			Post[] postArray = result.ToArray();
-			Assert.True(postArray.Length == 2);
-			Assert.Equal("Test post data", postArray[0].Text);
-			Assert.Equal("Second test post data", postArray[1].Text);
+			List<Post> postList = result.ToList();
+			Assert.True(postList.Count == 2);
+			Assert.Equal("Test post data", postList[0].Text);
+			Assert.Equal("Second test post data", postList[1].Text);
 		}	
-    }
+	}
 }

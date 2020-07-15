@@ -7,7 +7,7 @@ namespace Fakebook.Web.Controllers
 {
     public class HomeController : Controller
     {
-		private IPostRepository _repository;
+		private readonly IPostRepository _repository;
 		
 		public HomeController(IPostRepository repository)
 		{
