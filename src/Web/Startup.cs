@@ -29,7 +29,7 @@ namespace Fakebook.Web
 			services.AddControllersWithViews();
 			services.AddDbContext<FakebookContext>(o => {
 				o.UseSqlServer(
-					Configuration["ConnectionStrings:FakebookConnection"]);
+					Configuration.GetConnectionString("FakebookConnection"));
 			});
 			services.AddScoped<IPostRepository, PostRepository>();
         }

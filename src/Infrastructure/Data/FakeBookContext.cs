@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Fakebook.Core.Entities;
+using System.Reflection;
 
 namespace Fakebook.Infrastructure.Data
 {
@@ -7,9 +8,9 @@ namespace Fakebook.Infrastructure.Data
     {
         public FakebookContext(DbContextOptions<FakebookContext> options) : base(options)
 		{
-
 		}
 
 		public DbSet<Post> Posts { get; set; }
+
     }
 }

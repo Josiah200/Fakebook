@@ -2,7 +2,7 @@ using System;
 
 namespace Fakebook.Core.Entities
 {
-    public class Post
+    public class Post : BaseEntity
     {
 		//TODO: Add validation
 		public int PostId { get; set; }

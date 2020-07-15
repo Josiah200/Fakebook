@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 
 namespace Fakebook.Core.Interfaces
 {
-    public interface IPostRepository : IAsyncRepository<Post>
+    public interface IAsyncRepository<T> where T : BaseEntity
     {
-		Task<IReadOnlyList<Post>> ListAllAsync();
+        Task<IReadOnlyList<T>> ListAllAsync();
     }
 }

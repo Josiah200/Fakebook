@@ -23,9 +23,9 @@ namespace Fakebook.Infrastructure.Data
 		{
 			var posts = new[]
 			{
-				new Post { PostId = 0001, AuthorId = 0001, Text = "Seed data", DatePosted = DateTime.Now },
-				new Post { PostId = 0002, AuthorId = 0002, Text = "Lorem ipsum dolor sit amet", DatePosted = DateTime.Now },
-				new Post { PostId = 0003, AuthorId = 0002, Text = "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", DatePosted = DateTime.Now }
+				new Post { Text = "Seed data", DatePosted = DateTime.Now },
+				new Post { Text = "Lorem ipsum dolor sit amet", DatePosted = DateTime.Now },
+				new Post { Text = "consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", DatePosted = DateTime.Now }
 			};
 			fakebookContext.Posts.AddRange(posts);
 			await fakebookContext.SaveChangesAsync();

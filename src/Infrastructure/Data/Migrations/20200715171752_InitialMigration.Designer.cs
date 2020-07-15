@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fakebook.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(FakebookContext))]
-    [Migration("20200713145622_PostUpdate")]
-    partial class PostUpdate
+    [Migration("20200715171752_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Fakebook.Core.Entities.Post", b =>
                 {
-                    b.Property<int>("PostId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -34,10 +34,13 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PostId");
+                    b.HasKey("Id");
 
                     b.ToTable("Posts");
                 });

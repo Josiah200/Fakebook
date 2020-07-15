@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Fakebook.Infrastructure.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,10 @@ namespace Fakebook.Infrastructure.Data.Migrations
                 name: "Posts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Title = table.Column<string>(nullable: true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(nullable: false),
+                    AuthorId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true),
                     DatePosted = table.Column<DateTime>(nullable: false)
                 },
