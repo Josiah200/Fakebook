@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core", "src\core\core.csproj", "{6C1F6B39-7807-4F6D-B138-1E95C80E2F3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\core\Core.csproj", "{6C1F6B39-7807-4F6D-B138-1E95C80E2F3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{36FE9BA7-A45F-4083-B5B2-80C41C51BA97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{36FE9BA7-A45F-4083-B5B2-80C41C51BA97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\Web\Web.csproj", "{BF7B5585-E086-4CCA-809E-E3C0D4B1E08C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "src\Web\Web.csproj", "{BF7B5585-E086-4CCA-809E-E3C0D4B1E08C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F724CE29-4EED-4339-A004-40094959D9AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{7907C5AE-E20A-49DE-9455-441DFDF2B8CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{7907C5AE-E20A-49DE-9455-441DFDF2B8CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6C1F6B39-7807-4F6D-B138-1E95C80E2F3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -75,7 +72,13 @@ Global
 		{7907C5AE-E20A-49DE-9455-441DFDF2B8CD}.Release|x86.ActiveCfg = Release|Any CPU
 		{7907C5AE-E20A-49DE-9455-441DFDF2B8CD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7907C5AE-E20A-49DE-9455-441DFDF2B8CD} = {F724CE29-4EED-4339-A004-40094959D9AA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {129714CD-B6A4-4039-BE39-A9673759C823}
 	EndGlobalSection
 EndGlobal
