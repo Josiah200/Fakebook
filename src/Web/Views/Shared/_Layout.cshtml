@@ -3,10 +3,19 @@
 <head>
 	<meta name="viewport" content ="width=device-width" />
 	<title>Fakebook</title>
+	<link href="/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-	<div>
-		@RenderBody()
+	<div class="bg-dark text-white p-2">
+		<span class="navbar-brand m1-2">Fakebook</span>
+	</div>
+	<div class="row m-1 p-1">
+		<div id="categories" class="col-3">
+			Put something useful here later
+		</div>
+		<div>
+			@RenderBody()
+		</div>
 	</div>
 </body>
 </html>
