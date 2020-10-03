@@ -12,6 +12,7 @@
 	<PropertyGroup>
     	<TargetFramework>netcoreapp3.1</TargetFramework>
 		<RootNamespace>Fakebook.Web</RootNamespace>
+		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
 </Project>
