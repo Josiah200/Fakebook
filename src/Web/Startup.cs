@@ -43,6 +43,7 @@ namespace Fakebook.Web
 				app.UseStatusCodePages();
 				app.UseStaticFiles();
             }
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
