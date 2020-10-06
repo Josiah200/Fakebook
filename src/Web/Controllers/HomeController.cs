@@ -4,7 +4,6 @@ using Fakebook.Core.Entities;
 using System.Threading.Tasks;
 
 namespace Fakebook.Web.Controllers
-
 {
     public class HomeController : Controller
     {
