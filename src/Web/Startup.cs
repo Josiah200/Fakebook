@@ -27,6 +27,7 @@ namespace Fakebook.Web
         public void ConfigureServices(IServiceCollection services)
         {
 			services.AddControllersWithViews();
+			services.AddControllersWithViews().AddRazorRuntimeCompilation();
 			services.AddDbContext<FakebookContext>(o => {
 				o.UseSqlServer(
 					Configuration.GetConnectionString("FakebookConnection"));
