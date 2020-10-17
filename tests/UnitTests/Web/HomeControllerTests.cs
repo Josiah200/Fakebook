@@ -29,6 +29,7 @@ namespace Fakebook.UnitTests.Web
 			List<Post> result = 
 				(await controller.Index() as ViewResult).ViewData.Model
 					as List<Post>;
+					
 			// Assert
 			List<Post> postList = result.ToList();
 			Assert.True(postList.Count == 2);

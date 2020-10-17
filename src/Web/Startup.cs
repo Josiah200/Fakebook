@@ -23,8 +23,7 @@ namespace Fakebook.Web
 		}
 
 		private readonly IConfiguration Configuration;
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
 		public void ConfigureDevelopmentServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -37,6 +36,7 @@ namespace Fakebook.Web
 			ConfigureServices(services);
 		}
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 			services.AddDbContext<FakebookContext>(o => {
