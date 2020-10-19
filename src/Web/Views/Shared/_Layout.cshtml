@@ -6,12 +6,20 @@
 	<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css" />
 </head>
 <body>
-	<nav class="navbar navbar-dark" style="background-color:purple">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Fakebook</a>
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Profile</a>
+	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:purple">
+		<a class="navbar-brand" href="/">Fakebook</a>
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link text-light" href="/">Profile</a>
+			</li>
+			<partial name="_LoginPartial.cshtml" />
+		</ul>
 	</nav>
-	<div class="row m-1 p-1">
-		@RenderBody()
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
 	</div>
+	@RenderSection("Scripts", required: false)
 </body>
 </html>

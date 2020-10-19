@@ -1,17 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Fakebook.Core.Entities;
-using Fakebook.Infrastructure.Data;
 using Fakebook.Core.Interfaces;
+using Fakebook.Infrastructure.Data;
+using Fakebook.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace Fakebook.Web
 {
@@ -39,10 +37,33 @@ namespace Fakebook.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-			services.AddDbContext<FakebookContext>(o => {
-				o.UseSqlServer(
-					Configuration.GetConnectionString("FakebookConnection"));
-			});
+			services.AddDbContext<FakebookContext>(options => 
+				options.UseSqlServer(
+					Configuration.GetConnectionString("FakebookConnection")));
+
+			services.AddDbContext<FakebookIdentityContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("IdentityConnection")));
+
+
+			services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+			{
+				options.User.RequireUniqueEmail = true;
+				options.SignIn.RequireConfirmedAccount = true;
+			})
+			.AddDefaultUI()
+			.AddEntityFrameworkStores<FakebookIdentityContext>()
+			.AddDefaultTokenProviders();
+
+			// services.AddDefaultIdentity<ApplicationUser>(options =>
+			// {
+			// 	options.User.RequireUniqueEmail = true;
+			// 	options.SignIn.RequireConfirmedAccount = true;
+			// })
+			// .AddEntityFrameworkStores<FakebookIdentityContext>()
+			// .AddDefaultTokenProviders();
+
+			services.AddRazorPages();
 			services.AddScoped<IPostRepository, PostRepository>();
         }
 
@@ -55,11 +76,16 @@ namespace Fakebook.Web
 				app.UseStatusCodePages();
 				app.UseStaticFiles();
             }
+
             app.UseRouting();
+
+			app.UseAuthentication();
+			app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+				endpoints.MapRazorPages();
             });
         }
     }
