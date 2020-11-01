@@ -4,14 +4,16 @@ using Fakebook.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fakebook.Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(FakebookIdentityContext))]
-    partial class FakebookIdentityContextModelSnapshot : ModelSnapshot
+    [Migration("20201028071638_FirstLastNameAddition")]
+    partial class FirstLastNameAddition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

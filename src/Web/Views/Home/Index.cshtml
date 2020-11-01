@@ -1,10 +1,12 @@
-@model IReadOnlyList<Post>
+@model Fakebook.Web.ViewModels.HomeViewModel
 
 <div class="container-fluid">
 	<div class="row">
-		<aside class="col-md-4"></aside>
+		<aside class="col-md-4">
+			@await Html.PartialAsync("_NewPostPartial", new Post())
+		</aside>
 		<div class="col-md-8">
-			@foreach (var p in Model)
+			@foreach (var p in Model.Posts)
 			{
 				<div class="card card-outline-primary m-1 p-1">
 					<div class="bg-faded p-1">
@@ -15,7 +17,8 @@
 							</span>
 						</h4>
 					</div>
-					<div class="card-text p-1">@p.AuthorId</div>
+					<div class="card-text p-1">@p.AuthorFirst</div>
+					<div class="card-text p-1">@p.AuthorLast</div>
 				</div>
 			}
 		</div>

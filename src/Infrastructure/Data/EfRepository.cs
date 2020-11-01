@@ -19,5 +19,11 @@ namespace Fakebook.Infrastructure.Data
 		{
 			return await _dbContext.Set<T>().ToListAsync();
 		}
+		public async Task<bool> AddAsync(T entity)
+		{
+			await _dbContext.Set<T>().AddAsync(entity);
+			var addResult = await _dbContext.SaveChangesAsync();
+			return addResult == 1;
+		}
     }
 }
