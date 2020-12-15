@@ -1,7 +1,7 @@
-@model Post
+@model NewPostViewModel
 
 <section class="post-form">
-	<form asp-action="NewPost" method="POST">
+	<form asp-action="NewPost" method="POST" model=>
 		<textarea asp-for="Text" id="new-post-text" placeholder="Whats on your mind?" class="mt-1 container-fluid" style="height: 75px;"></textarea>
 		<input type="submit" class="btn btn-primary container-fluid" value="Post"></button>
 	</form>

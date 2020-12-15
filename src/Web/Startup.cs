@@ -1,15 +1,17 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using Fakebook.Core.Interfaces;
+using Fakebook.Core.Services;
+using Fakebook.Core.Entities;
 using Fakebook.Infrastructure.Data;
 using Fakebook.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace Fakebook.Web
 {
@@ -45,7 +47,6 @@ namespace Fakebook.Web
                 options.UseSqlServer(
                     Configuration.GetConnectionString("IdentityConnection")));
 
-
 			services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
@@ -55,16 +56,13 @@ namespace Fakebook.Web
 			.AddEntityFrameworkStores<FakebookIdentityContext>()
 			.AddDefaultTokenProviders();
 
-			// services.AddDefaultIdentity<ApplicationUser>(options =>
-			// {
-			// 	options.User.RequireUniqueEmail = true;
-			// 	options.SignIn.RequireConfirmedAccount = true;
-			// })
-			// .AddEntityFrameworkStores<FakebookIdentityContext>()
-			// .AddDefaultTokenProviders();
-
 			services.AddRazorPages();
+			services.AddAutoMapper(typeof(Startup));
+			
 			services.AddScoped<IPostRepository, PostRepository>();
+			services.AddScoped<IPostService, PostService>();
+			services.AddScoped<IApplicationUser, ApplicationUser>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

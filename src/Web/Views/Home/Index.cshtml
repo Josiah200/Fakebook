@@ -3,12 +3,15 @@
 <div class="container-fluid">
 	<div class="row">
 		<aside class="col-md-4">
-			@await Html.PartialAsync("_NewPostPartial", new Post())
+			<div class="position-fixed">
+			@await Html.PartialAsync("_NewPostPartial", new NewPostViewModel())
+			</div>
 		</aside>
 		<div class="col-md-8">
 			@foreach (var p in Model.Posts)
 			{
 				<div class="card card-outline-primary m-1 p-1">
+					<div class="card-text p-1"></div>
 					<div class="bg-faded p-1">
 						<h4>
 							@p.Text
@@ -17,8 +20,6 @@
 							</span>
 						</h4>
 					</div>
-					<div class="card-text p-1">@p.AuthorFirst</div>
-					<div class="card-text p-1">@p.AuthorLast</div>
 				</div>
 			}
 		</div>

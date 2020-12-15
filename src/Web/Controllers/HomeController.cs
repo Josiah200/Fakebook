@@ -12,14 +12,15 @@ namespace Fakebook.Web.Controllers
 	[Authorize]
     public class HomeController : Controller
     {
-		private readonly IPostRepository _repository;
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly IPostService _postService;
+		private readonly IPostRepository _repository;
 		
-		public HomeController(IPostRepository repository, 
-			UserManager<ApplicationUser> userManager)
+		public HomeController(UserManager<ApplicationUser> userManager, IPostService postService, IPostRepository repository)
 		{
-			_repository = repository;
 			_userManager = userManager;
+			_postService = postService;
+			_repository = repository;
 		}
 
     	public async Task<IActionResult> Index()
@@ -33,27 +34,16 @@ namespace Fakebook.Web.Controllers
 			return View(viewModel);
 		}
 
-		[ValidateAntiForgeryToken]
+		
 		[HttpPost]
-		public async Task<IActionResult> NewPost(Post newPost)
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> NewPost(NewPostViewModel newPost)
+		//todo: rework fronend connection: add form viewmodel? add error handling? should service return something? delete most of the below. Add userrepository?
 		{
 			var currentUser = await _userManager.GetUserAsync(User);
 			if (currentUser == null) return Challenge();
-			
-			newPost.AuthorId = currentUser.Id;
-			newPost.AuthorFirst = currentUser.FirstName;
-			newPost.AuthorLast = currentUser.LastName;
 
-			if (!ModelState.IsValid)
-			{
-				return RedirectToAction("Index");
-			}
-
-			var successful = await _repository.AddAsync(newPost);
-			if (!successful)
-			{
-				return BadRequest("Could not create post.");
-			}
+			await _postService.NewPost(newPost.Text, currentUser.Id, currentUser);
 			return RedirectToAction("Index");
 		}
     }

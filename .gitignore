@@ -432,3 +432,4 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 Fakebook.sln.DotSettings
+workspace.code-workspace
