@@ -62,7 +62,6 @@ namespace Fakebook.Web
 			services.AddScoped<IPostService, PostService>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IUserService, UserService>();
-			services.AddScoped<IApplicationUser, ApplicationUser>();
 
         }
 

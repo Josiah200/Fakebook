@@ -6,7 +6,6 @@ using Fakebook.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Fakebook.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
 
 namespace Fakebook.Web.Controllers
 {

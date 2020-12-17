@@ -3,7 +3,7 @@ using Fakebook.Core.Interfaces;
 
 namespace Fakebook.Core.Entities
 {
-	public class User : BaseEntity, IApplicationUser
+	public class User : BaseEntity
 	{
 		public string UserId { get; set; }
 		public string FirstName { get; set; }

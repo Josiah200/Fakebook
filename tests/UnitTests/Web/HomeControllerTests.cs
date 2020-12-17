@@ -23,8 +23,8 @@ namespace Fakebook.UnitTests.Web
 			// Arrange
 			Mock<IPostRepository> mockRepo = new Mock<IPostRepository>();
 			mockRepo.Setup(m => m.ListAllAsync()).ReturnsAsync(new List<Post> {
-				new Post { PostId = 0001, AuthorId = "C56A4180-65AA-42EC-A945-5FD21DEC0538", Text = "Test post data", DatePosted = DateTime.Now },
-				new Post { PostId = 0002, AuthorId = "dcacebf3-1d0a-4c68-b966-2d93c83d9b58", Text = "Second test post data", DatePosted = DateTime.Now }
+				new Post { PostId = 0001, UserId = "C56A4180-65AA-42EC-A945-5FD21DEC0538", Text = "Test post data", DatePosted = DateTime.Now },
+				new Post { PostId = 0002, UserId = "dcacebf3-1d0a-4c68-b966-2d93c83d9b58", Text = "Second test post data", DatePosted = DateTime.Now }
 			});
 			
 			Mock<IUserStore<ApplicationUser>> mockStore = new Mock<IUserStore<ApplicationUser>>();
