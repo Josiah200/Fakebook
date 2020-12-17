@@ -7,6 +7,5 @@ namespace Fakebook.Core.Interfaces
     {
     	string FirstName { get; set; }
 		string LastName { get; set; }
-		List<Post> Posts { get; set; }
     }
 }

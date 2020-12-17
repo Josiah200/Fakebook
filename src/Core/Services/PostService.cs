@@ -9,17 +9,19 @@ namespace Fakebook.Core.Services
     public class PostService : IPostService
     {
 		private readonly IPostRepository _postRepository;
-		public PostService(IPostRepository postRepository)
+		private readonly IUserRepository _userRepository;
+		public PostService(IPostRepository postRepository, IUserRepository userRepository)
 		{
 			_postRepository = postRepository;
-			//_userRepository = userRepository;
+			_userRepository = userRepository;
 		}
-		public async Task<bool> NewPost(string text, string authorId, IApplicationUser author)
+		public async Task<bool> NewPost(string text, string userId)
 		{
+			var user = await _userRepository.GetByIdAsync(userId);
 			var post = new Post
 			{
-				AuthorId = authorId,
-				Author = author,
+				UserId = userId,
+				User = user,
 				Text = text,
 				DatePosted = DateTime.Now
 			};

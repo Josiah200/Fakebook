@@ -11,6 +11,7 @@ namespace Fakebook.Infrastructure.Data
 		}
 
 		public DbSet<Post> Posts { get; set; }
+		public DbSet<User> Users { get; set; }
 
     }
 }

@@ -57,10 +57,11 @@ namespace Fakebook.Web
 			.AddDefaultTokenProviders();
 
 			services.AddRazorPages();
-			services.AddAutoMapper(typeof(Startup));
 			
 			services.AddScoped<IPostRepository, PostRepository>();
 			services.AddScoped<IPostService, PostService>();
+			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IApplicationUser, ApplicationUser>();
 
         }

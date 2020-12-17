@@ -10,7 +10,7 @@ namespace Fakebook.Core.Entities
 		public string Text { get; set; }
 		public DateTime DatePosted { get; set; }
 
-		public string AuthorId { get; set; }
-		public ApplicationUser Author { get; set; }
+		public string UserId { get; set; }
+		public User User { get; set; }
     }
 }

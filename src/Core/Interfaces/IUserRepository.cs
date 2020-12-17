@@ -3,8 +3,8 @@ using Fakebook.Core.Entities;
 
 namespace Fakebook.Core.Interfaces
 {
-    public interface IPostService
+    public interface IUserRepository : IAsyncRepository<User>
     {
-		Task<bool> NewPost(string text, string userId);
+        Task<User> GetByIdAsync(string id);
     }
 }

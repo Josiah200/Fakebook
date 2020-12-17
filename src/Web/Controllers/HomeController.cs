@@ -6,6 +6,7 @@ using Fakebook.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Fakebook.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
 
 namespace Fakebook.Web.Controllers
 {
@@ -14,13 +15,15 @@ namespace Fakebook.Web.Controllers
     {
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IPostService _postService;
+		private readonly IUserService _userService;
 		private readonly IPostRepository _repository;
 		
-		public HomeController(UserManager<ApplicationUser> userManager, IPostService postService, IPostRepository repository)
+		public HomeController(UserManager<ApplicationUser> userManager, IPostService postService, IUserService userService, IPostRepository repository)
 		{
 			_userManager = userManager;
 			_postService = postService;
 			_repository = repository;
+			_userService = userService;
 		}
 
     	public async Task<IActionResult> Index()
@@ -43,7 +46,7 @@ namespace Fakebook.Web.Controllers
 			var currentUser = await _userManager.GetUserAsync(User);
 			if (currentUser == null) return Challenge();
 
-			await _postService.NewPost(newPost.Text, currentUser.Id, currentUser);
+			await _postService.NewPost(newPost.Text, currentUser.Id);
 			return RedirectToAction("Index");
 		}
     }
