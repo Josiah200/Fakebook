@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fakebook.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(FakebookContext))]
-    [Migration("20201215224922_ReworkPostWithMappedUser")]
-    partial class ReworkPostWithMappedUser
+    [Migration("20201222063236_PostUserRelationship")]
+    partial class PostUserRelationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,16 +23,11 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Fakebook.Core.Entities.Post", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
@@ -49,7 +44,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Fakebook.Core.Entities.User", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
@@ -58,7 +53,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
@@ -67,7 +62,8 @@ namespace Fakebook.Infrastructure.Data.Migrations
                 {
                     b.HasOne("Fakebook.Core.Entities.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

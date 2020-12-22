@@ -20,13 +20,14 @@ namespace Fakebook.Core.Services
 			var user = await _userRepository.GetByIdAsync(userId);
 			var post = new Post
 			{
-				UserId = userId,
+				Id = Guid.NewGuid().ToString(),
 				User = user,
+				UserId = userId,
 				Text = text,
 				DatePosted = DateTime.Now
 			};
-
 			var successful = await _postRepository.AddAsync(post);
+			user.Posts.Add(post);
 			return successful;
 		}
 		// public IReadOnlyList<Post> GetPostsPage(List<Friend> friendsList)

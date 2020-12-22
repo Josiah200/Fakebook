@@ -6,11 +6,11 @@ namespace Fakebook.Core.Entities
 {
     public class Post : BaseEntity
     {
-		public int PostId { get; set; }
 		public string Text { get; set; }
 		public DateTime DatePosted { get; set; }
-
+		
 		public string UserId { get; set; }
 		public User User { get; set; }
+
     }
 }

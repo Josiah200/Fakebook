@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
@@ -15,7 +16,7 @@ namespace Fakebook.Infrastructure.Data
 		public Task<User> GetByIdAsync(string id)
 		{
 			return _dbContext.Users
-				.FirstOrDefaultAsync(x => x.UserId == id);
+				.FirstOrDefaultAsync(x => x.Id == id);
 		}
 	}
 }

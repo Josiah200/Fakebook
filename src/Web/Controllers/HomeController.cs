@@ -27,9 +27,10 @@ namespace Fakebook.Web.Controllers
 
     	public async Task<IActionResult> Index()
 		{
+			
 			var viewModel = new HomeViewModel
 			{
-				Posts = await _repository.ListAllAsync(),
+				Posts = await _repository.GetHomePostsAsync(),
 				CurrentUser = await _userManager.GetUserAsync(User)
 			};
 			//View(await _repository.ListAllAsync());
@@ -40,13 +41,19 @@ namespace Fakebook.Web.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> NewPost(NewPostViewModel newPost)
-		//todo: rework fronend connection: add form viewmodel? add error handling? should service return something? delete most of the below. Add userrepository?
 		{
 			var currentUser = await _userManager.GetUserAsync(User);
 			if (currentUser == null) return Challenge();
 
-			await _postService.NewPost(newPost.Text, currentUser.Id);
-			return RedirectToAction("Index");
+			bool successful = await _postService.NewPost(newPost.Text, currentUser.Id);
+			if (successful)
+			{
+				return RedirectToAction("Index");
+			}
+			else
+			{
+				return RedirectToAction("Index");
+			}
 		}
     }
 }

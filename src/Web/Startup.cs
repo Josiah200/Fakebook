@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using Fakebook.Core.Interfaces;
 using Fakebook.Core.Services;
 using Fakebook.Core.Entities;

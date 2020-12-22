@@ -18,7 +18,7 @@ namespace Fakebook.Core.Services
 		{
 			var user = new User
 			{
-				UserId = userId,
+				Id = userId,
 				FirstName = FirstName,
 				LastName = LastName,
 				Posts = new List<Post>()
