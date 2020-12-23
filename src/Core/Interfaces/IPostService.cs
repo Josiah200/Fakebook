@@ -6,6 +6,6 @@ namespace Fakebook.Core.Interfaces
 {
     public interface IPostService
     {
-		Task<bool> NewPost(string text, string userId);
+		Task<bool> NewPostAsync(string text, string userId);
     }
 }

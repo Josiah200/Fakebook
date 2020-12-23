@@ -15,9 +15,10 @@ namespace Fakebook.Core.Services
 			_postRepository = postRepository;
 			_userRepository = userRepository;
 		}
-		public async Task<bool> NewPost(string text, string userId)
+		public async Task<bool> NewPostAsync(string text, string userId)
 		{
 			var user = await _userRepository.GetByIdAsync(userId);
+
 			var post = new Post
 			{
 				Id = Guid.NewGuid().ToString(),
@@ -26,16 +27,13 @@ namespace Fakebook.Core.Services
 				Text = text,
 				DatePosted = DateTime.Now
 			};
-			var successful = await _postRepository.AddAsync(post);
-			user.Posts.Add(post);
+
+			bool successful = await _postRepository.AddAsync(post);
+			if (successful)
+			{
+				user.Posts.Add(post);
+			}
 			return successful;
 		}
-		// public IReadOnlyList<Post> GetPostsPage(List<Friend> friendsList)
-		// {
-		// 	foreach (Friend friend in friendsList)
-		// 	{
-
-		// 	}
-		// }
     }
 }

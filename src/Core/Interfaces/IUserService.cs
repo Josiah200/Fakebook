@@ -6,6 +6,6 @@ namespace Fakebook.Core.Interfaces
 {
     public interface IUserService
     {
-        Task<bool> NewUser(string userId, string FirstName, string LastName);
+		Task<bool> NewUserAsync(string userId, string FirstName, string LastName);
     }
 }

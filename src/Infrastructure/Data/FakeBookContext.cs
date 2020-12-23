@@ -9,6 +9,7 @@ namespace Fakebook.Infrastructure.Data
         public FakebookContext(DbContextOptions<FakebookContext> options) : base(options)
 		{
 		}
+		
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<User> Users { get; set; }
 

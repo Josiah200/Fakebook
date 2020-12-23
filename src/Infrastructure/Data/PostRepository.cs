@@ -12,6 +12,7 @@ namespace Fakebook.Infrastructure.Data
 		public PostRepository(FakebookContext dbContext) : base(dbContext)
 		{
 		}
+		
 		public Task<List<Post>> GetHomePostsAsync()
 		{
 			return _dbContext.Posts
