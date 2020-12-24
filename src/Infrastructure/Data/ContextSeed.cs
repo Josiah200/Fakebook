@@ -14,9 +14,16 @@ namespace Fakebook.Infrastructure.Data
     {
 		public static async Task SeedAllAsync(FakebookContext fakebookContext)
 		{
-			await fakebookContext.Users.AddRangeAsync(GetPreconfiguredUsers());
-			await fakebookContext.Posts.AddRangeAsync(GetPreconfiguredPosts());
-			await fakebookContext.SaveChangesAsync();
+			if (!await fakebookContext.Users.AnyAsync())
+			{	
+				await fakebookContext.Users.AddRangeAsync(GetPreconfiguredUsers());
+				await fakebookContext.SaveChangesAsync();
+			}
+			if (!await fakebookContext.Posts.AnyAsync())
+			{	
+				await fakebookContext.Posts.AddRangeAsync(GetPreconfiguredPosts());
+				await fakebookContext.SaveChangesAsync();
+			}
 		}
 
 		static List<User> GetPreconfiguredUsers()
