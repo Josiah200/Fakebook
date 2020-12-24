@@ -33,19 +33,23 @@ namespace Fakebook.UnitTests.Web
 				UserName = "JeffW@gmail.com",
 				FirstName = "Jeff",
 				LastName = "White"
-			});			
+			});
+			
+			Mock<IPostService> mockPostService = new Mock<IPostService>();
+			mockPostService.Setup(m => m.NewPostAsync(It.IsAny<string>(), It.IsAny<string>()));
+
 			HomeController controller = new HomeController(mockUser.Object, mockPostService.Object, mockRepo.Object);
 
 			// Act
 			HomeViewModel result = 
 				(await controller.Index() as ViewResult).ViewData.Model
 					as HomeViewModel;
-					
+
 			// Assert
 			IReadOnlyList<Post> postList = result.Posts;
 			Assert.True(postList.Count == 2);
 			Assert.Equal("Test post data", postList[0].Text);
 			Assert.Equal("Second test post data", postList[1].Text);
-		}	
+		}
 	}
 }
