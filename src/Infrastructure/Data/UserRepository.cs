@@ -18,5 +18,10 @@ namespace Fakebook.Infrastructure.Data
 			return _dbContext.Users
 				.FirstOrDefaultAsync(x => x.Id == id);
 		}
+		public Task<User> GetByPublicIdAsync(string userPublicId)
+		{
+			return _dbContext.Users
+				.FirstOrDefaultAsync(x => x.PublicId == userPublicId);
+		}
 	}
 }

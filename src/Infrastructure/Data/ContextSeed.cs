@@ -30,10 +30,10 @@ namespace Fakebook.Infrastructure.Data
 		{
 			return new List<User>()
 			{
-				new User { Id = "03a5aca4-19c1-4570-8976-2b8db05bf187", FirstName = "Joe", LastName = "White" },
-				new User { Id = "047003b6-5579-4336-bc75-ada68181ab59", FirstName = "Sally", LastName = "Black" },
-				new User { Id = "642ee360-5bb1-498d-9c66-3bf15e4b202c", FirstName = "Harry", LastName = "Orange" },
-				new User { Id = "5249e629-bc88-4a65-8417-9f96427a2d25", FirstName= "Shaun", LastName = "Green" }
+				new User { Id = "03a5aca4-19c1-4570-8976-2b8db05bf187", FirstName = "Joe", LastName = "White", PublicId = "0001" },
+				new User { Id = "047003b6-5579-4336-bc75-ada68181ab59", FirstName = "Sally", LastName = "Black", PublicId = "0002" },
+				new User { Id = "642ee360-5bb1-498d-9c66-3bf15e4b202c", FirstName = "Harry", LastName = "Orange", PublicId = "0003" },
+				new User { Id = "5249e629-bc88-4a65-8417-9f96427a2d25", FirstName= "Shaun", LastName = "Green", PublicId = "0004" }
 			};
 		}
 

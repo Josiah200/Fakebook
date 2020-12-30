@@ -19,5 +19,11 @@ namespace Fakebook.Infrastructure.Data
 				.Include(p => p.User)
 				.ToListAsync();
 		}
+		public Task<List<Post>> GetUserPostsAsync(string userId)
+		{
+			return _dbContext.Posts
+				.Where(p => p.UserId == userId)
+				.ToListAsync();
+		}
 	}
 }

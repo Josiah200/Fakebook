@@ -8,5 +8,6 @@ namespace Fakebook.Core.Interfaces
     public interface IPostRepository : IAsyncRepository<Post>
     {
 		Task<List<Post>> GetHomePostsAsync();
+		Task<List<Post>> GetUserPostsAsync(string userId);
     }
 }

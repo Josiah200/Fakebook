@@ -15,13 +15,14 @@ namespace Fakebook.Core.Services
 			_userRepository = userRepository;
 		}
 		
-		public async Task<bool> NewUserAsync(string userId, string FirstName, string LastName)
+		public async Task<bool> NewUserAsync(string userId, string FirstName, string LastName, string PublicId)
 		{
 			var user = new User
 			{
 				Id = userId,
 				FirstName = FirstName,
 				LastName = LastName,
+				PublicId = PublicId,
 				Posts = new List<Post>()
 			};
 

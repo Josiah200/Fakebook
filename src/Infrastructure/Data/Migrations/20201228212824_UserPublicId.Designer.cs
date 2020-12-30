@@ -4,14 +4,16 @@ using Fakebook.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fakebook.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(FakebookContext))]
-    partial class FakebookContextModelSnapshot : ModelSnapshot
+    [Migration("20201228212824_UserPublicId")]
+    partial class UserPublicId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,8 +53,8 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PublicId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PublicId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

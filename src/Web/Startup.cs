@@ -81,6 +81,10 @@ namespace Fakebook.Web
 
             app.UseEndpoints(endpoints =>
             {
+				endpoints.MapControllerRoute(
+					"profileRoute",
+					"{controller=Profile}/{action=Index}/{userPublicId}"
+				);
                 endpoints.MapDefaultControllerRoute();
 				endpoints.MapRazorPages();
             });
