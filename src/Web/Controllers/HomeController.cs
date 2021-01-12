@@ -6,6 +6,7 @@ using Fakebook.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Fakebook.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 namespace Fakebook.Web.Controllers
 {
@@ -27,7 +28,6 @@ namespace Fakebook.Web.Controllers
 		{
 			var viewModel = new HomeViewModel
 			{
-				Posts = await _repository.GetHomePostsAsync(),
 				CurrentUser = await _userManager.GetUserAsync(User)
 			};
 

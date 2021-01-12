@@ -13,16 +13,22 @@ namespace Fakebook.Infrastructure.Data
 		{
 		}
 		
-		public Task<List<Post>> GetHomePostsAsync()
+		public Task<List<Post>> GetHomePostsAsync(int page)
 		{
 			return _dbContext.Posts
 				.Include(p => p.User)
+				.OrderByDescending(p => p.DatePosted)
+				.Skip(page*15)
+				.Take(15)
 				.ToListAsync();
 		}
 		public Task<List<Post>> GetUserPostsAsync(string userId)
 		{
 			return _dbContext.Posts
 				.Where(p => p.UserId == userId)
+				.OrderByDescending(p => p.DatePosted)
+				.Skip(15)
+				.Take(15)
 				.ToListAsync();
 		}
 	}

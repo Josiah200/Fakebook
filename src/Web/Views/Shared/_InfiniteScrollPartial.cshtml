@@ -1,0 +1,34 @@
+<script src ="~/lib/jquery/jquery.min.js" language="javascript"></script>
+
+<div id="posts" class="col-md-8"/>
+
+<script language="javascript">
+	$(document).ready(function()
+	{
+		var page = 0;
+		$(window).on("scroll load", function()
+		{
+			var docHeight = $(document).height();
+			var winScrolled = $(window).height() + $(window).scrollTop();
+			console.log(winScrolled);
+			console.log("ping");
+			if (docHeight - winScrolled < 1)
+			{
+				$.get({
+					url: "@Url.Action("PostScroll","Post")",
+					data: { page: page },
+					success: function(result)
+					{
+						$("#posts").append(result);
+					}
+				});
+				page = page+1;
+			}
+		});
+	});
+</script>
+
+@* @foreach (var post in Model.Posts)
+{
+	@await Html.PartialAsync("_PostPartial", post)
+} *@

@@ -40,8 +40,6 @@ namespace Fakebook.Web.Controllers
 				Posts = await _postRepository.GetUserPostsAsync(profileUser.Id)
 			};
 			return View(viewModel);
-			
 		}
     }
-	
 }
