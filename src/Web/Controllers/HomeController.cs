@@ -1,12 +1,10 @@
-using Fakebook.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Fakebook.Core.Entities;
-using System.Threading.Tasks;
-using Fakebook.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
-using Fakebook.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
+using System.Threading.Tasks;
+using Fakebook.Core.Interfaces;
+using Fakebook.Infrastructure.Identity;
+using Fakebook.Web.ViewModels;
 
 namespace Fakebook.Web.Controllers
 {
@@ -15,13 +13,11 @@ namespace Fakebook.Web.Controllers
     {
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IPostService _postService;
-		private readonly IPostRepository _repository;
 		
-		public HomeController(UserManager<ApplicationUser> userManager, IPostService postService, IPostRepository repository)
+		public HomeController(UserManager<ApplicationUser> userManager, IPostService postService)
 		{
 			_userManager = userManager;
 			_postService = postService;
-			_repository = repository;
 		}
 
     	public async Task<IActionResult> Index()
@@ -33,7 +29,6 @@ namespace Fakebook.Web.Controllers
 
 			return View(viewModel);
 		}
-
 		
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -43,12 +38,12 @@ namespace Fakebook.Web.Controllers
 			if (currentUser == null) return Challenge();
 
 			bool successful = await _postService.NewPostAsync(newPost.Text, currentUser.Id);
-			
+
 			if (successful)
 			{
 				return RedirectToAction("Index");
 			}
-
+			
 			else
 			{
 				return RedirectToAction("Index");

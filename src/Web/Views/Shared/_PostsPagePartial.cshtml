@@ -1,6 +1,7 @@
-@model List<PostViewModel>
+@using Fakebook.Core.Entities;
+@model List<Post>
 
-@foreach (PostViewModel post in Model)
+@foreach (Post post in Model)
 {
 	@await Html.PartialAsync("_PostPartial", post);
 }

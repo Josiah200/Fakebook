@@ -1,5 +1,11 @@
 @model Fakebook.Web.ViewModels.ProfileViewModel
 
 <div class="container-fluid">
-			@await Html.PartialAsync("_InfiniteScrollPartial", new InfiniteScrollViewModel() { Posts = Model.Posts })
+	<div class="row">
+		<aside class="col-md-4">
+
+		</aside>
+
+		@await Html.PartialAsync("_InfinitePostScrollPartial")
+	</div>
 </div>

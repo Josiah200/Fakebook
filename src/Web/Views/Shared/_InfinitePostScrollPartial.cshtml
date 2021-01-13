@@ -6,17 +6,17 @@
 	$(document).ready(function()
 	{
 		var page = 0;
+		var blockSize = Math.round($(document).height() / 72);
+		
 		$(window).on("scroll load", function()
 		{
 			var docHeight = $(document).height();
 			var winScrolled = $(window).height() + $(window).scrollTop();
-			console.log(winScrolled);
-			console.log("ping");
 			if (docHeight - winScrolled < 1)
 			{
 				$.get({
 					url: "@Url.Action("PostScroll","Post")",
-					data: { page: page },
+					data: { page: page, blocksize: blockSize },
 					success: function(result)
 					{
 						$("#posts").append(result);
@@ -27,8 +27,3 @@
 		});
 	});
 </script>
-
-@* @foreach (var post in Model.Posts)
-{
-	@await Html.PartialAsync("_PostPartial", post)
-} *@

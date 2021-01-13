@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Fakebook.Core.Entities;
-using Fakebook.Core.Interfaces;
-using Fakebook.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Fakebook.Core.Interfaces;
 
 namespace Fakebook.Web.Controllers
 {
@@ -19,22 +16,10 @@ namespace Fakebook.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult> PostScroll(int page)
+		public async Task<ActionResult> PostScroll(int page, int blocksize)
 		{
-			var posts = await _repository.GetHomePostsAsync(page);
-			var model = new List<PostViewModel>();
-			foreach (Post post in posts)
-			{
-				model.Add(new PostViewModel
-				{
-					Text = post.Text,
-					FirstName = post.User.FirstName,
-					LastName = post.User.LastName,
-					UserPublicId = post.User.PublicId,
-					DatePosted = post.DatePosted
-				});
-			}
-			return PartialView("_PostsPagePartial", model);
+			var posts = await _repository.GetHomePostsAsync(page, blocksize);
+			return PartialView("_PostsPagePartial", posts);
 		}
     }
 }
