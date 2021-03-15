@@ -1,12 +1,14 @@
 @model Fakebook.Web.ViewModels.HomeViewModel
 
-<div class="container-fluid">
-	<div class="row">
-		<aside class="col-md-4">
-			<div class="position-fixed">
-			@await Html.PartialAsync("_NewPostPartial", new NewPostViewModel())
-			</div>
-		</aside>
-		@await Html.PartialAsync("_InfinitePostScrollPartial")
+<div class="col-md-5">
+	<div class="sticky-top" style="padding-top:4rem; z-index:0;">
+		@await Html.PartialAsync("_NewPostPartial", new NewPostViewModel())
 	</div>
 </div>
+<div id="posts" class="col-md-7" style="padding-top:4rem" />
+
+@section Scripts
+{
+	<script src ="~/lib/jquery/jquery.min.js" language="javascript"></script>
+	<script src ="~/js/postscroll.js" language="javascript"></script>
+}

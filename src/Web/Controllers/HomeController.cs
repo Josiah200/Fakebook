@@ -12,42 +12,34 @@ namespace Fakebook.Web.Controllers
     public class HomeController : Controller
     {
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly INotificationsService _notificationsService;
+		private readonly IFriendsService _friendsService;
 		private readonly IPostService _postService;
-		
-		public HomeController(UserManager<ApplicationUser> userManager, IPostService postService)
+		public HomeController(
+			UserManager<ApplicationUser> userManager,
+			INotificationsService notificationsService,
+			IFriendsService friendsService,
+			IPostService postService
+			)
 		{
 			_userManager = userManager;
+			_notificationsService = notificationsService;
+			_friendsService = friendsService;
 			_postService = postService;
 		}
 
     	public async Task<IActionResult> Index()
 		{
+			var user = await _userManager.GetUserAsync(User);
 			var viewModel = new HomeViewModel
 			{
-				CurrentUser = await _userManager.GetUserAsync(User)
+				CurrentUser = user,
+				NotificationsNum = 2,
+				RequestsNum = await _friendsService.GetNumRequestsByUserIdAsync(user.Id)
 			};
 
 			return View(viewModel);
 		}
-		
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> NewPost(NewPostViewModel newPost)
-		{
-			var currentUser = await _userManager.GetUserAsync(User);
-			if (currentUser == null) return Challenge();
 
-			bool successful = await _postService.NewPostAsync(newPost.Text, currentUser.Id);
-
-			if (successful)
-			{
-				return RedirectToAction("Index");
-			}
-			
-			else
-			{
-				return RedirectToAction("Index");
-			}
-		}
     }
 }

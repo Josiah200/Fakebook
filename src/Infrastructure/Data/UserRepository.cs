@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
@@ -13,11 +14,12 @@ namespace Fakebook.Infrastructure.Data
 		{
 		}
 
-		public Task<User> GetByIdAsync(string id)
+		public async Task<User> GetByIdAsync(string id)
 		{
-			return _dbContext.Users
+			return await _dbContext.Users
 				.FirstOrDefaultAsync(x => x.Id == id);
 		}
+
 		public Task<User> GetByPublicIdAsync(string userPublicId)
 		{
 			return _dbContext.Users

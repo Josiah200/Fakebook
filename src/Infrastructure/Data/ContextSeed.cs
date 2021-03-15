@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Fakebook.Core.Entities;
 using System;
-using Fakebook.Core.Interfaces;
 
 namespace Fakebook.Infrastructure.Data
 {

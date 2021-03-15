@@ -7,7 +7,7 @@ namespace Fakebook.Core.Interfaces
 {
     public interface IPostRepository : IAsyncRepository<Post>
     {
-		Task<List<Post>> GetHomePostsAsync(int page, int blocksize);
-		Task<List<Post>> GetUserPostsAsync(string userId);
+		Task<List<Post>> GetPostsBlockAsync(int page, int blocksize);
+		Task<List<Post>> GetUserPostsBlockAsync(string userId, int page, int blocksize);
     }
 }

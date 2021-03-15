@@ -13,7 +13,7 @@ namespace Fakebook.Infrastructure.Data
 		{
 		}
 		
-		public Task<List<Post>> GetHomePostsAsync(int page, int blocksize)
+		public Task<List<Post>> GetPostsBlockAsync(int page, int blocksize)
 		{
 			return _dbContext.Posts
 				.Include(p => p.User)
@@ -22,13 +22,13 @@ namespace Fakebook.Infrastructure.Data
 				.Take(blocksize)
 				.ToListAsync();
 		}
-		public Task<List<Post>> GetUserPostsAsync(string userId)
+		public Task<List<Post>> GetUserPostsBlockAsync(string userId, int page, int blocksize)
 		{
 			return _dbContext.Posts
 				.Where(p => p.UserId == userId)
 				.OrderByDescending(p => p.DatePosted)
-				.Skip(15)
-				.Take(15)
+				.Skip(page*blocksize)
+				.Take(blocksize)
 				.ToListAsync();
 		}
 	}

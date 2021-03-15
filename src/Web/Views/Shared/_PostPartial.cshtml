@@ -1,15 +1,40 @@
 @model Fakebook.Core.Entities.Post
 
-<div class="card card-outline-primary m-1 p-1">
-	<div class="Author card-text p-1">
-		<a href="Profile/@Model.User.PublicId">@Model.User.FirstName @Model.User.LastName</a>
+<div class="post card card-outline-primary m-1 p-1">
+	<div class="Author p-1">
+		<img src="https://scontent-bos3-1.xx.fbcdn.net/v/t1.30497-1/cp0/p32x32/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=3&_nc_sid=7206a8&_nc_ohc=_OgyF9W-SfMAX8nZvq_&_nc_ht=scontent-bos3-1.xx&_nc_tp=30&oh=920d1ea2208ce29bdb86c0714219443e&oe=605CF74F"/>
+		<a href="~/Profile/@Model.User.PublicId">@Model.User.FirstName @Model.User.LastName</a>
+		@{
+			var TimeSince = DateTime.Now - Model.DatePosted;
+			string Date;
+		}
+		@if (TimeSince.TotalMinutes < 1) {
+			Date = Convert.ToInt16(TimeSince.TotalSeconds).ToString() + "s";
+		}
+		else if (TimeSince.TotalHours < 1) {
+			Date = Convert.ToInt16(TimeSince.TotalMinutes).ToString() + "m";
+		}
+		else if (TimeSince.TotalHours < 24) {
+			Date = Convert.ToInt16(TimeSince.TotalHours).ToString() + "h";
+		}
+		else if (TimeSince.TotalDays < 7) {
+			Date = Convert.ToInt16(TimeSince.TotalDays).ToString() + "d";
+		}
+		else if (Model.DatePosted.Year == DateTime.Now.Year) {
+			Date = Model.DatePosted.ToString("MMMM dd");
+		}
+		else {
+			Date = Model.DatePosted.ToShortDateString();
+		}
+		<time class="badge text-muted" title="@Model.DatePosted.ToString("dddd, MMM dd, yyyy h:mm tt")">@Date</time>
 	</div>
-	<div class="bg-faded p-1">
-		<div>
-			@Model.Text
-			<span class="badge badge-pill badge-primary" style="float:right">
-				<small>@Model.DatePosted</small>
-			</span>
+	<div class="post-text p-1">
+		@Model.Text
+	</div>
+	<div class="container-fluid">
+		<div class="row border-top border-bottom" style="margin:auto">
+			<input class="col-md-6 btn text-center text-muted" Value="Like"/>
+			<input class="col-md-6 btn text-center text-muted" Value="Comment"/>
 		</div>
 	</div>
 </div>

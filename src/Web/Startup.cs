@@ -10,12 +10,14 @@ using Fakebook.Core.Services;
 using Fakebook.Core.Entities;
 using Fakebook.Infrastructure.Data;
 using Fakebook.Infrastructure.Identity;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace Fakebook.Web
 {
     public class Startup
     {
+
 		public Startup(IConfiguration configuration) 
 		{
 			Configuration = configuration;
@@ -51,17 +53,21 @@ namespace Fakebook.Web
 				options.User.RequireUniqueEmail = true;
 				options.SignIn.RequireConfirmedAccount = true;
 			})
-			.AddDefaultUI()
-			.AddEntityFrameworkStores<FakebookIdentityContext>()
-			.AddDefaultTokenProviders();
+				.AddDefaultUI()
+				.AddEntityFrameworkStores<FakebookIdentityContext>()
+				.AddDefaultTokenProviders();
 
 			services.AddRazorPages();
 			
 			services.AddScoped<IPostRepository, PostRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
-			
+			services.AddScoped<INotificationsRepository, NotificiationsRepository>();
+			services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+
 			services.AddScoped<IPostService, PostService>();
 			services.AddScoped<IUserService, UserService>();
+			services.AddScoped<INotificationsService, NotificationsService>();
+			services.AddScoped<IFriendsService, FriendsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,7 +91,7 @@ namespace Fakebook.Web
 					"profileRoute",
 					"{controller=Profile}/{action=Index}/{userPublicId}"
 				);
-                endpoints.MapDefaultControllerRoute();
+				endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 				endpoints.MapRazorPages();
             });
         }

@@ -1,0 +1,62 @@
+html {
+	background-color: #F0F2F5;
+}
+body {
+	background-color: transparent;
+	margin-left: 15%;
+	margin-right: 15%;
+}
+@media only screen and (max-width: 768px) {
+	body {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+.header {
+	margin: 0;
+	padding: 2.1rem;
+	float: left;
+	width: 100%;
+	line-height: 1;
+}
+
+/* The sidebar menu */
+#friends_bar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 100; /* Behind the navbar */
+	padding: 0;
+	transition: 1s all;
+	overflow-x: hidden;
+	box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+.friends-bar-opened {
+	width: 15%;
+}
+@media screen and (max-width: 768px) {
+	.friends-bar-opened {
+		width: 80%;
+	}
+}
+.friends-bar-closed {
+	width: 0%;
+}
+.friends-btn {
+	display: inline-block;
+	position: relative;
+}
+#requests_num {
+	visibility: hidden;
+	position: absolute;
+	bottom: -1px;
+	right: -5px;
+	padding: 5px 8px;
+	border-radius: 50%;
+	background: red;
+	color: white;
+}
+.post .btn:hover {
+background-color: #F2F2F2;
+}

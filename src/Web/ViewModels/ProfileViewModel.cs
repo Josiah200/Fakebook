@@ -5,6 +5,7 @@ namespace Fakebook.Web.ViewModels
 {
     public class ProfileViewModel
     {
-        public IReadOnlyList<Post> Posts { get; set; }
+		public User ProfileUser { get; set; }
+		public Friendship Friendship { get; set; }
     }
 }

@@ -19,6 +19,48 @@ namespace Fakebook.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Fakebook.Core.Entities.Friendship", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "FriendId");
+
+                    b.HasIndex("FriendId");
+
+                    b.ToTable("Friendships");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Notification", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ReceiverId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("TimeSent")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("Fakebook.Core.Entities.Post", b =>
                 {
                     b.Property<string>("Id")
@@ -28,6 +70,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Text")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -57,6 +100,28 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Friendship", b =>
+                {
+                    b.HasOne("Fakebook.Core.Entities.User", "Friend")
+                        .WithMany("Friendships")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fakebook.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Notification", b =>
+                {
+                    b.HasOne("Fakebook.Core.Entities.User", "Receiver")
+                        .WithMany("Notifications")
+                        .HasForeignKey("ReceiverId");
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Post", b =>

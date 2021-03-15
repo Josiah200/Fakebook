@@ -12,32 +12,34 @@ namespace Fakebook.Web.Controllers
 	[Authorize]
     public class ProfileController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-		private readonly IPostService _postService;
-		private readonly IPostRepository _postRepository;
-		private readonly IUserRepository _userRepository;
+		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly IUserService _userService;
+		private readonly IFriendsService _friendsService;
 
-		public ProfileController(UserManager<ApplicationUser> userManager, IPostService postService, IPostRepository postRepository, IUserRepository userRepository)
+		public ProfileController(IUserService userService, IFriendsService friendsService, UserManager<ApplicationUser> userManager)
 		{
+			_userService = userService;
 			_userManager = userManager;
-			_postService = postService;
-			_postRepository = postRepository;
-			_userRepository = userRepository;
+			_friendsService = friendsService;
 		}
 
 		[Route("Profile/{userPublicId:int}")]
 		public async Task<IActionResult> Index(string userPublicId)
 		{
-			var profileUser = await _userRepository.GetByPublicIdAsync(userPublicId);
+			var profileUser = await _userService.GetByPublicIdAsync(userPublicId);
+			var currentApplicationUser = await _userManager.GetUserAsync(User);
+			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 
 			if (profileUser == null)
 			{
 				return RedirectToAction("Index");
 			}
 
+			var friendship = await _friendsService.GetFriendAsync(currentUser, profileUser);
 			var viewModel = new ProfileViewModel
 			{
-				Posts = await _postRepository.GetUserPostsAsync(profileUser.Id)
+				ProfileUser = profileUser,
+				Friendship = friendship
 			};
 			return View(viewModel);
 		}

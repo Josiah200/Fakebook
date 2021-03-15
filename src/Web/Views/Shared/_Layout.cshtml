@@ -1,27 +1,52 @@
+@using Microsoft.AspNetCore.Identity
+@using Fakebook.Infrastructure.Identity
+@using System.Web
+@inject SignInManager<ApplicationUser> SignInManager
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta name="viewport" content ="width=device-width" />
 	<title>Fakebook</title>
-	<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-dark" style="background-color:purple">
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top flex-md-nowrap" style="background-color:#7b2cab">
 		<a class="navbar-brand" href="/">Fakebook</a>
-		<div class="collapse navbar-collapse">
+		@if (SignInManager.IsSignedIn(User)) {
+			<ul class="navbar-nav mr-auto" style="flex-direction: row">
+				@await Component.InvokeAsync("Notifications")
+				<partial name="_FriendsButtonPartial" />
+			</ul>
+		}
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link text-light" href="/">Profile</a>
+					<a class="nav-link text-light" href="#">Profile</a>
 				</li>
+			</ul>
+			<ul class="navbar-nav ml-auto">
 				<partial name="_LoginPartial.cshtml" />
 			</ul>
 		</div>
 	</nav>
-	<div class="container">
-		<main role="main" class="pb-3">
-			@RenderBody()
-		</main>
+	<div class="row container-fluid">
+		@if (SignInManager.IsSignedIn(User)) {
+			<nav id="friends_bar" class="friends-bar-closed container bg-light">
+				<div id="friends" class="sidebar-sticky col" style="padding:0px; marign:0px;"/>
+			</nav>
+		}
+
+		@RenderBody()
 	</div>
+	@if (SignInManager.IsSignedIn(User)) {
+		<script src="~/js/friends.js" language="javascript"></script>
+	}
+	<script src="~/lib/bootstrap/js/bootstrap.min.js" language="javascript"></script>
 	@RenderSection("Scripts", required: false)
 </body>
 </html>
