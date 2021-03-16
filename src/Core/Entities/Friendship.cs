@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fakebook.Core.Entities
 {
@@ -7,6 +8,7 @@ namespace Fakebook.Core.Entities
         public string UserId { get; set; }
         public User User { get; set; }
 		public string FriendId { get; set; }
+		[ForeignKey("FriendId")]
 		public User Friend { get; set; }
 		public Status Status { get; set; }
 		public DateTime Timestamp { get; set; }
