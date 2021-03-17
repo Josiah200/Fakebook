@@ -6,6 +6,7 @@ namespace Fakebook.Core.Entities
 	public class Friendship : BaseEntity, IDisposable
 	{
         public string UserId { get; set; }
+		[ForeignKey("UserId")]
         public User User { get; set; }
 		public string FriendId { get; set; }
 		[ForeignKey("FriendId")]
