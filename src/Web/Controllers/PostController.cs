@@ -26,7 +26,7 @@ namespace Fakebook.Web.Controllers
 		[Authorize]
 		public async Task<ActionResult> PostScroll(int page, int blocksize)
 		{
-			try 
+			try
 			{
 				var posts = await _postService.GetPostsBlockAsync(page, blocksize);
 				return PartialView("_PostsPagePartial", posts);
@@ -39,33 +39,31 @@ namespace Fakebook.Web.Controllers
 		
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> NewPost(NewPostViewModel newPost)
+		public async Task<IActionResult> NewPost(Post newPost)
 		{
-			var currentUser = await _userManager.GetUserAsync(User);
-			if (currentUser == null) return Challenge();
-			bool successful = false;
-			var post = new Post
-			{
-				Id = Guid.NewGuid().ToString(),
-				UserId = currentUser.Id,
-				Text = newPost.Text,
-				DatePosted = DateTime.Now
-			};
 			
-			if (!string.IsNullOrEmpty(post.Text))
+			var currentUser = await _userManager.GetUserAsync(User);
+			if (currentUser is null) 
 			{
-				successful = await _postService.SavePostAsync(post);
+				return Challenge();
 			}
 
-			if (successful)
+			if (newPost is null)
+			{
+				throw new ArgumentNullException(nameof(newPost));
+			}
+
+			if (string.IsNullOrEmpty(newPost.Text))
 			{
 				return RedirectToAction("Index", "Home");
 			}
+
+			newPost.Id = Guid.NewGuid().ToString();
+			newPost.UserId = currentUser.Id;
+			newPost.DatePosted = DateTime.Now;
 			
-			else
-			{
-				return RedirectToAction("Index", "Home");
-			}
+			await _postService.SavePostAsync(newPost);
+			return RedirectToAction("Index", "Home");
 		}
     }
 }
