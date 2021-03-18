@@ -40,7 +40,7 @@ namespace Fakebook.Web.Controllers
 		
 		[HttpPost]
 		[Authorize]
-		public async Task<IActionResult> AddFriend()
+		public async Task<IActionResult> AddFriend(string userPublicId)
 		{
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
 
@@ -51,7 +51,7 @@ namespace Fakebook.Web.Controllers
 
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 
-			var reciever = await _userService.GetByPublicIdAsync(HttpContext.Request.Form["userPublicId"]);
+			var reciever = await _userService.GetByPublicIdAsync(userPublicId);
 
 			if (currentUser == reciever | currentUser is null | reciever is null)
 			{

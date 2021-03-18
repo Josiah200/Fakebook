@@ -4,22 +4,19 @@
 	<div class="sticky-top" style="padding-top:4rem; z-index:0;">
 		@if (Model.Friendship == null)
 		{
-			<form asp-controller="Friends" asp-action="AddFriend"  method="POST">
-				<input type="hidden" value="@Model.ProfileUser.PublicId" name="userPublicId"/>
+			<form asp-controller="Friends" asp-action="AddFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" method="POST">
 				<input class="btn container-fluid" value="Add Friend" type="submit" style="background-color:#7b2cab; border-color:#7b2cab; color:white;"/>
 			</form>
 		}
 		else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Pending)
 		{
 			<form asp-controller="Friends" asp-action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" method="GET">
-				<input type="hidden" value="@Model.ProfileUser.PublicId" name="userPublicId"/>
 				<input class="btn container-fluid" value="Cancel Friend Request" type="submit" style="background-color:#7b2cab; border-color:#7b2cab; color:white;"/>
 			</form>
 		}
 		else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Accepted)
 		{
-			<form asp-controller="Friends" asp-action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId"  method="GET">
-				<input type="hidden" value="@Model.ProfileUser.PublicId" name="userPublicId"/>
+			<form asp-controller="Friends" asp-action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" method="GET">
 				<input class="btn container-fluid" value="Remove Friend" type="submit" style="background-color:#7b2cab; border-color:#7b2cab; color:white;"/>
 			</form>
 		}
