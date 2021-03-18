@@ -38,7 +38,7 @@ namespace Fakebook.Web.Controllers
 			return viewModel;
 		}
 		
-		[HttpPost]
+		[Route("Add/{userPublicId}")]
 		[Authorize]
 		public async Task<IActionResult> AddFriend(string userPublicId)
 		{
@@ -61,25 +61,28 @@ namespace Fakebook.Web.Controllers
 			await _friendsService.SendRequestAsync(currentUser, reciever);
 			return Redirect(Request.Headers["Referer"].ToString());
 		}
-		[HttpGet("Remove")]
+
+		[Route("Remove/{userPublicId}")]
 		[Authorize]
 		public async Task<IActionResult> RemoveFriend(string userPublicId)
 		{
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
-			if (currentApplicationUser == null) return Challenge();
+
+			if (currentApplicationUser == null)
+			{
+				return Challenge();
+			}
+
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 			var reciever = await _userService.GetByPublicIdAsync(userPublicId);
-			bool successful = await _friendsService.RemoveFriendAsync(currentUser, reciever);
 
-			if (successful)
+			if (currentUser == null | reciever == null)
 			{
-				return Redirect(Request.Headers["Referer"].ToString());
+				return BadRequest();
 			}
-			
-			else
-			{
-				return Redirect(Request.Headers["Referer"].ToString());
-			}
+
+			await _friendsService.RemoveFriendAsync(currentUser, reciever);
+			return Redirect(Request.Headers["Referer"].ToString());
 		}
     }
 }
