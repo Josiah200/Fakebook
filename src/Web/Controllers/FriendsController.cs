@@ -10,7 +10,6 @@ using Fakebook.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using Microsoft.Extensions.Logging;
-using Ardalis.GuardClauses;
 
 namespace Fakebook.Web.Controllers
 {
@@ -19,21 +18,19 @@ namespace Fakebook.Web.Controllers
 	public class FriendsController : Controller
     {
 		private readonly IFriendsService _friendsService; 
-		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IUserService _userService;
-		private readonly ILogger _logger;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-	    public FriendsController(IFriendsService friendsService, UserManager<ApplicationUser> userManager, IUserService userService, ILogger<FriendsController> logger)
+	    public FriendsController(IFriendsService friendsService, IUserService userService, UserManager<ApplicationUser> userManager)
 		{
 			_friendsService = friendsService;
-			_userManager = userManager;
 			_userService = userService;
-			_logger = logger;
+			_userManager = userManager;
 		}
 
 		[HttpGet("Requests")]
 		[Authorize]
-		public async Task<ActionResult> GetFriendRequestsAsync()
+		public async Task<ActionResult> GetFriendRequests()
 		{
 			var currentUser = await _userManager.GetUserAsync(User);
 			var requests = await _friendsService.GetIncomingRequestsByUserIdAsync(currentUser.Id);
@@ -46,29 +43,28 @@ namespace Fakebook.Web.Controllers
 		public async Task<IActionResult> AddFriend()
 		{
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
-			if (currentApplicationUser == null) return Challenge();
+
+			if (currentApplicationUser is null)
+			{
+				return Challenge();
+			}
+
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
+
 			var reciever = await _userService.GetByPublicIdAsync(HttpContext.Request.Form["userPublicId"]);
-			if (currentUser == reciever)
+
+			if (currentUser == reciever | currentUser is null | reciever is null)
 			{
 				return BadRequest();
 			}
-			bool successful = await _friendsService.SendRequestAsync(currentUser, reciever);
-			if (successful)
-			{
-				return Redirect(Request.Headers["Referer"].ToString());
-			}
-			
-			else
-			{
-				return Redirect(Request.Headers["Referer"].ToString());
-			}
+
+			await _friendsService.SendRequestAsync(currentUser, reciever);
+			return Redirect(Request.Headers["Referer"].ToString());
 		}
 		[HttpGet("Remove")]
 		[Authorize]
 		public async Task<IActionResult> RemoveFriend(string userPublicId)
 		{
-			Guard.Against.NullOrEmpty(userPublicId, nameof(userPublicId));
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
 			if (currentApplicationUser == null) return Challenge();
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);

@@ -7,6 +7,7 @@ using Fakebook.Web.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Fakebook.Infrastructure.Identity;
 using Fakebook.Core.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace Fakebook.Web.Controllers
 {
@@ -26,15 +27,13 @@ namespace Fakebook.Web.Controllers
 		[Authorize]
 		public async Task<ActionResult> PostScroll(int page, int blocksize)
 		{
-			try
+			if (!this.ModelState.IsValid)
 			{
-				var posts = await _postService.GetPostsBlockAsync(page, blocksize);
-				return PartialView("_PostsPagePartial", posts);
+				return RedirectToAction("Index", "Home");
 			}
-			catch(Exception ex)
-			{
-				return Content("Error: " + ex.Message);
-			}
+			
+			var posts = await _postService.GetPostsBlockAsync(page, blocksize);
+			return PartialView("_PostsPagePartial", posts);
 		}
 		
 		[HttpPost]
