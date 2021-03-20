@@ -18,6 +18,7 @@ namespace Fakebook.Infrastructure.Data
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
+			builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
 			builder.Entity<User>()
 				.HasMany(u => u.Posts)

@@ -16,8 +16,11 @@
 		<a class="navbar-brand" href="/">Fakebook</a>
 		@if (SignInManager.IsSignedIn(User)) {
 			<ul class="navbar-nav mr-auto" style="flex-direction: row">
+				<li id="friendsBtn" class="nav-item friends-btn" style="text-align: right">
+					<input class="friends-button nav-link" type="image" src="~/images/friends.svg" align="right"/>
+					<span class="badge" id="requests_num"></span>
+				</li>
 				@await Component.InvokeAsync("Notifications")
-				<partial name="_FriendsButtonPartial" />
 			</ul>
 		}
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,10 +40,9 @@
 	<div class="row container-fluid">
 		@if (SignInManager.IsSignedIn(User)) {
 			<nav id="friends_bar" class="friends-bar-closed container bg-light">
-				<div id="friends" class="sidebar-sticky col" style="padding:0px; marign:0px;"/>
+				<div id="friends" class="sidebar-sticky col" style="padding:0px;"/>
 			</nav>
 		}
-
 		@RenderBody()
 	</div>
 	@if (SignInManager.IsSignedIn(User)) {

@@ -13,7 +13,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Fakebook.Web.Controllers
 {
-	[ApiController]
 	[Route("[Controller]")]
 	public class FriendsController : Controller
     {
@@ -28,14 +27,30 @@ namespace Fakebook.Web.Controllers
 			_userManager = userManager;
 		}
 
+		[HttpGet]
+		[Authorize]
+		public async Task<IActionResult> GetFriends()
+		{
+			var currentUser = await _userManager.GetUserAsync(User);
+			var friends = await _friendsService.GetByUserIdAsync(currentUser.Id);
+			if (friends.Count == 0)
+			{
+				return NotFound();
+			}
+			return PartialView("_FriendsChunkPartial", friends);
+		}
+
 		[HttpGet("Requests")]
 		[Authorize]
-		public async Task<ActionResult> GetFriendRequests()
+		public async Task<IActionResult> GetFriendRequests()
 		{
 			var currentUser = await _userManager.GetUserAsync(User);
 			var requests = await _friendsService.GetIncomingRequestsByUserIdAsync(currentUser.Id);
-			var viewModel = PartialView("_FriendRequestsChunkPartial", requests);
-			return viewModel;
+			if (requests is null)
+			{
+				return NotFound();
+			}
+			return PartialView("_FriendsChunkPartial", requests);
 		}
 		
 		[Route("Add/{userPublicId}")]

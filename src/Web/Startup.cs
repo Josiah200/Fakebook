@@ -27,7 +27,10 @@ namespace Fakebook.Web
 
 		public void ConfigureDevelopmentServices(IServiceCollection services)
 		{
-			services.AddControllersWithViews().AddRazorRuntimeCompilation();
+			services.AddControllersWithViews()
+				.AddRazorRuntimeCompilation()
+				.AddNewtonsoftJson(o =>
+					o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 			ConfigureServices(services);
 		}
 
@@ -59,15 +62,16 @@ namespace Fakebook.Web
 
 			services.AddRazorPages();
 			
+			services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 			services.AddScoped<IPostRepository, PostRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
-			services.AddScoped<INotificationsRepository, NotificiationsRepository>();
 			services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+			services.AddScoped<INotificationsRepository, NotificiationsRepository>();
 
 			services.AddScoped<IPostService, PostService>();
 			services.AddScoped<IUserService, UserService>();
-			services.AddScoped<INotificationsService, NotificationsService>();
 			services.AddScoped<IFriendsService, FriendsService>();
+			services.AddScoped<INotificationsService, NotificationsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

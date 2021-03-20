@@ -48,7 +48,7 @@ body {
 	position: relative;
 }
 #requests_num {
-	visibility: hidden;
+	display: none;
 	position: absolute;
 	bottom: -1px;
 	right: -5px;

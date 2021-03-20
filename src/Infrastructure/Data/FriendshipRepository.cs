@@ -17,26 +17,22 @@ namespace Fakebook.Infrastructure.Data
 		public Task<List<Friendship>> GetByUserIdAsync(string userId)
 		{
 			return _dbContext.Friendships
-				.Where(f => f.UserId == userId || f.FriendId == userId)
+				.Where(f => (f.UserId == userId || f.FriendId == userId) && f.Status.Equals(Status.Accepted))
+				.Include(f => f.User)
+				.Include(f => f.Friend)
 				.ToListAsync();
 		}
 
 		public Task<List<Friendship>> GetIncomingRequestsByUserIdAsync(string userId)
 		{
 			return _dbContext.Friendships
+				.Where(f => f.FriendId == userId && f.Status.Equals(Status.Pending))
 				.Include(f => f.User)
 				.Include(f => f.Friend)
-				.Where(f => f.FriendId == userId && f.Status == 0)
 				.OrderByDescending(f => f.Timestamp)
 				.ToListAsync();
 		}
 
-		public Task<int> GetNumRequestsByUserIdAsync(string userId)
-		{
-			return _dbContext.Friendships
-				.Where(f => f.FriendId == userId && f.Status == 0)
-				.CountAsync();
-		}
 		public Task<Friendship> GetFriendAsync(User user, User friend)
 		{
 			return _dbContext.Friendships

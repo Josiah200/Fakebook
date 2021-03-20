@@ -34,8 +34,6 @@ namespace Fakebook.Web.Controllers
 			var viewModel = new HomeViewModel
 			{
 				CurrentUser = user,
-				NotificationsNum = 2,
-				RequestsNum = await _friendsService.GetNumRequestsByUserIdAsync(user.Id)
 			};
 
 			return View(viewModel);

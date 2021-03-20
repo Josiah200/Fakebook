@@ -23,11 +23,7 @@ namespace Fakebook.Core.Services
 		{
 			return await _friendshipRepository.GetIncomingRequestsByUserIdAsync(userId);
 		}
-		public async Task<int> GetNumRequestsByUserIdAsync(string userId)
-		{
-			return await _friendshipRepository.GetNumRequestsByUserIdAsync(userId);
-		}
-
+		
 		public async Task<bool> SendRequestAsync(User sender, User reciever)
 		{
 			var friendship = new Friendship 
