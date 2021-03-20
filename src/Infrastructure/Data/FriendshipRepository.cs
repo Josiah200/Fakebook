@@ -39,5 +39,12 @@ namespace Fakebook.Infrastructure.Data
 				.Where(f => (f.UserId == user.Id && f.FriendId == friend.Id) | (f.UserId == friend.Id && f.FriendId == user.Id))
 				.FirstOrDefaultAsync();
 		}
+
+		public async Task<bool> AcceptRequestAsync(Friendship friendship)
+		{
+			friendship.Status = Status.Accepted;
+			var acceptResult = await _dbContext.SaveChangesAsync();
+			return acceptResult == 1;
+		}
 	}
 }

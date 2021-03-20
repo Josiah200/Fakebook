@@ -11,5 +11,6 @@ namespace Fakebook.Core.Interfaces
 		Task<bool> SendRequestAsync(User sender, User reciever);
 		Task<Friendship> GetFriendAsync(User user, User friend);
 		Task<bool> RemoveFriendAsync(User user, User friend);
+		Task<bool> AcceptRequestAsync(User user, User sender);
 	}
 }

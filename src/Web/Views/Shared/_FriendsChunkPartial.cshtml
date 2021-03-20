@@ -12,10 +12,10 @@
 				@if (friend.Status == 0)
 				{
 					<div class="col-6" style="padding: 4px 2px 4px 4px">
-						<input class="btn btn-block" value="Accept" type="submit" style="background-color:#7b2cab; color:white;"/>
+						<a asp-controller="Friends" asp-Action="AddFriend" asp-route-userPublicId="@friend.User.PublicId" class="btn btn-block" style="background-color:#7b2cab; color:white;">Accept</a>
 					</div>
 					<div class="col-6" style="padding: 4px 4px 4px 2px">
-						<input class="btn btn-block" value="Decline" type="submit" style="background-color:#7b2cab; color:white;"/>
+						<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@friend.User.PublicId" class="btn btn-block" style="background-color:#7b2cab; color:white;">Decline</a>
 					</div>
 				}
 			</div>

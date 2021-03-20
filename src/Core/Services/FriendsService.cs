@@ -36,6 +36,12 @@ namespace Fakebook.Core.Services
 			return await _friendshipRepository.AddAsync(friendship);
 		}
 
+		public async Task<bool> AcceptRequestAsync(User user, User sender)
+		{
+			var friendship = await _friendshipRepository.GetFriendAsync(user, sender);
+			return await _friendshipRepository.AcceptRequestAsync(friendship);
+		}
+
 		public async Task<bool> RemoveFriendAsync(User user, User friend)
 		{
 			var friendship = await _friendshipRepository.GetFriendAsync(user, friend);
@@ -54,5 +60,6 @@ namespace Fakebook.Core.Services
 				return null;
 			}
 		}
+
 	}
 }

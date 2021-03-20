@@ -73,7 +73,16 @@ namespace Fakebook.Web.Controllers
 				return BadRequest();
 			}
 
-			await _friendsService.SendRequestAsync(currentUser, reciever);
+			var friendship = await _friendsService.GetFriendAsync(currentUser, reciever);
+
+			if (friendship is null)
+			{
+				await _friendsService.SendRequestAsync(currentUser, reciever);
+			}
+			if (friendship != null && friendship.FriendId == currentUser.Id)
+			{
+				await _friendsService.AcceptRequestAsync(currentUser, reciever);
+			}
 			return Redirect(Request.Headers["Referer"].ToString());
 		}
 
@@ -89,14 +98,14 @@ namespace Fakebook.Web.Controllers
 			}
 
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
-			var reciever = await _userService.GetByPublicIdAsync(userPublicId);
+			var friend = await _userService.GetByPublicIdAsync(userPublicId);
 
-			if (currentUser == null | reciever == null)
+			if (currentUser == null | friend == null)
 			{
 				return BadRequest();
 			}
 
-			await _friendsService.RemoveFriendAsync(currentUser, reciever);
+			await _friendsService.RemoveFriendAsync(currentUser, friend);
 			return Redirect(Request.Headers["Referer"].ToString());
 		}
     }
