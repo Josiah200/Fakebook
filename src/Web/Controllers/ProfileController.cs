@@ -23,16 +23,22 @@ namespace Fakebook.Web.Controllers
 			_friendsService = friendsService;
 		}
 
-		[Route("Profile/{userPublicId:int}")]
-		public async Task<IActionResult> Index(string userPublicId)
+		#nullable enable
+		[Route("Profile/{userPublicId:int?}")]
+		public async Task<IActionResult> Index(string? userPublicId)
 		{
-			var profileUser = await _userService.GetByPublicIdAsync(userPublicId);
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 
+			if (userPublicId is null)
+			{
+				userPublicId = currentUser.PublicId;
+			}
+
+			var profileUser = await _userService.GetByPublicIdAsync(userPublicId);
 			if (profileUser == null)
 			{
-				return RedirectToAction("Index");
+				return NotFound();
 			}
 
 			var friendship = await _friendsService.GetFriendAsync(currentUser, profileUser);
@@ -43,5 +49,6 @@ namespace Fakebook.Web.Controllers
 			};
 			return View(viewModel);
 		}
+		#nullable disable
     }
 }
