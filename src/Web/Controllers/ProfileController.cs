@@ -31,7 +31,7 @@ namespace Fakebook.Web.Controllers
 
 			if (userPublicId is null)
 			{
-				userPublicId = currentUser.PublicId;
+				return RedirectToAction("Index", "Profile", new { userPublicId = currentUser.PublicId });
 			}
 
 			var profileUser = await _userService.GetByPublicIdAsync(userPublicId);

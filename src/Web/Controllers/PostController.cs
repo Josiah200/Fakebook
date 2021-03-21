@@ -23,7 +23,10 @@ namespace Fakebook.Web.Controllers
 			_userService = userService;
 			_userManager = userManager;
 		}
-
+		
+		/// <summary>
+		/// Gets blocksize posts from friends if userPublicId is null, user's posts otherwise.
+		/// </summary>
 		[HttpGet("PostScroll")]
 		[Authorize]
 		public async Task<ActionResult> PostScroll(int page, int blockSize, string? userPublicId)

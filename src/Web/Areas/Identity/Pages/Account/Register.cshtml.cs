@@ -74,7 +74,6 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
 			[Display(Name = "Last name")]
 			public string LastName { get; set; }
         }
-#nullable enable
         public async Task OnGetAsync(string? returnUrl = null)
         {
             ReturnUrl = returnUrl;

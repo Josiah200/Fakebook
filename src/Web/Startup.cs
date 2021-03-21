@@ -93,7 +93,7 @@ namespace Fakebook.Web
             {
 				endpoints.MapControllerRoute(
 					"profileRoute",
-					"{controller=Profile}/{action=Index}/{userPublicId}"
+					"{controller=Profile}/{action=Index}/{userPublicId?}"
 				);
 				endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 				endpoints.MapRazorPages();

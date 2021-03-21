@@ -31,12 +31,8 @@ namespace Fakebook.Core.Services
 		{
 			var friends = await _friendshipRepository.GetByUserIdAsync(userId);
 
-			if (friends is null)
-			{
-				return null;
-			}
-
 			List<string> friendIds = new();
+			friendIds.Add(userId);
 
 			foreach (Friendship friend in friends)
 			{
