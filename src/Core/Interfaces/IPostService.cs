@@ -8,7 +8,7 @@ namespace Fakebook.Core.Interfaces
     public interface IPostService
     {
 		Task<bool> SavePostAsync(Post post);
-		Task<List<Post>> GetPostsBlockAsync(int page, int blocksize);
-		Task<List<Post>> GetUserPostsBlockAsync(string userId, int page, int blocksize);
+		Task<List<Post>>? GetFriendsPostsBlockAsync(int page, int blocksize, string userId);
+		Task<List<Post>>? GetUserPostsBlockAsync(int page, int blocksize, string userId);
     }
 }

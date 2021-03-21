@@ -23,7 +23,6 @@ namespace Fakebook.Web.Controllers
 			_friendsService = friendsService;
 		}
 
-		#nullable enable
 		[Route("Profile/{userPublicId:int?}")]
 		public async Task<IActionResult> Index(string? userPublicId)
 		{
@@ -49,6 +48,5 @@ namespace Fakebook.Web.Controllers
 			};
 			return View(viewModel);
 		}
-		#nullable disable
     }
 }

@@ -13,10 +13,11 @@ namespace Fakebook.Infrastructure.Data
 		{
 		}
 		
-		public Task<List<Post>> GetPostsBlockAsync(int page, int blocksize)
+		public Task<List<Post>> GetFriendsPostsBlockAsync(List<string> friendIds, int page, int blocksize)
 		{
 			return _dbContext.Posts
 				.Include(p => p.User)
+				.Where(p=> friendIds.Contains(p.UserId))
 				.OrderByDescending(p => p.DatePosted)
 				.Skip(page*blocksize)
 				.Take(blocksize)
@@ -25,6 +26,7 @@ namespace Fakebook.Infrastructure.Data
 		public Task<List<Post>> GetUserPostsBlockAsync(string userId, int page, int blocksize)
 		{
 			return _dbContext.Posts
+				.Include(p => p.User)
 				.Where(p => p.UserId == userId)
 				.OrderByDescending(p => p.DatePosted)
 				.Skip(page*blocksize)

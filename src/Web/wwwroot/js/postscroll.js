@@ -5,11 +5,15 @@ $(window).on("scroll load", function()
 {
 	var winScrolled = $(window).height() + $(window).scrollTop();
 	var docHeight = $(document).height();
+	if (window.location.href.includes("/Profile/"))
+	{
+		var userid = window.location.href.substring(window.location.href.lastIndexOf("/") + 1, window.location.href.length)
+	}
 	if (docHeight - winScrolled < 1)
 	{
 		$.ajax({
-			url: '../Post/PostScroll',
-			data: { page: page, blocksize: blockSize },
+			url: '/Post/PostScroll',
+			data: { page: page, blockSize: blockSize, userPublicId: userid },
 			dataType: 'html',
 			type: 'GET',
 			success: function(response) {
