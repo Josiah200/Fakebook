@@ -26,7 +26,7 @@ $(window).on("load", function()
 	});
 
 	$.ajax({
-		url: location.origin + '/Friends/Requests',
+		url: '/Friends/Requests',
 		dataType: 'html',
 		type: 'GET',
 		success: function(response) {
