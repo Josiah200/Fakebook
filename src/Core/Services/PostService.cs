@@ -22,8 +22,6 @@ namespace Fakebook.Core.Services
 			{
 				throw new ArgumentNullException(nameof(post));
 			}
-			// post.LastModified = DateTime.Now;
-			
 			bool successful = await _postRepository.AddAsync(post);
 			return successful;
 		}

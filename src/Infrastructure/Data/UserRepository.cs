@@ -14,12 +14,6 @@ namespace Fakebook.Infrastructure.Data
 		{
 		}
 
-		public async Task<User> GetByIdAsync(string id)
-		{
-			return await _dbContext.Users
-				.FirstOrDefaultAsync(x => x.Id == id);
-		}
-
 		public Task<User> GetByPublicIdAsync(string userPublicId)
 		{
 			return _dbContext.Users

@@ -14,7 +14,11 @@ namespace Fakebook.Infrastructure.Data
 		{
 			_dbContext = dbContext;
 		}
-
+		public async Task<T> GetByIdAsync(string id)
+		{
+			return await _dbContext.Set<T>()
+				.FirstOrDefaultAsync(x => x.Id == id);
+		}
 		public async Task<IReadOnlyList<T>> ListAllAsync()
 		{
 			return await _dbContext.Set<T>().ToListAsync();

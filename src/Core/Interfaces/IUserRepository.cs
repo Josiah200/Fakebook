@@ -6,7 +6,6 @@ namespace Fakebook.Core.Interfaces
 {
     public interface IUserRepository : IAsyncRepository<User>
     {
-        Task<User> GetByIdAsync(string id);
 		Task<User> GetByPublicIdAsync(string userPublicId);
     }
 }
