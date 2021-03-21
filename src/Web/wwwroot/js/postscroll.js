@@ -5,7 +5,7 @@ $(window).on("scroll load", function()
 {
 	var winScrolled = $(window).height() + $(window).scrollTop();
 	var docHeight = $(document).height();
-	if (window.location.href.includes("/Profile/"))
+	if (window.location.href.toLowerCase().includes("/profile/"))
 	{
 		var userid = window.location.href.substring(window.location.href.lastIndexOf("/") + 1, window.location.href.length)
 	}
