@@ -15,14 +15,14 @@ namespace Fakebook.Core.Services
 			_userRepository = userRepository;
 		}
 		
-		public async Task<bool> NewUserAsync(string userId, string firstName, string lastName, string publicId)
+		public async Task<bool> NewUserAsync(string userId, string firstName, string lastName)
 		{
 			var user = new User
 			{
 				Id = userId,
 				FirstName = firstName,
 				LastName = lastName,
-				PublicId = publicId,
+				PublicId = await GenerateRandomPublicIdAsync(),
 				Posts = new List<Post>(),
 			};
 
@@ -40,7 +40,7 @@ namespace Fakebook.Core.Services
 			return await _userRepository.GetByPublicIdAsync(publicId);
 		}
 
-		public async Task<string> GenerateRandomPublicIdAsync()
+		private async Task<string> GenerateRandomPublicIdAsync()
 		{
 			var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-";
 			var random = new Random();

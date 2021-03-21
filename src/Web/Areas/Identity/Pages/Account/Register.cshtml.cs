@@ -88,8 +88,7 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName };
 				
                 var result = await _userManager.CreateAsync(user, Input.Password);
-				var publicId = await _userService.GenerateRandomPublicIdAsync();
-				var userResult = await _userService.NewUserAsync(user.Id, user.FirstName, user.LastName, publicId);
+				var userResult = await _userService.NewUserAsync(user.Id, user.FirstName, user.LastName);
 				
                 if (userResult && result.Succeeded)
                 {
