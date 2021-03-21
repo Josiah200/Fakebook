@@ -54,7 +54,11 @@ namespace Fakebook.Web
 			services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
-				options.SignIn.RequireConfirmedAccount = true;
+				options.Password.RequireDigit = false;
+				options.Password.RequireLowercase = false;
+				options.Password.RequireUppercase = false;
+				options.Password.RequireNonAlphanumeric = false;
+				options.SignIn.RequireConfirmedAccount = false;
 			})
 				.AddDefaultUI()
 				.AddEntityFrameworkStores<FakebookIdentityContext>()
