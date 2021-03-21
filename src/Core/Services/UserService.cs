@@ -39,5 +39,30 @@ namespace Fakebook.Core.Services
 		{
 			return await _userRepository.GetByPublicIdAsync(publicId);
 		}
+
+		public async Task<string> GenerateRandomPublicIdAsync()
+		{
+			var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-";
+			var random = new Random();
+			string id;
+			
+			while(true)
+			{
+				var stringChars = new char[random.Next(3, 8)];
+
+				for (int i = 0; i < stringChars.Length; i++)
+				{
+					stringChars[i] = chars[random.Next(chars.Length)];
+				}
+
+				id = new string(stringChars);
+				var user = await _userRepository.GetByPublicIdAsync(id);
+				
+				if (user is null)
+				{
+					return id;
+				}
+			}
+		}
     }
 }

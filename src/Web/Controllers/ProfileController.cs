@@ -23,7 +23,7 @@ namespace Fakebook.Web.Controllers
 			_friendsService = friendsService;
 		}
 
-		[Route("Profile/{userPublicId:int?}")]
+		[Route("Profile/{userPublicId?}")]
 		public async Task<IActionResult> Index(string? userPublicId)
 		{
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
