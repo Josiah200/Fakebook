@@ -12,20 +12,9 @@ namespace Fakebook.Web.Controllers
     public class HomeController : Controller
     {
 		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly INotificationsService _notificationsService;
-		private readonly IFriendsService _friendsService;
-		private readonly IPostService _postService;
-		public HomeController(
-			UserManager<ApplicationUser> userManager,
-			INotificationsService notificationsService,
-			IFriendsService friendsService,
-			IPostService postService
-			)
+		public HomeController(UserManager<ApplicationUser> userManager)
 		{
 			_userManager = userManager;
-			_notificationsService = notificationsService;
-			_friendsService = friendsService;
-			_postService = postService;
 		}
 
     	public async Task<IActionResult> Index()

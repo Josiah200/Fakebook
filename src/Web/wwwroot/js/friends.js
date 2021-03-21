@@ -10,7 +10,7 @@ $(window).on("load", function()
 		{
 			friendsrequested = true;
 			$.ajax({
-				url: '../Friends',
+				url: '/Friends',
 				dataType: 'html',
 				type: 'GET',
 				success: function(response) {
@@ -26,7 +26,7 @@ $(window).on("load", function()
 	});
 
 	$.ajax({
-		url: '../Friends/Requests',
+		url: location.origin + '/Friends/Requests',
 		dataType: 'html',
 		type: 'GET',
 		success: function(response) {
