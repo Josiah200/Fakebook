@@ -1,8 +1,9 @@
 @using Fakebook.Core.Entities
-@model List<User>
+@using Microsoft.AspNetCore.Routing
+@model UsersViewModel
 
 <div class="users row" style="padding-top: 4rem">
-	@foreach (User user in Model)
+	@foreach (User user in Model.Users)
 	{
 		<div class="post card card-outline-primary m-1 p-1">
 			<div class="Author p-1">
@@ -11,5 +12,52 @@
 			</div>
 		</div>
 	}
+	@if (Model.Users.Count == 0)
+	{
+		<h2>No users found.</h2>
+	}
 </div>
+	@if (Model.Users.Count != 0)
+	{
+		var NextPage = Model.Page + 1;
+		var LastPage = Model.Page - 1;
+		if (LastPage <0)
+		{
+			LastPage = 0;
+		}
 
+		<footer class="footer" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 2rem; background: white;">
+			<div class="container">
+				<span class="row">
+					<span class="col" style="text-align: right">
+						@if (String.IsNullOrEmpty(Model.SearchString))
+						{
+							<a href="~/Users/@LastPage">
+								&laquo; Previous page
+							</a>
+						}
+						else
+						{
+							<a href="~/Users/@Model.SearchString/@LastPage">
+								&laquo; Previous page
+							</a>
+						}
+					</span>
+					<span class="col" style="text-align: left">
+						@if (String.IsNullOrEmpty(Model.SearchString))
+						{
+							<a href="~/Users/@NextPage">
+								Next page &raquo;
+							</a>
+						}
+						else
+						{
+							<a href="~/Users/@Model.SearchString/@NextPage">
+								Next page &raquo;
+							</a>
+						}
+					</span>
+				</span>
+			</div>
+		</footer>
+	}
