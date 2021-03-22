@@ -13,10 +13,11 @@ namespace Fakebook.Web.Controllers
 			_userService = userService;
 		}
 
-		[Route("Users/{page?}")]
-    	public async Task<IActionResult> Index(int? page)
+		[Route("Users/{searchString:alpha}/{page:int?}")]
+		[Route("Users/{page:int?}")]
+    	public async Task<IActionResult> Index(string searchString, int page)
 		{
-			var viewModel = await _userService.GetChunkAsync(page ?? 0);
+			var viewModel = await _userService.GetChunkAsync(searchString, page);
 			return View(viewModel);
 		}
     }

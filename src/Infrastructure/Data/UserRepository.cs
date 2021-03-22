@@ -20,9 +20,10 @@ namespace Fakebook.Infrastructure.Data
 				.FirstOrDefaultAsync(x => x.PublicId == userPublicId);
 		}
 
-		public Task<List<User>> GetChunkAsync(int page)
+		public Task<List<User>> GetChunkAsync(string searchString, int page)
 		{
 			return _dbContext.Users
+				.Where(u => u.FirstName.Contains(searchString) | u.LastName.Contains(searchString) | (u.FirstName + " " + u.LastName).Contains(searchString))
 				.OrderBy(u => u.FirstName)
 				.ThenBy(u => u.LastName)
 				.Skip(page * 100)

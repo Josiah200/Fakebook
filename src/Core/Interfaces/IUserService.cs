@@ -10,6 +10,6 @@ namespace Fakebook.Core.Interfaces
 		Task<bool> NewUserAsync(string userId, string FirstName, string LastName);
 		Task<User> GetByIdAsync(string userId);
 		Task<User> GetByPublicIdAsync(string publicId);
-		Task<List<User>> GetChunkAsync(int page = 0);
+		Task<List<User>> GetChunkAsync(string? searchString, int page = 0);
 	}
 }

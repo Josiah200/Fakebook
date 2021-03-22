@@ -39,9 +39,9 @@ namespace Fakebook.Core.Services
 		{
 			return await _userRepository.GetByPublicIdAsync(publicId);
 		}
-		public async Task<List<User>> GetChunkAsync(int page = 0)
+		public async Task<List<User>> GetChunkAsync(string? searchString, int page = 0)
 		{
-			return await _userRepository.GetChunkAsync(page);
+			return await _userRepository.GetChunkAsync(searchString ?? "", page);
 		}
 
 		private async Task<string> GenerateRandomPublicIdAsync()
