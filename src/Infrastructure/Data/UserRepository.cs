@@ -19,5 +19,15 @@ namespace Fakebook.Infrastructure.Data
 			return _dbContext.Users
 				.FirstOrDefaultAsync(x => x.PublicId == userPublicId);
 		}
+
+		public Task<List<User>> GetChunkAsync(int page)
+		{
+			return _dbContext.Users
+				.OrderBy(u => u.FirstName)
+				.ThenBy(u => u.LastName)
+				.Skip(page * 100)
+				.Take(100)
+				.ToListAsync();
+		}
 	}
 }

@@ -1,0 +1,15 @@
+@using Fakebook.Core.Entities
+@model List<User>
+
+<div class="users row" style="padding-top: 4rem">
+	@foreach (User user in Model)
+	{
+		<div class="post card card-outline-primary m-1 p-1">
+			<div class="Author p-1">
+				<img src="https://scontent-bos3-1.xx.fbcdn.net/v/t1.30497-1/cp0/p32x32/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=3&_nc_sid=7206a8&_nc_ohc=_OgyF9W-SfMAX8nZvq_&_nc_ht=scontent-bos3-1.xx&_nc_tp=30&oh=920d1ea2208ce29bdb86c0714219443e&oe=605CF74F"/>
+				<a href="~/Profile/@user.PublicId">@user.FirstName @user.LastName</a>
+			</div>
+		</div>
+	}
+</div>
+

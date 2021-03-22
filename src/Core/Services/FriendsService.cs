@@ -51,15 +51,7 @@ namespace Fakebook.Core.Services
 
 		public async Task<Friendship> GetFriendAsync(User user, User friend)
 		{
-			try
-			{
-				return await _friendshipRepository.GetFriendAsync(user, friend);
-			}
-			catch (Exception ex)
-			{
-				return null;
-			}
+			return await _friendshipRepository.GetFriendAsync(user, friend);
 		}
-
 	}
 }
