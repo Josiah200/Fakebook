@@ -1,13 +1,15 @@
 @using Microsoft.AspNetCore.Identity
 @using Fakebook.Infrastructure.Identity
+@using Fakebook.Core.Interfaces
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IUserService UserService
 
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a id="manage" class="nav-link text-light" asp-controller="Profile" asp-action="Index" title="Manage">Hello @UserManager.GetUserAsync(User).Result.FirstName!</a>
+        <a id="manage" class="nav-link text-light" asp-controller="Profile" asp-action="Index" title="Manage">@UserService.GetByIdAsync(UserManager.GetUserAsync(User).Result.Id).Result.FirstName</a>
     </li>
 	<li class="nav-item">
 		<form id="optionsForm" asp-area="Identity" asp-page="/Account/Manage/Index">

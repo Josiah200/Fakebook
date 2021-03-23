@@ -85,10 +85,10 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
 				
                 var result = await _userManager.CreateAsync(user, Input.Password);
-				var userResult = await _userService.NewUserAsync(user.Id, user.FirstName, user.LastName);
+				var userResult = await _userService.NewUserAsync(user.Id, Input.FirstName, Input.LastName);
 				
                 if (userResult && result.Succeeded)
                 {
