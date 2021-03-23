@@ -14,6 +14,7 @@ namespace Fakebook.Web.Controllers
     {
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly INotificationsService _notificationsService;
+		
 		public NotificationsController(UserManager<ApplicationUser> userManager, INotificationsService notificationsService)
 		{
 			_userManager = userManager;

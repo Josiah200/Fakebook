@@ -12,6 +12,7 @@ namespace Fakebook.Web.Controllers
     public class HomeController : Controller
     {
 		private readonly UserManager<ApplicationUser> _userManager;
+		
 		public HomeController(UserManager<ApplicationUser> userManager)
 		{
 			_userManager = userManager;
