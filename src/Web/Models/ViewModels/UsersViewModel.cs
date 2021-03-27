@@ -5,7 +5,7 @@ namespace Fakebook.Web.Models.ViewModels
 {
     public class UsersViewModel
     {
-        public List<User> Users { get; set; }
+        public IEnumerable<UserModel> Users { get; set; }
 		public int Page { get; set; }
 		public string SearchString { get; set; }
     }
