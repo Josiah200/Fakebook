@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Fakebook.Core.Interfaces;
 using Fakebook.Infrastructure.Identity;
-using Fakebook.Web.ViewModels;
+using Fakebook.Web.Models.ViewModels;
 
 namespace Fakebook.Web.Controllers
 {

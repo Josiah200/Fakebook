@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Fakebook.Core.Entities;
 using Fakebook.Infrastructure.Identity;
 
-namespace Fakebook.Web.ViewModels
+namespace Fakebook.Web.Models.ViewModels
 {
     public class HomeViewModel
 	{

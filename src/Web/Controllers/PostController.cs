@@ -7,21 +7,27 @@ using Fakebook.Infrastructure.Identity;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
 using System.Collections.Generic;
+using Fakebook.Web.Models;
+using AutoMapper;
+using System.Linq;
 
 namespace Fakebook.Web.Controllers
 {
 	[Route("[Controller]")]
+	[ApiController]
     public class PostController : Controller
     {
 		private readonly IPostService _postService;
 		private readonly IUserService _userService;
 		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly IMapper _mapper;
         
-		public PostController(IPostService postService, IUserService userService, UserManager<ApplicationUser> userManager)
+		public PostController(IPostService postService, IUserService userService, UserManager<ApplicationUser> userManager, IMapper mapper)
 		{
 			_postService = postService;
 			_userService = userService;
 			_userManager = userManager;
+			_mapper = mapper;
 		}
 		
 		/// <summary>
@@ -29,7 +35,7 @@ namespace Fakebook.Web.Controllers
 		/// </summary>
 		[HttpGet("PostScroll")]
 		[Authorize]
-		public async Task<ActionResult> PostScroll(int page, int blockSize, string? userPublicId)
+		public async Task<IActionResult> PostScroll(int page, int blockSize, string? userPublicId)
 		{
 			if (!this.ModelState.IsValid)
 			{
@@ -50,17 +56,19 @@ namespace Fakebook.Web.Controllers
 				var currentApplicationUser = await _userManager.GetUserAsync(User);
 				var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 
-				var posts = await _postService.GetFriendsPostsBlockAsync(page, blockSize, currentUser.Id);
+				var posts = await _postService.GetUserPostsBlockAsync(page, blockSize, currentUser.Id);
 				
 				return ReturnPosts(posts);
 			}
-		}
+		}	
 
-		private ActionResult ReturnPosts(List<Post>? posts)
+		private IActionResult ReturnPosts(IEnumerable<Post>? posts)
 		{
 			if (posts != null)
 			{
-				return PartialView("_PostsPagePartial", posts);
+				var postModels = new List<PostModel>();
+				postModels.AddRange(posts.Select(_mapper.Map<PostModel>));
+				return PartialView("_PostsPagePartial", postModels);
 			}
 			else
 			{

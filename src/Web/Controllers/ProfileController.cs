@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
 using Fakebook.Infrastructure.Identity;
-using Fakebook.Web.ViewModels;
+using Fakebook.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

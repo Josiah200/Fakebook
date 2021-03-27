@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Fakebook.Core.Entities;
 
-namespace Fakebook.Web.ViewModels
+namespace Fakebook.Web.Models.ViewModels
 {
     public class UsersViewModel
     {

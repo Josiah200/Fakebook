@@ -25,7 +25,7 @@ namespace Fakebook.Core.Services
 			bool successful = await _postRepository.AddAsync(post);
 			return successful;
 		}
-		public async Task<List<Post>>? GetFriendsPostsBlockAsync(int page, int blockSize, string userId)
+		public async Task<IEnumerable<Post>?> GetUserPostsBlockAsync(int page, int blockSize, string userId)
 		{
 			var friends = await _friendshipRepository.GetByUserIdAsync(userId);
 
@@ -45,7 +45,7 @@ namespace Fakebook.Core.Services
 				}
 			}
 
-			var posts = await _postRepository.GetFriendsPostsBlockAsync(friendIds, page, blockSize);
+			var posts = await _postRepository.GetUserPostsBlockAsync(friendIds, page, blockSize);
 			
 			if (posts.Count == 0)
 			{
@@ -58,9 +58,9 @@ namespace Fakebook.Core.Services
 			}
 		}
 		
-		public async Task<List<Post>>? GetUserPostsBlockAsync(int page, int blockSize, string userId)
+		public async Task<IEnumerable<Post>?> GetUserHomePostsBlockAsync(int page, int blockSize, string userId)
 		{
-			var posts = await _postRepository.GetUserPostsBlockAsync(userId, page, blockSize);
+			var posts = await _postRepository.GetUserHomePostsBlockAsync(userId, page, blockSize);
 
 			if (posts.Count == 0)
 			{

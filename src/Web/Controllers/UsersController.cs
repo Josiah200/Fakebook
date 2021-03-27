@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Fakebook.Core.Interfaces;
-using Fakebook.Web.ViewModels;
+using Fakebook.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fakebook.Web.Controllers

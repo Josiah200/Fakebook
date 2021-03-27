@@ -1,7 +1,7 @@
-@using Fakebook.Core.Entities;
-@model List<Post>
+@using Fakebook.Web.Models;
+@model List<PostModel>
 
-@foreach (Post post in Model)
+@foreach (PostModel post in Model)
 {
 	@await Html.PartialAsync("_PostPartial", post);
 }
