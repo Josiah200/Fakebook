@@ -41,14 +41,13 @@ namespace Fakebook.Web.Controllers
 			{
 				return RedirectToAction("Index", "Home");
 			}
+			IEnumerable<Post> posts;
 
 			if (userPublicId != null)
 			{
 				var profileUser = await _userService.GetByPublicIdAsync(userPublicId);
 
-				var posts = await _postService.GetUserPostsBlockAsync(page, blockSize, profileUser.Id);
-
-				return ReturnPosts(posts);
+				posts = await _postService.GetUserPostsBlockAsync(page, blockSize, profileUser.Id);
 			}
 
 			else
@@ -56,25 +55,21 @@ namespace Fakebook.Web.Controllers
 				var currentApplicationUser = await _userManager.GetUserAsync(User);
 				var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 
-				var posts = await _postService.GetUserPostsBlockAsync(page, blockSize, currentUser.Id);
-				
-				return ReturnPosts(posts);
+				posts = await _postService.GetUserPostsBlockAsync(page, blockSize, currentUser.Id);
 			}
-		}	
 
-		private IActionResult ReturnPosts(IEnumerable<Post>? posts)
-		{
 			if (posts != null)
 			{
 				var postModels = new List<PostModel>();
 				postModels.AddRange(posts.Select(_mapper.Map<PostModel>));
 				return PartialView("_PostsPagePartial", postModels);
 			}
+
 			else
 			{
-				return Ok();
+				return NotFound();
 			}
-		}
+		}	
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]

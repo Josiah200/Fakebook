@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Fakebook.Core.Interfaces;
 using System.Threading.Tasks;
@@ -8,8 +9,8 @@ using Fakebook.Infrastructure.Identity;
 using System.Security.Claims;
 using Fakebook.Core.Services;
 using Microsoft.AspNetCore.Authorization;
-using System;
-using Microsoft.Extensions.Logging;
+
+using AutoMapper;
 
 namespace Fakebook.Web.Controllers
 {
