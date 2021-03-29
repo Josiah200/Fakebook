@@ -45,11 +45,12 @@
 		}
 		@RenderBody()
 	</div>
-	@if (SignInManager.IsSignedIn(User)) {
-		<script src="~/js/friends.js" language="javascript"></script>
-	}
+	
 	<script src="~/lib/jquery/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/js/bootstrap.min.js" language="javascript"></script>
 	@RenderSection("Scripts", required: false)
+	@if (SignInManager.IsSignedIn(User)) {
+		<script src="~/js/friends.js" language="javascript"></script>
+	}
 </body>
 </html>

@@ -80,10 +80,12 @@ namespace Fakebook.Web.Controllers
 			{
 				await _friendsService.SendRequestAsync(currentUser, reciever);
 			}
+
 			if (friendship != null && friendship.FriendId == currentUser.Id)
 			{
 				await _friendsService.AcceptRequestAsync(currentUser, reciever);
 			}
+			
 			return Redirect(Request.Headers["Referer"].ToString());
 		}
 
