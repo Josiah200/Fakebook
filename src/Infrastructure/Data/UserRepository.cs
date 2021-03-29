@@ -17,7 +17,7 @@ namespace Fakebook.Infrastructure.Data
 		public Task<User> GetByPublicIdAsync(string userPublicId)
 		{
 			return _dbContext.Users
-				.FirstOrDefaultAsync(x => x.PublicId == userPublicId);
+				.FirstOrDefaultAsync(u => u.PublicId == userPublicId);
 		}
 
 		public Task<List<User>> GetChunkAsync(string searchString, int page)

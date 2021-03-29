@@ -14,7 +14,6 @@ using System.Linq;
 namespace Fakebook.Web.Controllers
 {
 	[Route("[Controller]")]
-	[ApiController]
     public class PostController : Controller
     {
 		private readonly IPostService _postService;

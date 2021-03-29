@@ -11,5 +11,6 @@ namespace Fakebook.Core.Entities
 		public List<Post> Posts { get; set; }
 		public ICollection<Friendship> Friendships { get; set; }
 		public List<Notification> Notifications { get; set; }
+
 	}
 }
