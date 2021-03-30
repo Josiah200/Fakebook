@@ -41,7 +41,7 @@ namespace Fakebook.Web.Controllers
 			var currentUserId = (await _userManager.GetUserAsync(User)).Id;
 			var posts = await _postService.GetHomePostsBlockAsync(page, blockSize, currentUserId);
 
-			if (!posts.Any())
+			if ((posts is null) || (!posts.Any()))
 			{
 				return NotFound();
 			}
@@ -58,7 +58,7 @@ namespace Fakebook.Web.Controllers
 		{
 			var posts = await _postService.GetUserPostsBlockAsync(page, blockSize, userPublicId);
 
-			if (!posts.Any())
+			if ((posts is null) || (!posts.Any()))
 			{
 				return NotFound();
 			}
