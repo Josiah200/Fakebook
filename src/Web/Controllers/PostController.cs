@@ -13,18 +13,17 @@ using System.Linq;
 
 namespace Fakebook.Web.Controllers
 {
+	[Authorize]
 	[Route("[Controller]")]
     public class PostController : Controller
     {
 		private readonly IPostService _postService;
-		private readonly IUserService _userService;
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IMapper _mapper;
         
-		public PostController(IPostService postService, IUserService userService, UserManager<ApplicationUser> userManager, IMapper mapper)
+		public PostController(IPostService postService, UserManager<ApplicationUser> userManager, IMapper mapper)
 		{
 			_postService = postService;
-			_userService = userService;
 			_userManager = userManager;
 			_mapper = mapper;
 		}
@@ -32,43 +31,45 @@ namespace Fakebook.Web.Controllers
 		/// <summary>
 		/// Gets blocksize posts from friends if userPublicId is null, user's posts otherwise.
 		/// </summary>
-		[HttpGet("PostScroll")]
-		[Authorize]
-		public async Task<IActionResult> PostScroll(int page, int blockSize, string? userPublicId)
+		[HttpGet("HomePosts")]
+		public async Task<IActionResult> HomePosts(int page, int blockSize)
 		{
 			if (!this.ModelState.IsValid)
 			{
 				return RedirectToAction("Index", "Home");
 			}
-			IEnumerable<Post> posts;
+			var currentUserId = (await _userManager.GetUserAsync(User)).Id;
+			var posts = await _postService.GetHomePostsBlockAsync(page, blockSize, currentUserId);
 
-			if (userPublicId != null)
+			if (!posts.Any())
 			{
-				var profileUser = await _userService.GetByPublicIdAsync(userPublicId);
-
-				posts = await _postService.GetUserPostsBlockAsync(page, blockSize, profileUser.Id);
+				return NotFound();
 			}
 
 			else
-			{
-				var currentApplicationUser = await _userManager.GetUserAsync(User);
-				var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
-
-				posts = await _postService.GetUserPostsBlockAsync(page, blockSize, currentUser.Id);
-			}
-
-			if (posts != null)
 			{
 				var postModels = new List<PostModel>();
 				postModels.AddRange(posts.Select(_mapper.Map<PostModel>));
 				return PartialView("_PostsPagePartial", postModels);
 			}
+		}
+		[HttpGet("UserPosts")]
+		public async Task<IActionResult> UserPosts(int page, int blockSize, string userPublicId)
+		{
+			var posts = await _postService.GetUserPostsBlockAsync(page, blockSize, userPublicId);
 
-			else
+			if (!posts.Any())
 			{
 				return NotFound();
 			}
-		}	
+
+			else
+			{
+				var postModels = new List<PostModel>();
+				postModels.AddRange(posts.Select(_mapper.Map<PostModel>));
+				return PartialView("_PostsPagePartial", postModels);
+			}
+		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
