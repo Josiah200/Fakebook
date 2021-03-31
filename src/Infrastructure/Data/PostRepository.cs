@@ -13,24 +13,24 @@ namespace Fakebook.Infrastructure.Data
 		{
 		}
 		
-		public async Task<IReadOnlyList<Post>> GetHomePostsBlockAsync(List<string> friendIds, int page, int blocksize)
+		public async Task<IReadOnlyList<Post>> GetHomePostsBlockAsync(List<string> userIds, int page, int blockSize)
 		{
 			return await _dbContext.Posts
 				.Include(p => p.User)
-				.Where(p=> friendIds.Contains(p.UserId))
+				.Where(p=> userIds.Contains(p.UserId))
 				.OrderByDescending(p => p.DatePosted)
-				.Skip(page*blocksize)
-				.Take(blocksize)
+				.Skip(page*blockSize)
+				.Take(blockSize)
 				.ToListAsync();
 		}
-		public async Task<IReadOnlyList<Post>> GetUserPostsBlockAsync(string userId, int page, int blocksize)
+		public async Task<IReadOnlyList<Post>> GetUserPostsBlockByPublicIdAsync(string userPublicId, int page, int blockSize)
 		{
 			return await _dbContext.Posts
 				.Include(p => p.User)
-				.Where(p => p.UserId == userId)
+				.Where(p => p.User.PublicId == userPublicId)
 				.OrderByDescending(p => p.DatePosted)
-				.Skip(page*blocksize)
-				.Take(blocksize)
+				.Skip(page*blockSize)
+				.Take(blockSize)
 				.ToListAsync();
 		}
 	}
