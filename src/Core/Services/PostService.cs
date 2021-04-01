@@ -27,7 +27,7 @@ namespace Fakebook.Core.Services
 			return successful;
 		}
 
-		public async Task<IEnumerable<Post>?> GetHomePostsBlockAsync(int page, int blockSize, string userId)
+		public async Task<IReadOnlyCollection<Post>?> GetHomePostsBlockAsync(int page, int blockSize, string userId)
 		{
 			var friends = await _friendsService.GetByUserIdAsync(userId);
 
@@ -60,7 +60,7 @@ namespace Fakebook.Core.Services
 			}
 		}
 		
-		public async Task<IEnumerable<Post>?> GetUserPostsBlockAsync(int page, int blockSize, string userPublicId)
+		public async Task<IReadOnlyCollection<Post>?> GetUserPostsBlockAsync(int page, int blockSize, string userPublicId)
 		{
 			var posts = await _postRepository.GetUserPostsBlockByPublicIdAsync(userPublicId, page, blockSize);
 
