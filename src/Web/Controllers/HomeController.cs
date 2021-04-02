@@ -23,7 +23,7 @@ namespace Fakebook.Web.Controllers
 			var user = await _userManager.GetUserAsync(User);
 			var viewModel = new HomeViewModel
 			{
-				CurrentUser = user,
+				CurrentUserId = user.Id,
 			};
 
 			return View(viewModel);

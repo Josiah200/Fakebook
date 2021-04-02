@@ -14,6 +14,7 @@ using System.Linq;
 namespace Fakebook.Web.Controllers
 {
 	[Authorize]
+	[ApiController]
 	[Route("[Controller]")]
     public class PostController : Controller
     {
@@ -28,18 +29,15 @@ namespace Fakebook.Web.Controllers
 			_mapper = mapper;
 		}
 		
-		/// <summary>
-		/// Gets blocksize posts from friends if userPublicId is null, user's posts otherwise.
-		/// </summary>
 		[HttpGet("HomePosts")]
-		public async Task<IActionResult> HomePosts(int page, int blockSize)
+		public async Task<IActionResult> HomePosts(int page, int blockSize, string userId)
 		{
 			if (!this.ModelState.IsValid)
 			{
 				return RedirectToAction("Index", "Home");
 			}
-			var currentUserId = (await _userManager.GetUserAsync(User)).Id;
-			var posts = await _postService.GetHomePostsBlockAsync(page, blockSize, currentUserId);
+			
+			var posts = await _postService.GetHomePostsPageAsync(userId, page, blockSize);
 
 			if ((posts is null) || (!posts.Any()))
 			{
@@ -53,10 +51,12 @@ namespace Fakebook.Web.Controllers
 				return PartialView("_PostsPagePartial", postModels);
 			}
 		}
+		
 		[HttpGet("UserPosts")]
-		public async Task<IActionResult> UserPosts(int page, int blockSize, string userPublicId)
+		public async Task<IActionResult> UserPosts(int page, int blockSize, string userId)
 		{
-			var posts = await _postService.GetUserPostsBlockAsync(page, blockSize, userPublicId);
+			// userId is a PublicId
+			var posts = await _postService.GetUserPostsPageAsync(userId, page, blockSize);
 
 			if ((posts is null) || (!posts.Any()))
 			{

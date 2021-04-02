@@ -13,7 +13,7 @@ namespace Fakebook.Infrastructure.Data
 		{
 		}
 		
-		public async Task<IReadOnlyList<Post>> GetHomePostsBlockAsync(List<string> userIds, int page, int blockSize)
+		public async Task<IReadOnlyList<Post>> GetPostsPageByUserIdListAsync(List<string> userIds, int page, int blockSize)
 		{
 			return await _dbContext.Posts
 				.Include(p => p.User)
@@ -23,7 +23,7 @@ namespace Fakebook.Infrastructure.Data
 				.Take(blockSize)
 				.ToListAsync();
 		}
-		public async Task<IReadOnlyList<Post>> GetUserPostsBlockByPublicIdAsync(string userPublicId, int page, int blockSize)
+		public async Task<IReadOnlyList<Post>> GetUserPostPageByUserPublicIdAsync(string userPublicId, int page, int blockSize)
 		{
 			return await _dbContext.Posts
 				.Include(p => p.User)
