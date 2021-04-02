@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
@@ -12,7 +10,7 @@ using FluentAssertions;
 
 namespace Tests.Core.Services.PostServiceTests
 {
-    public class GetHomePostsBlockAsync
+    public class GetHomePostsPageAsync
     {
 		private readonly Mock<IPostRepository> _mockPostRepo;
 		private readonly Mock<IFriendsService> _mockFriendsService;
@@ -21,7 +19,7 @@ namespace Tests.Core.Services.PostServiceTests
 		private readonly List<Post> _allPostData;
 		private readonly List<Friendship> _friendInMemoryDb;
 		
-		public GetHomePostsBlockAsync()
+		public GetHomePostsPageAsync()
 		{
 			_mockPostRepo = new Mock<IPostRepository>();
 			_mockFriendsService = new Mock<IFriendsService>();
@@ -60,23 +58,23 @@ namespace Tests.Core.Services.PostServiceTests
         [Fact]
 		public async Task InvokesPostRepositoryOnce()
 		{
-			_mockPostRepo.Setup(x => x.GetHomePostsBlockAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
+			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
 			_mockFriendsService.Setup(x => x.GetByUserIdAsync(It.IsAny<string>())).ReturnsAsync(_friendInMemoryDb);
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			await postService.GetHomePostsBlockAsync(10, 10, "TESTUSER");
+			await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);
 
-			_mockPostRepo.Verify(x => x.GetHomePostsBlockAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+			_mockPostRepo.Verify(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
 		}
 		
 		[Fact]
 		public async Task ReturnsListOfPosts()
 		{
-			_mockPostRepo.Setup(x => x.GetHomePostsBlockAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
+			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
 			_mockFriendsService.Setup(x => x.GetByUserIdAsync(It.IsAny<string>())).ReturnsAsync(_friendInMemoryDb);
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			var result = await postService.GetHomePostsBlockAsync(10, 10, "TESTUSER");	
+			var result = await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);	
 
 			Assert.IsType<List<Post>>(result);
 		}
@@ -84,11 +82,11 @@ namespace Tests.Core.Services.PostServiceTests
 		[Fact]
 		public async Task ReturnsCurrentUsersPosts()
 		{
-			_mockPostRepo.Setup(x => x.GetHomePostsBlockAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
+			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
 			_mockFriendsService.Setup(x => x.GetByUserIdAsync(It.IsAny<string>())).ReturnsAsync(_friendInMemoryDb);
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			var result = await postService.GetHomePostsBlockAsync(10, 10, "TESTUSER");	
+			var result = await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);	
 
 			result.Should().Contain(_userPostData);
 		}
@@ -96,11 +94,11 @@ namespace Tests.Core.Services.PostServiceTests
 		[Fact]
 		public async Task ReturnsFriendsPosts()
 		{
-			_mockPostRepo.Setup(x => x.GetHomePostsBlockAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
+			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
 			_mockFriendsService.Setup(x => x.GetByUserIdAsync(It.IsAny<string>())).ReturnsAsync(_friendInMemoryDb);
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			var result = await postService.GetHomePostsBlockAsync(10, 10, "TESTUSER");	
+			var result = await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);	
 
 			result.Should().Contain(_friendsPostData);
 		}
@@ -108,11 +106,11 @@ namespace Tests.Core.Services.PostServiceTests
 		[Fact]
 		public async Task ReturnsNullIfNoPostsFound()
 		{
-			_mockPostRepo.Setup(x => x.GetHomePostsBlockAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<Post>().AsReadOnly());
+			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<Post>().AsReadOnly());
 			_mockFriendsService.Setup(x => x.GetByUserIdAsync(It.IsAny<string>())).ReturnsAsync(_friendInMemoryDb);
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			var result = await postService.GetHomePostsBlockAsync(10, 10, "TESTUSER");	
+			var result = await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);	
 
 			result.Should().BeNull();
 		}
