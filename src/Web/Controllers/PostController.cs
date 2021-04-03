@@ -55,7 +55,6 @@ namespace Fakebook.Web.Controllers
 		[HttpGet("UserPosts")]
 		public async Task<IActionResult> UserPosts(int page, int blockSize, string userId)
 		{
-			// userId is a PublicId
 			var posts = await _postService.GetUserPostsPageAsync(userId, page, blockSize);
 
 			if ((posts is null) || (!posts.Any()))

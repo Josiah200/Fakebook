@@ -23,15 +23,5 @@ namespace Fakebook.Infrastructure.Data
 				.Take(blockSize)
 				.ToListAsync();
 		}
-		public async Task<IReadOnlyList<Post>> GetUserPostPageByUserPublicIdAsync(string userPublicId, int page, int blockSize)
-		{
-			return await _dbContext.Posts
-				.Include(p => p.User)
-				.Where(p => p.User.PublicId == userPublicId)
-				.OrderByDescending(p => p.DatePosted)
-				.Skip(page*blockSize)
-				.Take(blockSize)
-				.ToListAsync();
-		}
 	}
 }

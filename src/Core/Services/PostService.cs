@@ -31,23 +31,23 @@ namespace Fakebook.Core.Services
 		{
 			var friends = await _friendsService.GetByUserIdAsync(userId);
 
-			List<string> friendIds = new();
-			friendIds.Add(userId);
+			List<string> userIds = new();
+			userIds.Add(userId);
 
 			foreach (Friendship friend in friends)
 			{
 				if (friend.UserId != userId)
 				{
-					friendIds.Add(friend.UserId);
+					userIds.Add(friend.UserId);
 				}
 
 				else
 				{
-					friendIds.Add(friend.FriendId);
+					userIds.Add(friend.FriendId);
 				}
 			}
 
-			var posts = await _postRepository.GetPostsPageByUserIdListAsync(friendIds, page, blockSize);
+			var posts = await _postRepository.GetPostsPageByUserIdListAsync(userIds, page, blockSize);
 			
 			if (posts.Count == 0)
 			{
@@ -60,9 +60,11 @@ namespace Fakebook.Core.Services
 			}
 		}
 		
-		public async Task<IReadOnlyCollection<Post>?> GetUserPostsPageAsync(string userPublicId, int page, int blockSize)
+		public async Task<IReadOnlyCollection<Post>?> GetUserPostsPageAsync(string userId, int page, int blockSize)
 		{
-			var posts = await _postRepository.GetUserPostPageByUserPublicIdAsync(userPublicId, page, blockSize);
+			var userIds = new List<string> {userId};
+
+			var posts = await _postRepository.GetPostsPageByUserIdListAsync(userIds, page, blockSize);
 
 			if (posts.Count == 0)
 			{
