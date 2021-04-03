@@ -25,22 +25,22 @@ namespace Tests.Core.Services.PostServiceTests
 			_mockFriendsService = new Mock<IFriendsService>();
 			_userPostData = new List<Post>
 			{
-				new Post() {UserId = "TESTUSER", Text = "Test Text1", DatePosted = DateTime.Now},
-				new Post() {UserId = "TESTUSER", Text = "Test Text2", DatePosted = DateTime.Now},
-				new Post() {UserId = "TESTUSER", Text = "Test Text3", DatePosted = DateTime.Now},
+				new Post() {UserId = "ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", Text = "User Text1", DatePosted = DateTime.Now},
+				new Post() {UserId = "ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", Text = "User Text2", DatePosted = DateTime.Now},
+				new Post() {UserId = "ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", Text = "User Text3", DatePosted = DateTime.Now},
 			};
 
 			_friendsPostData = new List<Post>
 			{
-				new Post() {UserId = "FRIENDUSER", Text = "Friend Text1", DatePosted = DateTime.Now},
-				new Post() {UserId = "FRIENDUSER", Text = "Friend Text2", DatePosted = DateTime.Now},
-				new Post() {UserId = "FRIENDUSER", Text = "Friend Text3", DatePosted = DateTime.Now},
-				new Post() {UserId = "FRIENDUSER2", Text = "Friend2 Text1", DatePosted = DateTime.Now},
-				new Post() {UserId = "FRIENDUSER2", Text = "Friend2 Text2", DatePosted = DateTime.Now},
-				new Post() {UserId = "FRIENDUSER2", Text = "Friend2 Text3", DatePosted = DateTime.Now},
-				new Post() {UserId = "FRIENDUSER3", Text = "Friend3 Text1", DatePosted = DateTime.Now},
-				new Post() {UserId = "FRIENDUSER3", Text = "Friend3 Text2", DatePosted = DateTime.Now},
-				new Post() {UserId = "FRIENDUSER3", Text = "Friend3 Text3", DatePosted = DateTime.Now}
+				new Post() {UserId = "8fd20962-e899-48cf-8c67-a5ced8716fe9", Text = "Friend Text1", DatePosted = DateTime.Now},
+				new Post() {UserId = "8fd20962-e899-48cf-8c67-a5ced8716fe9", Text = "Friend Text2", DatePosted = DateTime.Now},
+				new Post() {UserId = "8fd20962-e899-48cf-8c67-a5ced8716fe9", Text = "Friend Text3", DatePosted = DateTime.Now},
+				new Post() {UserId = "d8e400e7-ede3-4485-ab6b-3138d371fe80", Text = "Friend2 Text1", DatePosted = DateTime.Now},
+				new Post() {UserId = "d8e400e7-ede3-4485-ab6b-3138d371fe80", Text = "Friend2 Text2", DatePosted = DateTime.Now},
+				new Post() {UserId = "d8e400e7-ede3-4485-ab6b-3138d371fe80", Text = "Friend2 Text3", DatePosted = DateTime.Now},
+				new Post() {UserId = "f66f7807-657c-4c49-b101-2e294a615429", Text = "Friend3 Text1", DatePosted = DateTime.Now},
+				new Post() {UserId = "f66f7807-657c-4c49-b101-2e294a615429", Text = "Friend3 Text2", DatePosted = DateTime.Now},
+				new Post() {UserId = "f66f7807-657c-4c49-b101-2e294a615429", Text = "Friend3 Text3", DatePosted = DateTime.Now}
 			};
 
 			_allPostData = new List<Post>
@@ -51,9 +51,9 @@ namespace Tests.Core.Services.PostServiceTests
 
 			_friendInMemoryDb = new List<Friendship>
 			{
-				new Friendship() {UserId = "TESTUSER", FriendId = "FRIENDUSER"}
+				new Friendship() {UserId = "ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", FriendId = "FRIENDUSER"}
 			};
-			
+
 			_mockFriendsService.Setup(x => x.GetByUserIdAsync(It.IsAny<string>())).ReturnsAsync(_friendInMemoryDb);
 		}
 
@@ -63,7 +63,7 @@ namespace Tests.Core.Services.PostServiceTests
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);
+			await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);
 
 			_mockPostRepo.Verify(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
 		}
@@ -74,7 +74,7 @@ namespace Tests.Core.Services.PostServiceTests
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			var result = await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);	
+			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);	
 
 			Assert.IsType<List<Post>>(result);
 		}
@@ -85,7 +85,7 @@ namespace Tests.Core.Services.PostServiceTests
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			var result = await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);	
+			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);	
 
 			result.Should().Contain(_userPostData);
 		}
@@ -96,7 +96,7 @@ namespace Tests.Core.Services.PostServiceTests
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			var result = await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);	
+			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);	
 
 			result.Should().Contain(_friendsPostData);
 		}
@@ -107,7 +107,7 @@ namespace Tests.Core.Services.PostServiceTests
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<Post>().AsReadOnly());
 			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
 
-			var result = await postService.GetHomePostsPageAsync("TESTUSER", 0, 16);	
+			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);	
 
 			result.Should().BeNull();
 		}
