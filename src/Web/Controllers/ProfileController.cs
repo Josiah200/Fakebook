@@ -39,17 +39,17 @@ namespace Fakebook.Web.Controllers
 				IsProfileOwner = true
 			};
 
-			var profileUser = await _userService.GetByPublicIdAsync(userPublicId, true);
+			viewModel.ProfileUser = await _userService.GetByPublicIdAsync(userPublicId, true);
 
-			if (profileUser == null)
+			if (viewModel.ProfileUser == null)
 			{
 				return NotFound();
 			}
 
-			if (profileUser.Id != currentUser.Id)
+			if (viewModel.ProfileUser.Id != currentUser.Id)
 			{
 				viewModel.IsProfileOwner = false;
-				viewModel.Friendship = await _friendsService.GetFriendAsync(currentUser, profileUser);
+				viewModel.Friendship = await _friendsService.GetFriendAsync(currentUser, viewModel.ProfileUser);
 			}
 			
 			return View(viewModel);

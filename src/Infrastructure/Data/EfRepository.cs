@@ -30,6 +30,7 @@ namespace Fakebook.Infrastructure.Data
 			var addResult = await _dbContext.SaveChangesAsync();
 			return addResult == 1;
 		}
+		
 		public async Task<bool> DeleteAsync(T entity)
 		{
 			_dbContext.Set<T>().Remove(entity);
