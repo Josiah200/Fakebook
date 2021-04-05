@@ -8,6 +8,7 @@ namespace Fakebook.Core.Interfaces
     public interface IUserRepository : IAsyncRepository<User>
     {
 		Task<User> GetByPublicIdAsync(string userPublicId);
-		Task<List<User>> GetChunkAsync(string searchString, int page);
-    }
+		Task<User> GetWithProfileDataByPublicIdAsync(string userPublicId);
+		Task<List<User>> GetPageAsync(string searchString, int page);	
+	}
 }

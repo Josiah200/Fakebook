@@ -20,7 +20,14 @@ namespace Fakebook.Infrastructure.Data
 				.FirstOrDefaultAsync(u => u.PublicId == userPublicId);
 		}
 
-		public Task<List<User>> GetChunkAsync(string searchString, int page)
+		public Task<User> GetWithProfileDataByPublicIdAsync(string userPublicId)
+		{
+			return _dbContext.Users
+				.Include(u => u.ProfileData)
+				.FirstOrDefaultAsync(u => u.PublicId == userPublicId);
+		}
+
+		public Task<List<User>> GetPageAsync(string searchString, int page)
 		{
 			return _dbContext.Users
 				.Where(u => u.FirstName.Contains(searchString) | u.LastName.Contains(searchString) | (u.FirstName + " " + u.LastName).Contains(searchString))

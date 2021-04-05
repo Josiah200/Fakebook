@@ -34,18 +34,24 @@ namespace Fakebook.Web.Controllers
 				return RedirectToAction("Index", "Profile", new { userPublicId = currentUser.PublicId });
 			}
 
-			var profileUser = await _userService.GetByPublicIdAsync(userPublicId);
+			var viewModel = new ProfileViewModel()
+			{
+				IsProfileOwner = true
+			};
+
+			var profileUser = await _userService.GetByPublicIdAsync(userPublicId, true);
+
 			if (profileUser == null)
 			{
 				return NotFound();
 			}
 
-			var friendship = await _friendsService.GetFriendAsync(currentUser, profileUser);
-			var viewModel = new ProfileViewModel
+			if (profileUser.Id != currentUser.Id)
 			{
-				ProfileUser = profileUser,
-				Friendship = friendship
-			};
+				viewModel.IsProfileOwner = false;
+				viewModel.Friendship = await _friendsService.GetFriendAsync(currentUser, profileUser);
+			}
+			
 			return View(viewModel);
 		}
     }

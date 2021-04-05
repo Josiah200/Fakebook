@@ -35,13 +35,21 @@ namespace Fakebook.Core.Services
 			return await _userRepository.GetByIdAsync(Id);
 		}
 		
-		public async Task<User> GetByPublicIdAsync(string publicId)
+		public async Task<User> GetByPublicIdAsync(string publicId, bool includeProfileData = false)
 		{
-			return await _userRepository.GetByPublicIdAsync(publicId);
+			if (includeProfileData)
+			{
+				return await _userRepository.GetByPublicIdAsync(publicId);
+			}
+			else
+			{
+				return await _userRepository.GetWithProfileDataByPublicIdAsync(publicId);
+			}
 		}
-		public async Task<List<User>> GetChunkAsync(string? searchString, int page = 0)
+
+		public async Task<List<User>> GetPageAsync(string? searchString, int page = 0)
 		{
-			return await _userRepository.GetChunkAsync(searchString ?? "", page);
+			return await _userRepository.GetPageAsync(searchString ?? "", page);
 		}
 
 		private async Task<string> GenerateRandomPublicIdAsync()

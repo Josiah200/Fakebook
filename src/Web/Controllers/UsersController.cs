@@ -23,7 +23,7 @@ namespace Fakebook.Web.Controllers
 		[Route("Users/{page:int?}")]
     	public async Task<IActionResult> Index(string searchString, int page)
 		{
-			var users = await _userService.GetChunkAsync(searchString, page);
+			var users = await _userService.GetPageAsync(searchString, page);
 			var viewModel = new UsersViewModel
 			{
 				Users = users.Select(_mapper.Map<UserModel>),
