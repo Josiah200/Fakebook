@@ -14,7 +14,6 @@ using System.Linq;
 namespace Fakebook.Web.Controllers
 {
 	[Authorize]
-	[ApiController]
 	[Route("[Controller]")]
     public class PostController : Controller
     {

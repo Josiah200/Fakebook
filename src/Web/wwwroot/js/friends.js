@@ -1,9 +1,9 @@
 $(window).on("load", function()
 {
-	var btn = document.getElementById('friendsBtn');
-	var friendsrequested = false;
+	let btn = document.getElementById('friendsBtn');
+	let friendsrequested = false;
 	btn.addEventListener('click', function() {
-		var headerHeight = $('.navbar').outerHeight();
+		let headerHeight = $('.navbar').outerHeight();
 		$('#friends_bar').css('margin-top', headerHeight);
 		$("#friends_bar").toggleClass('friends-bar-opened friends-bar-closed');
 		if (friendsrequested == false)
