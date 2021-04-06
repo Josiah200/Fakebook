@@ -15,7 +15,7 @@ namespace Fakebook.Core.Services
 			_userRepository = userRepository;
 		}
 		
-		public async Task<bool> NewUserAsync(string userId, string firstName, string lastName, string? gender)
+		public async Task<bool> NewUserAsync(string userId, string firstName, string lastName, string? gender, DateTime? birthdate)
 		{
 			var user = new User
 			{
@@ -24,7 +24,8 @@ namespace Fakebook.Core.Services
 				LastName = lastName,
 				PublicId = await GenerateRandomPublicIdAsync(),
 				HasAvatar = false,
-				Gender = gender
+				Gender = gender,
+				Birthdate = birthdate
 			};
 
 			var successful = await _userRepository.AddAsync(user);

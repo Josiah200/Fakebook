@@ -44,6 +44,12 @@
 				<input asp-for="Input.Gender" maxlength="10" class="form-control" style="width: 8rem; display: none; order: 1;"></input>
 				<span asp-validation-for="Input.Gender" class="text-danger"></span>
 			</div>
+			<div class="form-group">
+				<label asp-for="Input.Birthdate"></label>
+				<sup class="text-muted">optional</sup>
+				<input asp-for="Input.Birthdate" class="form-control" type="date"></input>
+				<span asp-validation-for="Input.Birthdate" class="text-danger"></span>
+			</div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />

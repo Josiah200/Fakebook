@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,6 +15,7 @@ namespace Fakebook.Core.Entities
 		public bool HasAvatar { get; set; }
 		public string? Bio { get; set; }
 		public string? Gender { get; set; }
+		public DateTime? Birthdate { get; set; }
 		public string? City { get; set;}
 		public string? Hometown { get; set; }
 		public string? Workplace { get; set; }
