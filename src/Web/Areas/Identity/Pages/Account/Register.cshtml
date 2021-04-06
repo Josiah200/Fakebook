@@ -7,7 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 card card-outline-primary p-2 m-1">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
             <hr />
@@ -27,6 +27,23 @@
                 <input asp-for="Input.LastName" class="form-control" />
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
+			<label asp-for="Input.Gender">Gender</label>
+			<sup class="text-muted">optional</sup>
+			<div class="form-group" style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
+				<div class="btn-group btn-group-toggle" data-toggle="buttons" style="order: 0;">
+					<label class="btn">
+						<input type="radio" asp-for="Input.Gender" value="Male" id="maleradio" class="form-control genderradio"> Male
+					</label>
+					<label class="btn">
+						<input type="radio" asp-for="Input.Gender" value="Female" id="femaleradio" class="form-control genderradio"> Female
+					</label>
+					<label class="btn" id="gendercustombtn">
+						<input type="radio" value="Custom" id="gendercustom" class="form-control"> Custom	
+					</label>
+				</div>
+				<input asp-for="Input.Gender" maxlength="10" class="form-control" style="width: 8rem; display: none; order: 1;"></input>
+				<span asp-validation-for="Input.Gender" class="text-danger"></span>
+			</div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />
@@ -74,4 +91,23 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+	<script language="javascript">
+		let custombtn = document.getElementById('gendercustom');
+
+		custombtn.addEventListener('click', function() {
+				if(!($('#gendercustombtn').hasClass('active')))
+				{
+					$("#Input_Gender").toggle();
+				}
+		});
+
+		document.querySelectorAll('.genderradio').forEach(item => {
+			item.addEventListener('click', event => {
+				if($('#gendercustombtn').hasClass('active'))
+				{
+					$("#Input_Gender").toggle();
+				}
+			})
+		});
+	</script>
 }

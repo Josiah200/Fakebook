@@ -39,7 +39,7 @@ namespace Fakebook.Web.Controllers
 				IsProfileOwner = true
 			};
 
-			viewModel.ProfileUser = await _userService.GetByPublicIdAsync(userPublicId, true);
+			viewModel.ProfileUser = await _userService.GetByPublicIdAsync(userPublicId);
 
 			if (viewModel.ProfileUser == null)
 			{

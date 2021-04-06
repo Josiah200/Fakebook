@@ -1,21 +1,39 @@
 @model Fakebook.Web.Models.ViewModels.ProfileViewModel
 
-<div class="col-md-5">
-	<div class="sticky-top" style="padding-top:4rem; z-index:0;">
-		
-		@if (Model.Friendship == null) {
-			<a asp-controller="Friends" asp-Action="AddFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn container-fluid" style="background-color:#7b2cab; border-color:#7b2cab; color:white;">Add Friend</a>
-		}
-
-		else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Pending) {
-			<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn container-fluid" style="background-color:#7b2cab; border-color:#7b2cab; color:white;">Cancel Friend Request</a>
-		}
-
-		else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Accepted) {
-			<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn container-fluid" style="background-color:#7b2cab; border-color:#7b2cab; color:white;">Remove Friend</a>
-		}
-
+<div class="col-md-5 sticky-top" style="padding-top:4rem">
+	<div class="card card card-outline-primary p-1">
+		<div class="row">
+			<div class="col-md-4">
+				<img class="img-fluid mx-auto" src="https://beachmeter.com/wp-content/uploads/2017/06/250x250px.png" width="200" height="200"></img>
+			</div>
+			<div class="primary-info col-md-8 ">
+				<div class="row mx-auto" style="font-size: 2em">@Model.ProfileUser.FirstName @Model.ProfileUser.LastName</div>
+				@if (!String.IsNullOrEmpty(Model.ProfileUser.City))
+				{
+					<div class="row mx-auto" style="text-align: left">
+						<img class="img-fluid" style="display: inline" width="20" height="20" src="~/images/location.svg"/>
+						@Model.ProfileUser.City
+					</div>
+				}
+			</div>
+		</div>
 	</div>
+	@if (!Model.IsProfileOwner)
+	{
+		<div>
+			@if (Model.Friendship == null) {
+				<a asp-controller="Friends" asp-Action="AddFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn container-fluid" style="background-color:#7b2cab; border-color:#7b2cab; color:white;">Add Friend</a>
+			}
+
+			else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Pending) {
+				<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn container-fluid" style="background-color:#7b2cab; border-color:#7b2cab; color:white;">Cancel Friend Request</a>
+			}
+
+			else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Accepted) {
+				<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn container-fluid" style="background-color:#7b2cab; border-color:#7b2cab; color:white;">Remove Friend</a>
+			}
+		</div>
+	}
 </div>
 <div id="posts" class="col-md-7" style="padding-top:4rem" />
 

@@ -4,14 +4,16 @@ using Fakebook.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fakebook.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(FakebookContext))]
-    partial class FakebookContextModelSnapshot : ModelSnapshot
+    [Migration("20210406064959_NullableProfileDataProperties")]
+    partial class NullableProfileDataProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,7 +87,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("Fakebook.Core.Entities.User", b =>
+            modelBuilder.Entity("Fakebook.Core.Entities.ProfileData", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -97,10 +99,6 @@ namespace Fakebook.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("College")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
@@ -115,18 +113,37 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.Property<string>("Hometown")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Workplace")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProfileData");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileDataId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PublicId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Workplace")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ProfileDataId");
 
                     b.ToTable("Users");
                 });
@@ -170,6 +187,15 @@ namespace Fakebook.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.User", b =>
+                {
+                    b.HasOne("Fakebook.Core.Entities.ProfileData", "ProfileData")
+                        .WithMany()
+                        .HasForeignKey("ProfileDataId");
+
+                    b.Navigation("ProfileData");
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.User", b =>

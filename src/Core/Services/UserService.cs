@@ -15,7 +15,7 @@ namespace Fakebook.Core.Services
 			_userRepository = userRepository;
 		}
 		
-		public async Task<bool> NewUserAsync(string userId, string firstName, string lastName)
+		public async Task<bool> NewUserAsync(string userId, string firstName, string lastName, string? gender)
 		{
 			var user = new User
 			{
@@ -23,7 +23,8 @@ namespace Fakebook.Core.Services
 				FirstName = firstName,
 				LastName = lastName,
 				PublicId = await GenerateRandomPublicIdAsync(),
-				Posts = new List<Post>(),
+				HasAvatar = false,
+				Gender = gender
 			};
 
 			var successful = await _userRepository.AddAsync(user);
@@ -35,16 +36,9 @@ namespace Fakebook.Core.Services
 			return await _userRepository.GetByIdAsync(Id);
 		}
 		
-		public async Task<User> GetByPublicIdAsync(string publicId, bool includeProfileData = false)
+		public async Task<User> GetByPublicIdAsync(string publicId)
 		{
-			if (includeProfileData)
-			{
 				return await _userRepository.GetByPublicIdAsync(publicId);
-			}
-			else
-			{
-				return await _userRepository.GetWithProfileDataByPublicIdAsync(publicId);
-			}
 		}
 
 		public async Task<List<User>> GetPageAsync(string? searchString, int page = 0)

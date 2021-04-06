@@ -73,6 +73,9 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
 			[DataType(DataType.Text)]
 			[Display(Name = "Last name")]
 			public string LastName { get; set; }
+			[DataType(DataType.Text)]
+			[Display(Name = "Gender")]
+			public string? Gender { get; set; }
         }
         public async Task OnGetAsync(string? returnUrl = null)
         {
@@ -88,7 +91,7 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
 				
                 var result = await _userManager.CreateAsync(user, Input.Password);
-				var userResult = await _userService.NewUserAsync(user.Id, Input.FirstName, Input.LastName);
+				var userResult = await _userService.NewUserAsync(user.Id, Input.FirstName, Input.LastName, Input.Gender);
 				
                 if (userResult && result.Succeeded)
                 {

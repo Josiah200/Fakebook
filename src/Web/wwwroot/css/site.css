@@ -60,3 +60,14 @@ body {
 .post .btn:hover {
 background-color: #F2F2F2;
 }
+
+.btn:not(.active label):not(.text-muted){
+	background-color: #7b2cab; 
+	border-color: #7b2cab; 
+	color: white;
+}
+
+.active
+{
+	background-color: #5e1f83 !important;
+}
