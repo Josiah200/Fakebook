@@ -17,8 +17,13 @@ namespace Fakebook.Core.Entities
 		public string? Gender { get; set; }
 		public DateTime? Birthdate { get; set; }
 		public string? City { get; set;}
-		public string? Hometown { get; set; }
-		public string? Workplace { get; set; }
+		public string? State { get; set; }
+		public string? Country { get; set; }
+		public string? HometownCity { get; set; }
+		public string? HometownState { get; set; }
+		public string? HometownCountry { get; set; }
+		public string? JobTitle { get; set; }
+		public string? Company { get; set; }
 		public string? HighSchool { get; set; }
 		public string? College { get; set; }
 	}

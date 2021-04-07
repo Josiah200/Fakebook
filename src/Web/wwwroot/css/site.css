@@ -71,3 +71,11 @@ background-color: #F2F2F2;
 {
 	background-color: #5e1f83 !important;
 }
+.profilebadge
+{
+	background-color: #7b2cab;
+	color: white; height: 2em;
+	position: relative; display:
+	flex; justify-content: left;
+	align-items: center;
+}
