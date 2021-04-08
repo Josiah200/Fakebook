@@ -4,13 +4,13 @@
 	<div class="sticky-top" style="padding-top:4rem">
 		<div class="card card card-outline-primary p-1 container">
 			<div class ="row">
-				@* @if(Model.IsProfileOwner)
+				@if(Model.IsProfileOwner)
 				{
-					<div class="badge" style="position:absolute; right:100%; top:100%; margin:auto;">
+					<a href="#" class="badge" data-toggle="modal" data-target="#editModal" style="position:absolute; right:0; bottom:0; margin:auto; z-index: 100;">
 						<img src="~/images/edit.svg"></img>
-						<div>Edit Profile</div>
-					</div>
-				} *@
+						<div style="color: black">Edit Profile</div>
+					</a>
+				}
 				<div class="col-md-4 px-auto">
 					<img class="img-fluid mx-auto" src="https://beachmeter.com/wp-content/uploads/2017/06/250x250px.png" width="200" height="200"></img>
 				</div>
@@ -76,8 +76,92 @@
 	</div>
 </div>
 <div id="posts" class="col-md-7" style="padding-top:4rem" />
+@if(Model.IsProfileOwner)
+{
+	<div class="modal fade" id="editModal" role="form" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="editModalLabel">Edit Profile<h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form asp-controller="Profile" asp-action="UpdateProfile" method="post">
+						<div class="form-group">
+							<label asp-for="UpdateInput.FirstName">First name</label>
+							<input asp-for="UpdateInput.FirstName" type="text" value="@Model.ProfileUser.FirstName" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.FirstName" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="UpdateInput.LastName">Last name</label>
+							<input asp-for="UpdateInput.LastName" type="text" value="@Model.ProfileUser.LastName" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.LastName" class="text-danger"></span>
+						</div>
+						<label asp-for="UpdateInput.Gender">Gender</label>
+						<div class="form-group" style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
+							<div class="btn-group btn-group-toggle" data-toggle="buttons" style="order: 0;">
+								<label class="btn">
+									<input type="radio" value="Male" id="maleradio" class="form-control genderradio"> Male
+								</label>
+								<label class="btn">
+									<input type="radio" value="Female" id="femaleradio" class="form-control genderradio"> Female
+								</label>
+								<label class="btn" id="gendercustombtn">
+									<input type="radio" value="Custom" id="gendercustom" class="form-control"> Custom
+								</label>
+							</div>
+							<input asp-for="UpdateInput.Gender" type="text" value="@Model.ProfileUser.Gender" maxlength="10" value="@Model.ProfileUser.Gender" class="form-control genderinput" style="width: 8rem; display: none; order: 1;"></input>
+							<span asp-validation-for="UpdateInput.Gender" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="UpdateInput.Birthdate">Birthdate</label>
+							<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.Birthdate" class="text-danger"></span>
+						</div>
 
+						<div class="form-group">
+							<label asp-for="UpdateInput.PublicId" title="This is the part of the Url that identifies your profile">Public ID <img height="18px" src="~/images/question.svg" class="pb-1"></label>
+							<input asp-for="UpdateInput.PublicId" type="text" value="@Model.ProfileUser.PublicId" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.PublicId" class="text-danger"></span>
+						</div>
+						<button type="submit">Submit Form</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
 @section Scripts
 {
 	<script type="text/javascript" data-user_id="@Model.ProfileUser.Id" data-url="User" src ="~/js/postscroll.js"></script>
+	@if(Model.IsProfileOwner)
+	{
+		<script src="~/js/gendercustom.js" language="javascript"></script>
+		@if(Model.ProfileUser.Gender == "Male")
+		{
+			<script language="javascript">
+				$("#maleradio").last().prop('checked', true);
+			</script>
+		}
+		else if(Model.ProfileUser.Gender == "Female")
+		{
+			<script language="javascript">
+				$("#femaleradio").last().prop('checked', true);
+			</script>
+		}
+		else
+		{
+			<script language="javascript">
+				$("#gendercustom").last().prop('checked', true);
+				$("#UpdateInput_Gender").val('');
+				$("#UpdateInput_Gender").toggle();
+			</script>
+		}
+	}
 }

@@ -37,5 +37,12 @@ namespace Fakebook.Infrastructure.Data
 			var deleteResult = await _dbContext.SaveChangesAsync();
 			return deleteResult == 1;
 		}
+		
+		public async Task<bool> UpdateAsync(T entity)
+        {
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            var updateResult = await _dbContext.SaveChangesAsync();
+			return updateResult == 1;
+        }
     }
 }

@@ -97,23 +97,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-	<script language="javascript">
-		let custombtn = document.getElementById('gendercustom');
-
-		custombtn.addEventListener('click', function() {
-				if(!($('#gendercustombtn').hasClass('active')))
-				{
-					$("#Input_Gender").toggle();
-				}
-		});
-
-		document.querySelectorAll('.genderradio').forEach(item => {
-			item.addEventListener('click', event => {
-				if($('#gendercustombtn').hasClass('active'))
-				{
-					$("#Input_Gender").toggle();
-				}
-			})
-		});
-	</script>
+	<script src="~/js/gendercustom.js" language="javascript"></script>
 }

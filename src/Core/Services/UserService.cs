@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
@@ -40,6 +41,20 @@ namespace Fakebook.Core.Services
 		public async Task<User> GetByPublicIdAsync(string publicId)
 		{
 				return await _userRepository.GetByPublicIdAsync(publicId);
+		}
+		
+		public async Task<bool> UpdateProfileAsync(User currentUser, User userInput)
+		{
+			foreach (var property in currentUser.GetType().GetProperties())
+			{
+				var oldvalue = property.GetValue(currentUser);
+				var newvalue = userInput.GetType().GetProperty(property.Name).GetValue(userInput);
+				if ((oldvalue != newvalue) && (property.Name != "Id"))
+				{
+					property.SetValue(currentUser, newvalue);
+				}
+			}
+			return await _userRepository.UpdateAsync(currentUser);
 		}
 
 		public async Task<List<User>> GetPageAsync(string? searchString, int page = 0)
