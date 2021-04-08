@@ -55,7 +55,7 @@
 		{
 			<div class="card mt-1 mb-1 p-1" style="width: 100%;">
 				<h3 style="border-bottom: 1px solid gray;">Bio</h3>
-				@Model.ProfileUser.Bio
+				<p id="biotext">@Model.ProfileUser.Bio</p>
 			</div>
 		}
 		@if (!Model.IsProfileOwner)
@@ -158,7 +158,7 @@
 						</div>
 						<div class="form-group">
 							<label asp-for="UpdateInput.Bio">Bio</label>
-							<textarea asp-for="UpdateInput.Bio" type="text" value="@Model.ProfileUser.Bio" class="form-control"></textarea>
+							<textarea id="bioinput" asp-for="UpdateInput.Bio" class="form-control"></textarea>
 							<span asp-validation-for="UpdateInput.Bio" class="text-danger"></span>
 						</div>
 						<button type="submit">Submit Form</button>
@@ -195,6 +195,12 @@
 			<script language="javascript">
 				$("#gendercustom").last().prop('checked', true);
 				$("#UpdateInput_Gender").toggle();
+			</script>
+		}
+		@if(!String.IsNullOrEmpty(Model.ProfileUser.Bio))
+		{
+			<script language="javascript">
+				$("#bioinput").val($("#biotext").text());
 			</script>
 		}
 	}
