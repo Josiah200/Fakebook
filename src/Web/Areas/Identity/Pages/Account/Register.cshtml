@@ -32,16 +32,16 @@
 			<div class="form-group" style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons" style="order: 0;">
 					<label class="btn">
-						<input type="radio" asp-for="Input.Gender" value="Male" id="maleradio" class="form-control genderradio"> Male
+						<input type="radio" value="Male" id="maleradio" class="form-control genderradio"> Male
 					</label>
 					<label class="btn">
-						<input type="radio" asp-for="Input.Gender" value="Female" id="femaleradio" class="form-control genderradio"> Female
+						<input type="radio" value="Female" id="femaleradio" class="form-control genderradio"> Female
 					</label>
 					<label class="btn" id="gendercustombtn">
 						<input type="radio" value="Custom" id="gendercustom" class="form-control"> Custom	
 					</label>
 				</div>
-				<input asp-for="Input.Gender" maxlength="10" class="form-control" style="width: 8rem; display: none; order: 1;"></input>
+				<input asp-for="Input.Gender" maxlength="10" class="form-control genderinput" style="width: 8rem; display: none; order: 1;"></input>
 				<span asp-validation-for="Input.Gender" class="text-danger"></span>
 			</div>
 			<div class="form-group">

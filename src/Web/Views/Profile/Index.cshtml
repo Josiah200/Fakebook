@@ -116,15 +116,49 @@
 							<span asp-validation-for="UpdateInput.Gender" class="text-danger"></span>
 						</div>
 						<div class="form-group">
-							<label asp-for="UpdateInput.Birthdate">Birthdate</label>
+							<label asp-for="UpdateInput.Birthdate"></label>
 							<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate" class="form-control"></input>
 							<span asp-validation-for="UpdateInput.Birthdate" class="text-danger"></span>
 						</div>
-
+						<div class="form-group">
+							<label asp-for="UpdateInput.City"></label>
+							<input asp-for="UpdateInput.City" type="text" value="@Model.ProfileUser.City" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.City" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="UpdateInput.Hometown"></label>
+							<input asp-for="UpdateInput.Hometown" type="text" value="@Model.ProfileUser.Hometown" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.Hometown" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="UpdateInput.JobTitle">Job title</label>
+							<input asp-for="UpdateInput.JobTitle" type="text" value="@Model.ProfileUser.JobTitle" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.JobTitle" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="UpdateInput.Company"></label>
+							<input asp-for="UpdateInput.Company" type="text" value="@Model.ProfileUser.Company" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.Company" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="UpdateInput.HighSchool">High school</label>
+							<input asp-for="UpdateInput.HighSchool" type="text" value="@Model.ProfileUser.HighSchool" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.HighSchool" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="UpdateInput.College"></label>
+							<input asp-for="UpdateInput.College" type="text" value="@Model.ProfileUser.College" class="form-control"></input>
+							<span asp-validation-for="UpdateInput.College" class="text-danger"></span>
+						</div>
 						<div class="form-group">
 							<label asp-for="UpdateInput.PublicId" title="This is the part of the Url that identifies your profile">Public ID <img height="18px" src="~/images/question.svg" class="pb-1"></label>
 							<input asp-for="UpdateInput.PublicId" type="text" value="@Model.ProfileUser.PublicId" class="form-control"></input>
 							<span asp-validation-for="UpdateInput.PublicId" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="UpdateInput.Bio">Bio</label>
+							<textarea asp-for="UpdateInput.Bio" type="text" value="@Model.ProfileUser.Bio" class="form-control"></textarea>
+							<span asp-validation-for="UpdateInput.Bio" class="text-danger"></span>
 						</div>
 						<button type="submit">Submit Form</button>
 					</form>
@@ -159,7 +193,6 @@
 		{
 			<script language="javascript">
 				$("#gendercustom").last().prop('checked', true);
-				$("#UpdateInput_Gender").val('');
 				$("#UpdateInput_Gender").toggle();
 			</script>
 		}

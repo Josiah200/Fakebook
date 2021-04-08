@@ -26,25 +26,17 @@ namespace Fakebook.Core.Entities
 		[StringLength(10)]
 		public string? Gender { get; set; }
 		public DateTime? Birthdate { get; set; }
-		[StringLength(20)]
+		[StringLength(35)]
 		public string? City { get; set;}
-		[StringLength(20)]
-		public string? State { get; set; }
-		[StringLength(20)]
-		public string? Country { get; set; }
-		[StringLength(20)]
-		public string? HometownCity { get; set; }
-		[StringLength(20)]
-		public string? HometownState { get; set; }
-		[StringLength(20)]
-		public string? HometownCountry { get; set; }
-		[StringLength(20)]
+		[StringLength(35)]
+		public string? Hometown { get; set; }
+		[StringLength(25)]
 		public string? JobTitle { get; set; }
-		[StringLength(20)]
+		[StringLength(15)]
 		public string? Company { get; set; }
-		[StringLength(20)]
+		[StringLength(15)]
 		public string? HighSchool { get; set; }
-		[StringLength(20)]
+		[StringLength(15)]
 		public string? College { get; set; }
 	}
 }
