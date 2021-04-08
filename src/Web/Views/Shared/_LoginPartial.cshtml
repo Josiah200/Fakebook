@@ -9,7 +9,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a id="manage" class="nav-link text-light" asp-controller="Profile" asp-action="Index" title="Manage">@UserService.GetByIdAsync(UserManager.GetUserAsync(User).Result.Id).Result.FirstName</a>
+        <a href="/Profile" class="nav-link" style="color: white">@UserService.GetByIdAsync(UserManager.GetUserAsync(User).Result.Id).Result.FirstName</a>
     </li>
 	<li class="nav-item">
 		<form id="optionsForm" asp-area="Identity" asp-page="/Account/Manage/Index">
@@ -18,17 +18,17 @@
 	</li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit" class="nav-link btn btn-link text-light">Logout</button>
+            <button id="logout" type="submit" class="nav-link btn btn-link text-light" >Logout</button>
         </form>
     </li>
 }
 else
 {
     <li class="nav-item">
-        <a class="nav-link text-light" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register" style="color: white">Register</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-light" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login" style="color: white">Login</a>
     </li>
 }
 

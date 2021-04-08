@@ -1,75 +1,76 @@
 @model Fakebook.Web.Models.ViewModels.ProfileViewModel
 
-<div class="col-md-5">
-	<div class="sticky-top" style="padding-top:4rem">
-		<div class="card card card-outline-primary p-1 container">
-			<div class ="row">
-				@if(Model.IsProfileOwner)
+<div class="col-md-5" style="z-index: 0;">
+	<div class="sticky-top" style="padding-top: 4rem;">
+		<div class="card card-outline-primary mb-1 mt-1 p-1" style="width:100%;">
+			<img class="img-fluid mx-auto" src="https://beachmeter.com/wp-content/uploads/2017/06/250x250px.png" style="display: block; order: 0; left:100;" width="150" height="150"></img>
+			<div style="font-size: 2em; text-align: center;">@Model.ProfileUser.FirstName @Model.ProfileUser.LastName</div>
+			@if(Model.IsProfileOwner)
 				{
-					<a href="#" class="badge" data-toggle="modal" data-target="#editModal" style="position:absolute; right:0; bottom:0; margin:auto; z-index: 100;">
+					<a href="#" class="badge" data-toggle="modal" data-target="#editModal" style="position:absolute; right:0; top:0; margin:auto; z-index: 100;">
 						<img src="~/images/edit.svg"></img>
 						<div style="color: black">Edit Profile</div>
 					</a>
 				}
-				<div class="col-md-4 px-auto">
-					<img class="img-fluid mx-auto" src="https://beachmeter.com/wp-content/uploads/2017/06/250x250px.png" width="200" height="200"></img>
-				</div>
-				<div class="container col-md-8 pl-0 pr-15 m-0" style="display: flex; flex-direction: row; flex-wrap: wrap; flex-flow: column wrap; align-content: flex-start;">
-					<div style="order: 0;"> 
-						<div style="font-size: 2em">@Model.ProfileUser.FirstName @Model.ProfileUser.LastName</div>
-					</div>
-					<div class="row mx-auto">
-						@if (Model.ProfileUser.Birthdate != null)
-						{
-							<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Birthday" style="order: 1"><img src="~/images/birthday.svg" height="20px"></img>@Model.ProfileUser.Birthdate?.ToShortDateString()</div>
-						}
-						@if (!String.IsNullOrEmpty(Model.ProfileUser.City))
-						{
-							<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Current home" style="order: 2"><img src="~/images/location.svg" height="20px"></img>
-							</div>
-						}
-						@* TODO: display locations *@
-						@if (!String.IsNullOrEmpty(Model.ProfileUser.Gender))
-						{
-							<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Gender" style="order: 3">@Model.ProfileUser.Gender</div>
-						}
-						@if (!(String.IsNullOrEmpty(Model.ProfileUser.Company)) && !(String.IsNullOrEmpty(Model.ProfileUser.Company)))
-						{
-							<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Job" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.JobTitle at @Model.ProfileUser.Company</div>
-						}
-						else if (!String.IsNullOrEmpty(Model.ProfileUser.Company))
-						{
-							<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Workplace" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.Company</div>
-						}
-						else if (!String.IsNullOrEmpty(Model.ProfileUser.Company))
-						{
-							<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Job title" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.JobTitle</div>
-						}
-						@if (!String.IsNullOrEmpty(Model.ProfileUser.HighSchool))
-						{
-							<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="High school" style="order: 5"><img src="~/images/highschool.svg" height="20px"></img>@Model.ProfileUser.HighSchool</div>
-						}
-						@if (!String.IsNullOrEmpty(Model.ProfileUser.College))
-						{
-							<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="College" style="order: 6"><img src="~/images/college.svg" height="20px"></img>@Model.ProfileUser.College</div>
-						}
-					</div>
-				</div>
-			</div>
 		</div>
+		<div class="card card-outline-primary mb-1 mt-1 p-1" id="profilebadges" style="display: flex; flex-direction: row; flex-wrap: wrap; align-content: flex-start; width: 100%;">
+			@if (!String.IsNullOrEmpty(Model.ProfileUser.City))
+			{
+				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Current home" style="order: 0"><img src="~/images/home.svg" height="20px"></img>@Model.ProfileUser.City</div>
+			}
+			@if (!String.IsNullOrEmpty(Model.ProfileUser.Hometown))
+			{
+				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Hometown" style="order: 1">From @Model.ProfileUser.Hometown</div>
+			}
+			@if (!String.IsNullOrEmpty(Model.ProfileUser.Gender))
+			{
+				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Gender" style="order: 2">@Model.ProfileUser.Gender</div>
+			}
+			@if (Model.ProfileUser.Birthdate != null)
+			{
+				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Birthday" style="order: 3"><img src="~/images/birthday.svg" height="20px"></img>@Model.ProfileUser.Birthdate?.ToShortDateString()</div>
+			}
+			@if (!(String.IsNullOrEmpty(Model.ProfileUser.JobTitle)) && !(String.IsNullOrEmpty(Model.ProfileUser.Company)))
+			{
+				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Job" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.JobTitle at @Model.ProfileUser.Company</div>
+			}
+			else if (!String.IsNullOrEmpty(Model.ProfileUser.Company))
+			{
+				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Workplace" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.Company</div>
+			}
+			else if (!String.IsNullOrEmpty(Model.ProfileUser.JobTitle))
+			{
+				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Job title" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.JobTitle</div>
+			}
+			@if (!String.IsNullOrEmpty(Model.ProfileUser.HighSchool))
+			{
+				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="High school" style="order: 5"><img src="~/images/highschool.svg" height="20px"></img>@Model.ProfileUser.HighSchool</div>
+			}
+			@if (!String.IsNullOrEmpty(Model.ProfileUser.College))
+			{
+				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="College" style="order: 6"><img src="~/images/college.svg" height="20px"></img>@Model.ProfileUser.College</div>
+			}
+		</div>
+		@if (!String.IsNullOrEmpty(Model.ProfileUser.Bio))
+		{
+			<div class="card mt-1 mb-1 p-1" style="width: 100%;">
+				<h3 style="border-bottom: 1px solid gray;">Bio</h3>
+				@Model.ProfileUser.Bio
+			</div>
+		}
 		@if (!Model.IsProfileOwner)
 		{
 			<div>
 				@if (Model.Friendship == null) {
-					<a asp-controller="Friends" asp-Action="AddFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn container-fluid" style="background-color:#7b2cab; border-color:#7b2cab; color:white;">Add Friend</a>
+					<a asp-controller="Friends" asp-Action="AddFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn" style="background-color:#7b2cab; border-color:#7b2cab; color:white; width: 100%;">Add Friend</a>
 				}
 
 				else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Pending) {
-					<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn container-fluid" style="background-color:#7b2cab; border-color:#7b2cab; color:white;">Cancel Friend Request</a>
+					<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn" style="background-color:#7b2cab; border-color:#7b2cab; color:white; width: 100%;">Cancel Friend Request</a>
 				}
 
 				else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Accepted) {
-					<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn container-fluid" style="background-color:#7b2cab; border-color:#7b2cab; color:white;">Remove Friend</a>
+					<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn" style="background-color:#7b2cab; border-color:#7b2cab; color:white; width: 100%;">Remove Friend</a>
 				}
 			</div>
 		}
@@ -197,4 +198,10 @@
 			</script>
 		}
 	}
+	<script language="javascript">
+		if ($("#profilebadges").children().length == 0)
+		{
+			($("#profilebadges").toggle());
+		}
+	</script>
 }
