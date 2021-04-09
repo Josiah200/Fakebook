@@ -28,13 +28,15 @@
 		}
 		<time class="badge text-muted" title="@Model.DatePosted.ToString("dddd, MMM dd, yyyy h:mm tt")">@Date</time>
 	</div>
-	<div class="post-text p-1">
-		@Model.Text
-	</div>
+	<div class="post-text p-1">@Model.Text</div>
 	<div class="container-fluid">
 		<div class="row border-top border-bottom" style="margin:auto">
-			<input class="col-md-6 btn text-center text-muted" Value="Like"/>
-			<input class="col-md-6 btn text-center text-muted" Value="Comment"/>
+			<div class="col-md-6 m-0 p-0">
+				<button class="btn text-center text-muted m-0" style="width: 100%">Like</button>
+			</div>
+			<div class="col-md-6 m-0 p-0">
+				<button class="btn text-center text-muted m-0" style="width: 100%">Comment</button>
+			</div>
 		</div>
 	</div>
 </div>

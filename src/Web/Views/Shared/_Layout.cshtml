@@ -15,10 +15,13 @@
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top flex-md-nowrap" style="background-color:#7b2cab; justify-content: center;">
 		<a class="navbar-brand" href="/">Fakebook</a>
 		@if (SignInManager.IsSignedIn(User)) {
-			<ul class="navbar-nav mr-auto" style="flex-direction: row">
+			<ul class="navbar-nav mr-auto" style="flex-direction: row; display: block; height: 40px;">
 				<li id="friendsBtn" class="nav-item friends-btn">
-					<input class="friends-button nav-link" type="image" src="~/images/friends.svg" align="right"/>
-					<span class="badge" id="requests_num"></span>
+					@* <div class="friends-button nav-link" style="cursor: pointer;">
+						<img src="~/images/friends.svg" align="right"/>
+						<span class="badge" id="requests_num"></span>
+					</div> *@
+					<input class="friends-button nav-link btn p-0" align="right" type="image" src="~/images/friends.svg" style="height: 40px;"/>
 				</li>
 			</ul>
 		}
@@ -26,10 +29,10 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
-			<ul class="navbar-nav ml-auto">
+			<ul class="navbar-nav ml-auto" style="height: 40px;">
 				<li class="nav-item">
-					<form asp-controller="Users" asp-action="Index">
-						<input type="text" id="searchString" name="searchString" placeholder="Search Users" style="resize: none; height: 2em; margin-top: 5px;"></input>
+					<form asp-controller="Users" asp-action="Index" style="height: 40px;">
+						<input type="text" id="searchString" name="searchString" placeholder="Search Users" style="resize: none; height: 75%; margin-top: 5px;"></input>
 						<input type="submit" style="display: none" />
 					</form>
 				</li>
