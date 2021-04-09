@@ -69,7 +69,15 @@ namespace Fakebook.Web.Controllers
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 			var successful = await _userService.UpdateProfileAsync(currentUser, UpdateInput);
-			return Ok(successful);
+			// return PartialView("_ProfileUpdatePartial", successful);
+			if (successful)
+			{
+				return Content($"<h5>Updated</h5>");
+			}
+			else
+			{
+				return Content($"<h5>Internal error, please reload and try again<h5>");
+			}
 		}
     }
 }

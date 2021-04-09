@@ -89,7 +89,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form asp-controller="Profile" asp-action="UpdateProfile" method="post">
+					<form asp-controller="Profile" asp-action="UpdateProfile" method="post" id="editform">
 						<div class="form-group">
 							<label asp-for="UpdateInput.FirstName">First name</label>
 							<input asp-for="UpdateInput.FirstName" type="text" value="@Model.ProfileUser.FirstName" class="form-control"></input>
@@ -118,7 +118,7 @@
 						</div>
 						<div class="form-group">
 							<label asp-for="UpdateInput.Birthdate"></label>
-							<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate" class="form-control"></input>
+							<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate?.ToString("yyyy-MM-dd")" class="form-control"></input>
 							<span asp-validation-for="UpdateInput.Birthdate" class="text-danger"></span>
 						</div>
 						<div class="form-group">
@@ -161,12 +161,12 @@
 							<textarea id="bioinput" asp-for="UpdateInput.Bio" class="form-control"></textarea>
 							<span asp-validation-for="UpdateInput.Bio" class="text-danger"></span>
 						</div>
-						<button type="submit">Submit Form</button>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<div class="modal-footer">
+						<div id="updateresponse"></div>
+						<button type="submit" class="btn btn-primary">Save changes</button>
+						<button type="button" class="btn btn-secondary editformclose" data-dismiss="modal">Close</button>
+					</div>
+				</form>
 				</div>
 			</div>
 		</div>
@@ -178,6 +178,7 @@
 	@if(Model.IsProfileOwner)
 	{
 		<script src="~/js/gendercustom.js" language="javascript"></script>
+		<script src="~/js/updateprofile.js" language="javascript"></script>
 		@if(Model.ProfileUser.Gender == "Male")
 		{
 			<script language="javascript">
