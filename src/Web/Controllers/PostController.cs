@@ -73,7 +73,6 @@ namespace Fakebook.Web.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> NewPost(Post newPost)
 		{
-			
 			var currentUser = await _userManager.GetUserAsync(User);
 			if (currentUser is null) 
 			{

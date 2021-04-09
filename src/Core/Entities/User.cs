@@ -21,22 +21,22 @@ namespace Fakebook.Core.Entities
 		public List<Notification> Notifications { get; set; }
 		[Required]
 		public bool HasAvatar { get; set; }
-		[StringLength(400)]
+		[StringLength(450)]
 		public string? Bio { get; set; }
 		[StringLength(10)]
 		public string? Gender { get; set; }
 		public DateTime? Birthdate { get; set; }
-		[StringLength(35)]
+		[StringLength(40)]
 		public string? City { get; set;}
-		[StringLength(35)]
+		[StringLength(40)]
 		public string? Hometown { get; set; }
-		[StringLength(25)]
+		[StringLength(40)]
 		public string? JobTitle { get; set; }
-		[StringLength(15)]
+		[StringLength(40)]
 		public string? Company { get; set; }
-		[StringLength(15)]
+		[StringLength(40)]
 		public string? HighSchool { get; set; }
-		[StringLength(15)]
+		[StringLength(40)]
 		public string? College { get; set; }
 	}
 }
