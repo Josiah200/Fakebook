@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
@@ -7,6 +8,8 @@ using Fakebook.Infrastructure.Identity;
 using Fakebook.Web.Models;
 using Fakebook.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +32,7 @@ namespace Fakebook.Web.Controllers
 			_userManager = userManager;
 			_friendsService = friendsService;
 		}
+
 		[HttpGet]
 		[Route("Profile/{userPublicId?}")]
 		public async Task<IActionResult> Index(string? userPublicId)
@@ -62,14 +66,15 @@ namespace Fakebook.Web.Controllers
 			
 			return View(viewModel);
 		}
+
 		[HttpPost]
+		[Route("UpdateProfile")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> UpdateProfile()
 		{
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 			var successful = await _userService.UpdateProfileAsync(currentUser, UpdateInput);
-			// return PartialView("_ProfileUpdatePartial", successful);
 			if (successful)
 			{
 				return Content($"<h5>Updated</h5>");

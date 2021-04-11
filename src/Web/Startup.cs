@@ -72,11 +72,13 @@ namespace Fakebook.Web
 			services.AddScoped<IPostRepository, PostRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+			services.AddScoped<IPhotoRepository, PhotoRepository>();
 			services.AddScoped<INotificationsRepository, NotificiationsRepository>();
 
 			services.AddScoped<IPostService, PostService>();
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IFriendsService, FriendsService>();
+			services.AddScoped<IPhotoService, PhotoService>();
 			services.AddScoped<INotificationsService, NotificationsService>();
         }
 

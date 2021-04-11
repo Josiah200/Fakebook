@@ -89,16 +89,28 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form asp-controller="Profile" asp-action="UpdateProfile" method="post" id="editform">
-						<div class="form-group">
-							<label asp-for="UpdateInput.FirstName">First name</label>
-							<input asp-for="UpdateInput.FirstName" type="text" value="@Model.ProfileUser.FirstName" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.FirstName" class="text-danger"></span>
+					<form asp-controller="Photo" asp-action="NewPhoto" enctype="multipart/form-data">
+						<div class="input-group">
+							<div class="form-group">
+								<label asp-for="Image">Upload Image</label>
+								<input asp-for="Image"></input>
+								<span asp-validation-for="Image" class="text-danger"></span>
+							</div>
+							<button type="submit" class="btn">Save changes</button>
 						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.LastName">Last name</label>
-							<input asp-for="UpdateInput.LastName" type="text" value="@Model.ProfileUser.LastName" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.LastName" class="text-danger"></span>
+					</form>
+					<form asp-controller="Profile" asp-action="UpdateProfile" method="post" id="editform">
+						<div class="input-group">
+							<div class="form-group pr-1">
+								<label asp-for="UpdateInput.FirstName">First name</label>
+								<input asp-for="UpdateInput.FirstName" type="text" value="@Model.ProfileUser.FirstName" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.FirstName" class="text-danger"></span>
+							</div>
+							<div class="form-group pl-1">
+								<label asp-for="UpdateInput.LastName">Last name</label>
+								<input asp-for="UpdateInput.LastName" type="text" value="@Model.ProfileUser.LastName" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.LastName" class="text-danger"></span>
+							</div>
 						</div>
 						<label asp-for="UpdateInput.Gender">Gender</label>
 						<div class="form-group" style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
@@ -131,25 +143,29 @@
 							<input asp-for="UpdateInput.Hometown" type="text" value="@Model.ProfileUser.Hometown" class="form-control"></input>
 							<span asp-validation-for="UpdateInput.Hometown" class="text-danger"></span>
 						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.JobTitle">Job title</label>
-							<input asp-for="UpdateInput.JobTitle" type="text" value="@Model.ProfileUser.JobTitle" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.JobTitle" class="text-danger"></span>
+						<div class="input-group">
+							<div class="form-group pr-1">
+								<label asp-for="UpdateInput.JobTitle">Job title</label>
+								<input asp-for="UpdateInput.JobTitle" type="text" value="@Model.ProfileUser.JobTitle" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.JobTitle" class="text-danger"></span>
+							</div>
+							<div class="form-group pl-1">
+								<label asp-for="UpdateInput.Company"></label>
+								<input asp-for="UpdateInput.Company" type="text" value="@Model.ProfileUser.Company" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.Company" class="text-danger"></span>
+							</div>
 						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.Company"></label>
-							<input asp-for="UpdateInput.Company" type="text" value="@Model.ProfileUser.Company" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.Company" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.HighSchool">High school</label>
-							<input asp-for="UpdateInput.HighSchool" type="text" value="@Model.ProfileUser.HighSchool" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.HighSchool" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.College"></label>
-							<input asp-for="UpdateInput.College" type="text" value="@Model.ProfileUser.College" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.College" class="text-danger"></span>
+						<div class="input-group">
+							<div class="form-group pr-1">
+								<label asp-for="UpdateInput.HighSchool">High school</label>
+								<input asp-for="UpdateInput.HighSchool" type="text" value="@Model.ProfileUser.HighSchool" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.HighSchool" class="text-danger"></span>
+							</div>
+							<div class="form-group pl-1">
+								<label asp-for="UpdateInput.College"></label>
+								<input asp-for="UpdateInput.College" type="text" value="@Model.ProfileUser.College" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.College" class="text-danger"></span>
+							</div>
 						</div>
 						<div class="form-group">
 							<label asp-for="UpdateInput.PublicId" title="This is the part of the Url that identifies your profile">Public ID <img height="18px" src="~/images/question.svg" class="pb-1"></label>
