@@ -3,7 +3,7 @@
 <div class="col-md-5" style="z-index: 0;">
 	<div class="sticky-top" style="padding-top: 4rem;">
 		<div class="card card-outline-primary mb-1 mt-1 p-1" style="width:100%;">
-			<img class="img-fluid mx-auto" src="https://beachmeter.com/wp-content/uploads/2017/06/250x250px.png" style="display: block; order: 0; left:100;" width="150" height="150"></img>
+			<img class="img-fluid mx-auto" src="data:image/png;base64,@Convert.ToBase64String(Model.ProfileUser.ProfilePicture)" style="display: block; order: 0; left:100;" width="150" height="150"></img>
 			<div style="font-size: 2em; text-align: center;">@Model.ProfileUser.FirstName @Model.ProfileUser.LastName</div>
 			@if(Model.IsProfileOwner)
 				{

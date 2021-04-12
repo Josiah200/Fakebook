@@ -12,7 +12,7 @@ namespace Fakebook.Infrastructure.Data
 		{
 		}
 
-		public async Task<Photo> GetProfilePhotoAsync(string userId)
+		public async Task<Photo> GetProfilePictureAsync(string userId)
 		{
 			return await _dbContext.Photos
 			.Where(p => p.UserId == userId)

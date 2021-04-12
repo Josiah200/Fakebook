@@ -95,8 +95,8 @@ namespace Fakebook.Web.Controllers
 		public async Task<IActionResult> NewProfilePhoto()
 		{
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
-			
-			var successful = await _photoService.NewPhotoAsync(PhotoInput.File, currentApplicationUser.Id, PhotoInput.IsProfilePicture);
+			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
+			var successful = await _photoService.NewProfilePictureAsync(PhotoInput.File, currentUser);
 			if (successful)
 			{
 				return Content($"<h5>Updated</h5>");

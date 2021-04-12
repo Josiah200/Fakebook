@@ -40,7 +40,8 @@ namespace Fakebook.Core.Services
 		
 		public async Task<User> GetByPublicIdAsync(string publicId)
 		{
-				return await _userRepository.GetByPublicIdAsync(publicId);
+			return await _userRepository.GetByPublicIdAsync(publicId);
+			
 		}
 		
 		public async Task<bool> UpdateProfileAsync(User currentUser, User userInput)

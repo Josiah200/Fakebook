@@ -16,7 +16,7 @@ namespace Fakebook.Core.Services
 			_photoRepository = photoRepository;
 		}
 
-		public async Task<bool> NewPhotoAsync(IFormFile image, string userId, bool isProfilePicture = false)
+		public async Task<bool> NewProfilePictureAsync(IFormFile image, User user)
 		{
 			byte[] photoByteArray;
 			using (var memoryStream = new MemoryStream())
@@ -29,19 +29,17 @@ namespace Fakebook.Core.Services
 			{
 				Id = Guid.NewGuid().ToString(),
 				PhotoByteArray = photoByteArray,
-				UserId = userId,
-				IsProfilePicture = isProfilePicture
+				UserId = user.Id,
+				IsProfilePicture = true
 			};
-			if (photo.IsProfilePicture == true)
+
+			var currentPhoto = await _photoRepository.GetProfilePictureAsync(user.Id);
+			if(currentPhoto != null)
 			{
-				var currentPhoto = await _photoRepository.GetProfilePhotoAsync(userId);
 				await _photoRepository.DeleteAsync(currentPhoto);
-				return await _photoRepository.AddAsync(photo);
 			}
-			else
-			{
-				return await _photoRepository.AddAsync(photo);
-			}
+			user.ProfilePicture = photoByteArray;
+			return await _photoRepository.AddAsync(photo);
 		}
 	}
 }
