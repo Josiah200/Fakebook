@@ -10,24 +10,38 @@ namespace Fakebook.Core.Services
 	public class PhotoService : IPhotoService
 	{
 		private readonly IPhotoRepository _photoRepository;
+		
 		public PhotoService(IPhotoRepository photoRepository)
 		{
 			_photoRepository = photoRepository;
 		}
-		public async Task<bool> NewPhotoAsync(IFormFile image, string userId)
+
+		public async Task<bool> NewPhotoAsync(IFormFile image, string userId, bool isProfilePicture = false)
 		{
-			var target = new MemoryStream();
-			image.CopyTo(target);
-			var photoByteArray = target.ToArray();
+			byte[] photoByteArray;
+			using (var memoryStream = new MemoryStream())
+            {
+                image.CopyTo(memoryStream);
+                photoByteArray = memoryStream.ToArray();
+            };
 
 			var photo = new Photo()
 			{
 				Id = Guid.NewGuid().ToString(),
 				PhotoByteArray = photoByteArray,
-				UserId = userId
+				UserId = userId,
+				IsProfilePicture = isProfilePicture
 			};
-			
-			return await _photoRepository.AddAsync(photo);
+			if (photo.IsProfilePicture == true)
+			{
+				var currentPhoto = await _photoRepository.GetProfilePhotoAsync(userId);
+				await _photoRepository.DeleteAsync(currentPhoto);
+				return await _photoRepository.AddAsync(photo);
+			}
+			else
+			{
+				return await _photoRepository.AddAsync(photo);
+			}
 		}
 	}
 }

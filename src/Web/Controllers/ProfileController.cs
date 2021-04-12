@@ -22,16 +22,20 @@ namespace Fakebook.Web.Controllers
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IUserService _userService;
 		private readonly IFriendsService _friendsService;
-
-		[BindProperty]
-        public User UpdateInput { get; set; }
+		private readonly IPhotoService _photoService;
 		
-		public ProfileController(IUserService userService, IFriendsService friendsService, UserManager<ApplicationUser> userManager)
+		public ProfileController(IUserService userService, IFriendsService friendsService, UserManager<ApplicationUser> userManager, IPhotoService photoService)
 		{
 			_userService = userService;
 			_userManager = userManager;
 			_friendsService = friendsService;
+			_photoService = photoService;
 		}
+
+		[BindProperty]
+        public User UpdateInput { get; set; }
+		[BindProperty]
+		public NewPhotoModel PhotoInput { get; set; }
 
 		[HttpGet]
 		[Route("Profile/{userPublicId?}")]
@@ -75,6 +79,24 @@ namespace Fakebook.Web.Controllers
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 			var successful = await _userService.UpdateProfileAsync(currentUser, UpdateInput);
+			if (successful)
+			{
+				return Content($"<h5>Updated</h5>");
+			}
+			else
+			{
+				return Content($"<h5>Internal error, please reload and try again<h5>");
+			}
+		}
+
+		[HttpPost]
+		[Route("NewProfilePhoto")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> NewProfilePhoto()
+		{
+			var currentApplicationUser = await _userManager.GetUserAsync(User);
+			
+			var successful = await _photoService.NewPhotoAsync(PhotoInput.File, currentApplicationUser.Id, PhotoInput.IsProfilePicture);
 			if (successful)
 			{
 				return Content($"<h5>Updated</h5>");

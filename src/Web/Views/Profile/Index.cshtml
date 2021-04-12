@@ -76,7 +76,7 @@
 		}
 	</div>
 </div>
-<div id="posts" class="col-md-7" style="padding-top:4rem" />
+<div id="posts" class="col-md-7" style="padding-top:4rem"></div>
 @if(Model.IsProfileOwner)
 {
 	<div class="modal fade" id="editModal" role="form" aria-hidden="true">
@@ -89,15 +89,14 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form asp-controller="Photo" asp-action="NewPhoto" enctype="multipart/form-data">
-						<div class="input-group">
-							<div class="form-group">
-								<label asp-for="Image">Upload Image</label>
-								<input asp-for="Image"></input>
-								<span asp-validation-for="Image" class="text-danger"></span>
-							</div>
-							<button type="submit" class="btn">Save changes</button>
+					<form asp-controller="Profile" asp-action="NewProfilePhoto" method="post" id="photoform" enctype="multipart/form-data">
+						<div class="form-group">
+							<label asp-for="PhotoInput.File">Upload Photo</label>
+							<input asp-for="PhotoInput.File"></input>
+							<span asp-validation-for="PhotoInput.File" class="text-danger"></span>
 						</div>
+						<div id="updateresponse"></div>
+						<button type="submit" class="btn">Save changes</button>
 					</form>
 					<form asp-controller="Profile" asp-action="UpdateProfile" method="post" id="editform">
 						<div class="input-group">
@@ -195,6 +194,7 @@
 	{
 		<script src="~/js/gendercustom.js" language="javascript"></script>
 		<script src="~/js/updateprofile.js" language="javascript"></script>
+		<partial name="../../Areas/Identity/Pages/_ValidationScriptsPartial.cshtml"></partial>
 		@if(Model.ProfileUser.Gender == "Male")
 		{
 			<script language="javascript">
@@ -219,7 +219,7 @@
 			<script language="javascript">
 				$("#bioinput").val($("#biotext").text());
 			</script>
-		}
+		}	
 	}
 	<script language="javascript">
 		if ($("#profilebadges").children().length == 0)
@@ -227,4 +227,5 @@
 			($("#profilebadges").toggle());
 		}
 	</script>
+
 }
