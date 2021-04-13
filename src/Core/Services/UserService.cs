@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Fakebook.Core.Services
 {
@@ -23,8 +23,8 @@ namespace Fakebook.Core.Services
 				Id = userId,
 				FirstName = firstName,
 				LastName = lastName,
+				ProfilePicture = System.IO.File.ReadAllBytes(@"wwwroot/images/profilepicturedefault.png"),
 				PublicId = await GenerateRandomPublicIdAsync(),
-				HasAvatar = false,
 				Gender = gender,
 				Birthdate = birthdate
 			};
@@ -50,7 +50,7 @@ namespace Fakebook.Core.Services
 			{
 				var oldvalue = property.GetValue(currentUser);
 				var newvalue = userInput.GetType().GetProperty(property.Name).GetValue(userInput);
-				if ((oldvalue != newvalue) && (property.Name != "Id"))
+				if ((oldvalue != newvalue) && (property.Name != "Id") && (property.Name != "ProfilePicture"))
 				{
 					property.SetValue(currentUser, newvalue);
 				}

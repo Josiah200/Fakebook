@@ -13,11 +13,13 @@ namespace Fakebook.Infrastructure.Data
 		public UserRepository(FakebookContext dbContext) : base(dbContext)
 		{
 		}
+
 		public Task<User> GetByPublicIdAsync(string userPublicId)
 		{
 			return _dbContext.Users
 				.FirstOrDefaultAsync(u => u.PublicId == userPublicId);
 		}
+
 		public Task<List<User>> GetPageAsync(string searchString, int page)
 		{
 			return _dbContext.Users

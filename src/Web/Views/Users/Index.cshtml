@@ -1,5 +1,4 @@
 @using Fakebook.Web.Models
-@using Microsoft.AspNetCore.Routing
 @model UsersViewModel
 
 <div class="users row" style="padding-top: 4rem">
@@ -7,7 +6,7 @@
 	{
 		<div class="post card card-outline-primary m-1 p-1">
 			<div class="Author p-1">
-				<img src="https://scontent-bos3-1.xx.fbcdn.net/v/t1.30497-1/cp0/p40x40/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-3&_nc_sid=7206a8&_nc_ohc=RL2rn33EWusAX-JMKSS&_nc_ht=scontent-bos3-1.xx&_nc_tp=30&oh=dbda3d5737d35a07a28e8aa91a6f3ed9&oe=60838B23"/>
+				<img src="data:image/png;base64,@Convert.ToBase64String(user.ProfilePicture)" width="45" height="45"/>
 				<a href="~/Profile/@user.PublicId">@user.FirstName @user.LastName</a>
 			</div>
 		</div>
@@ -17,47 +16,47 @@
 		<h2>No users found.</h2>
 	}
 </div>
-	@if (Model.Users.Count() != 0)
+@if (Model.Users.Count() != 0)
+{
+	var NextPage = Model.Page + 1;
+	var LastPage = Model.Page - 1;
+	if (LastPage <0)
 	{
-		var NextPage = Model.Page + 1;
-		var LastPage = Model.Page - 1;
-		if (LastPage <0)
-		{
-			LastPage = 0;
-		}
-
-		<footer class="footer" style="position: fixed; bottom: 0; left: 0; width: 100%; height: 2rem; background: white;">
-			<div class="container">
-				<span class="row">
-					<span class="col" style="text-align: right">
-						@if (String.IsNullOrEmpty(Model.SearchString))
-						{
-							<a href="~/Users/@LastPage">
-								&laquo; Previous page
-							</a>
-						}
-						else
-						{
-							<a href="~/Users/@Model.SearchString/@LastPage">
-								&laquo; Previous page
-							</a>
-						}
-					</span>
-					<span class="col" style="text-align: left">
-						@if (String.IsNullOrEmpty(Model.SearchString))
-						{
-							<a href="~/Users/@NextPage">
-								Next page &raquo;
-							</a>
-						}
-						else
-						{
-							<a href="~/Users/@Model.SearchString/@NextPage">
-								Next page &raquo;
-							</a>
-						}
-					</span>
-				</span>
-			</div>
-		</footer>
+		LastPage = 0;
 	}
+
+	<footer class="footer" style="position: fixed; bottom: 0; left: 0; width: 100%; height: 2rem; background: white;">
+		<div class="container">
+			<span class="row">
+				<span class="col" style="text-align: right">
+					@if (String.IsNullOrEmpty(Model.SearchString))
+					{
+						<a href="~/Users/@LastPage">
+							&laquo; Previous page
+						</a>
+					}
+					else
+					{
+						<a href="~/Users/@Model.SearchString/@LastPage">
+							&laquo; Previous page
+						</a>
+					}
+				</span>
+				<span class="col" style="text-align: left">
+					@if (String.IsNullOrEmpty(Model.SearchString))
+					{
+						<a href="~/Users/@NextPage">
+							Next page &raquo;
+						</a>
+					}
+					else
+					{
+						<a href="~/Users/@Model.SearchString/@NextPage">
+							Next page &raquo;
+						</a>
+					}
+				</span>
+			</span>
+		</div>
+	</footer>
+}

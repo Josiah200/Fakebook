@@ -28,6 +28,5 @@ namespace Fakebook.Web.Controllers
 
 			return View(viewModel);
 		}
-
     }
 }

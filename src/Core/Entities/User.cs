@@ -8,10 +8,10 @@ namespace Fakebook.Core.Entities
 	{
 
 		[Required]
-		[StringLength(12)]
+		[StringLength(18)]
 		public string FirstName { get; set; }
 		[Required]
-		[StringLength(16)]
+		[StringLength(18)]
 		public string LastName { get; set; }
 		[Required]
 		[StringLength(8)]
@@ -21,8 +21,6 @@ namespace Fakebook.Core.Entities
 		public byte[] ProfilePicture { get; set; }
 		public ICollection<Friendship> Friendships { get; set; }
 		public List<Notification> Notifications { get; set; }
-		[Required]
-		public bool HasAvatar { get; set; }
 		[StringLength(450)]
 		public string? Bio { get; set; }
 		[StringLength(10)]

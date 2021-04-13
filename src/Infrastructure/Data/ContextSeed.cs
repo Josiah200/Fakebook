@@ -8,6 +8,7 @@ using Fakebook.Core.Entities;
 using System;
 using Bogus;
 using Bogus.Extensions;
+using System.Text;
 
 namespace Fakebook.Infrastructure.Data
 {
@@ -18,7 +19,6 @@ namespace Fakebook.Infrastructure.Data
 			if (!await fakebookContext.Users.AnyAsync())
 			{	
 				var r = new Random();
-
 				var postsFaker = new Faker<Post>()
 					.RuleFor(p => p.Id, f => Guid.NewGuid().ToString())
 					.RuleFor(p => p.Text, f => f.Rant.Random.Words(r.Next(5, 200)))
@@ -30,6 +30,7 @@ namespace Fakebook.Infrastructure.Data
 					.RuleFor(u => u.LastName, f => f.Name.LastName())
 					.RuleFor(u => u.PublicId, f => f.Random.String2(3, 8))
 					.RuleFor(u => u.Posts, f => postsFaker.Generate(r.Next(0, 30)).ToList().OrNull(f, 0.1f))
+					.RuleFor(u => u.ProfilePicture, System.IO.File.ReadAllBytes(@"../Web/wwwroot/images/profilepicturedefault.png"))
 					.RuleFor(u => u.Bio, f => f.Random.Words(r.Next(0, 30)).OrNull(f, 0.3f))
 					.RuleFor(u => u.Gender, f => f.PickRandom(new string[] {"Male", "Female", "NB"}).OrNull(f, 0.3f))
 					.RuleFor(u => u.Birthdate, f => f.Date.Past(100).OrNull(f, 0.4f))

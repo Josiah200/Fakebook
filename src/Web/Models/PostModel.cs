@@ -9,5 +9,6 @@ namespace Fakebook.Web.Models
 		public string UserPublicId { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
+		public byte[] ProfilePicture { get; set; }
     }
 }

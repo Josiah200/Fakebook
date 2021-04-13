@@ -4,7 +4,7 @@
 @foreach (Friendship friend in Model) {
 	<div id="request" class="card card-outline-primary m-1 p-1 row h-25">
 		<div>
-			<img src="https://scontent-bos3-1.xx.fbcdn.net/v/t1.30497-1/cp0/p32x32/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=3&_nc_sid=7206a8&_nc_ohc=_OgyF9W-SfMAX8nZvq_&_nc_ht=scontent-bos3-1.xx&_nc_tp=30&oh=920d1ea2208ce29bdb86c0714219443e&oe=605CF74F"/>
+			<img src="data:image/png;base64,@Convert.ToBase64String(friend.User.ProfilePicture)" width="40" height="40"/>
 			<a href="~/Profile/@friend.User.PublicId">@friend.User.FirstName @friend.User.LastName</a>
 		</div>
 		<div class="container-fluid">
