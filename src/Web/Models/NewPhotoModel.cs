@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using Fakebook.Web.ValidationAttributes;
+using Fakebook.Web.Attributes.ValidationAttributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

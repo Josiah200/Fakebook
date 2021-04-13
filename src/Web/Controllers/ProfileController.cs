@@ -34,8 +34,7 @@ namespace Fakebook.Web.Controllers
 
 		[BindProperty]
         public User UpdateInput { get; set; }
-		[BindProperty]
-		public NewPhotoModel PhotoInput { get; set; }
+
 
 		[HttpGet]
 		[Route("Profile/{userPublicId?}")]
@@ -73,31 +72,12 @@ namespace Fakebook.Web.Controllers
 
 		[HttpPost]
 		[Route("UpdateProfile")]
-		[ValidateAntiForgeryToken]
+
 		public async Task<IActionResult> UpdateProfile()
 		{
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 			var successful = await _userService.UpdateProfileAsync(currentUser, UpdateInput);
-			if (successful)
-			{
-				return Content($"<h5>Updated</h5>");
-			}
-			else
-			{
-				return Content($"<h5>Internal error, please reload and try again<h5>");
-			}
-		}
-
-		[HttpPost]
-		[Route("NewProfilePhoto")]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> NewProfilePhoto()
-		{
-			var currentApplicationUser = await _userManager.GetUserAsync(User);
-			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
-			var successful = await _photoService.NewProfilePictureAsync(PhotoInput.File, currentUser);
-
 			if (successful)
 			{
 				return Content($"<h5>Updated</h5>");

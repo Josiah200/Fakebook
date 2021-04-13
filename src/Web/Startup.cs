@@ -67,6 +67,7 @@ namespace Fakebook.Web
 			services.AddRazorPages();
 
 			services.AddAutoMapper(typeof(Startup).Assembly);
+			// services.AddCors();
 			
 			services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 			services.AddScoped<IPostRepository, PostRepository>();

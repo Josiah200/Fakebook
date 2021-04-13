@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-namespace Fakebook.Web.ValidationAttributes
+namespace Fakebook.Web.Attributes.ValidationAttributes
 {
     public class AllowedFileExtensionsAttribute : ValidationAttribute, IClientModelValidator
 	{
