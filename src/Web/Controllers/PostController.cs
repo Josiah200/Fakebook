@@ -7,7 +7,7 @@ using Fakebook.Infrastructure.Identity;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
 using System.Collections.Generic;
-using Fakebook.Web.Models;
+using Fakebook.Web.Models.ViewModels;
 using AutoMapper;
 using System.Linq;
 
@@ -45,8 +45,8 @@ namespace Fakebook.Web.Controllers
 
 			else
 			{
-				var postModels = new List<PostModel>();
-				postModels.AddRange(posts.Select(_mapper.Map<PostModel>));
+				var postModels = new List<PostViewModel>();
+				postModels.AddRange(posts.Select(_mapper.Map<PostViewModel>));
 				return PartialView("_PostsPagePartial", postModels);
 			}
 		}
@@ -63,8 +63,8 @@ namespace Fakebook.Web.Controllers
 
 			else
 			{
-				var postModels = new List<PostModel>();
-				postModels.AddRange(posts.Select(_mapper.Map<PostModel>));
+				var postModels = new List<PostViewModel>();
+				postModels.AddRange(posts.Select(_mapper.Map<PostViewModel>));
 				return PartialView("_PostsPagePartial", postModels);
 			}
 		}

@@ -1,6 +1,6 @@
-namespace Fakebook.Web.Models
+namespace Fakebook.Web.Models.ViewModels
 {
-    public class UserModel
+    public class UserViewModel
     {
         public string FirstName { get; set; }
 		public string LastName { get; set; }

@@ -1,8 +1,8 @@
 using System;
 
-namespace Fakebook.Web.Models
+namespace Fakebook.Web.Models.ViewModels
 {
-    public class PostModel
+    public class PostViewModel
     {
         public string Text { get; set; }
 		public DateTime DatePosted { get; set; }

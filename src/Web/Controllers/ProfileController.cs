@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading.Tasks;
+using AutoMapper;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
 using Fakebook.Infrastructure.Identity;
@@ -22,19 +23,18 @@ namespace Fakebook.Web.Controllers
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IUserService _userService;
 		private readonly IFriendsService _friendsService;
-		private readonly IPhotoService _photoService;
+		private readonly IMapper _mapper;
 		
-		public ProfileController(IUserService userService, IFriendsService friendsService, UserManager<ApplicationUser> userManager, IPhotoService photoService)
+		public ProfileController(IUserService userService, IFriendsService friendsService, UserManager<ApplicationUser> userManager, IMapper mapper)
 		{
 			_userService = userService;
 			_userManager = userManager;
 			_friendsService = friendsService;
-			_photoService = photoService;
+			_mapper = mapper;
 		}
 
 		[BindProperty]
-        public User UpdateInput { get; set; }
-
+        public UserProfileUpdateModel UpdateInput { get; set; }
 
 		[HttpGet]
 		[Route("Profile/{userPublicId?}")]
@@ -81,7 +81,8 @@ namespace Fakebook.Web.Controllers
 
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
-			var successful = await _userService.UpdateProfileAsync(currentUser, UpdateInput);
+			User userInput = _mapper.Map<User>(UpdateInput);
+			var successful = await _userService.UpdateProfileAsync(currentUser, userInput);
 
 			if (successful)
 			{

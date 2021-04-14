@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Fakebook.Core.Interfaces;
-using Fakebook.Web.Models;
 using Fakebook.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +25,7 @@ namespace Fakebook.Web.Controllers
 			var users = await _userService.GetPageAsync(searchString, page);
 			var viewModel = new UsersViewModel
 			{
-				Users = users.Select(_mapper.Map<UserModel>),
+				Users = users.Select(_mapper.Map<UserViewModel>),
 				Page = page,
 				SearchString = searchString
 			};
