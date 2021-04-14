@@ -34,14 +34,21 @@ namespace Fakebook.Core.Services
 			};
 
 			var currentPhoto = await _photoRepository.GetProfilePictureAsync(user.Id);
-			user.ProfilePicture = photoByteArray;
 			var successfulAdd = await _photoRepository.AddAsync(photo);
 
 			if(currentPhoto != null && successfulAdd == true)
 			{
-				await _photoRepository.DeleteAsync(currentPhoto);
+				var successfulDelete = await _photoRepository.DeleteAsync(currentPhoto);
+				if ((successfulAdd == true) && (successfulDelete == true))
+				{
+					user.ProfilePicture = photoByteArray;
+					await _photoRepository.SaveChangesAsync();
+					return true;
+				}
+				return false;
 			}
-			
+			user.ProfilePicture = photoByteArray;
+			await _photoRepository.SaveChangesAsync();
 			return successfulAdd;
 		}
 	}

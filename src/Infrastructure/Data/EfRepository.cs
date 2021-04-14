@@ -44,5 +44,11 @@ namespace Fakebook.Infrastructure.Data
             var updateResult = await _dbContext.SaveChangesAsync();
 			return updateResult == 1;
         }
+		
+		public async Task<bool> SaveChangesAsync()
+		{
+			var result = await _dbContext.SaveChangesAsync();
+			return result == 1;
+		}
     }
 }

@@ -6,5 +6,6 @@ namespace Fakebook.Core.Interfaces
     public interface IPhotoRepository : IAsyncRepository<Photo>
     {
 		Task<Photo> GetProfilePictureAsync(string userId);
+		Task<bool> SaveChangesAsync();
     }
 }
