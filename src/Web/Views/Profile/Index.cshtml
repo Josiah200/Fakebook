@@ -84,7 +84,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="editModalLabel">Edit Profile<h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close editformclose" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -95,7 +95,7 @@
 							<input asp-for="PhotoInput.File" type="file" accept="image/png, image/jpg, image/jpeg"></input>
 							<span asp-validation-for="PhotoInput.File" class="text-danger"></span>
 						</div>
-						<div id="updateresponse"></div>
+						<div id="updateresponse" class="updateresponse"></div>
 						<button type="submit" class="btn">Save changes</button>
 					</form>
 					<form asp-controller="Profile" asp-action="UpdateProfile" method="post" id="editform">
@@ -177,7 +177,7 @@
 							<span asp-validation-for="UpdateInput.Bio" class="text-danger"></span>
 						</div>
 						<div class="modal-footer">
-							<div id="updateresponse"></div>
+							<div id="updateprofileresponse" class="updateresponse"></div>
 							<button type="submit" class="btn">Save changes</button>
 							<button type="button" class="btn editformclose" data-dismiss="modal">Close</button>
 						</div>

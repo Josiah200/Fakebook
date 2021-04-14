@@ -32,7 +32,7 @@ document.querySelectorAll("#photoform, #editform").forEach(form => {
 		if (!response.ok) throw response;
 			return response.text()
 		}).then(html => {
-			const updateTarget = form.querySelector('#updateresponse')
+			const updateTarget = form.querySelector('.updateresponse')
 			if (updateTarget) {
 				const updateType = form.dataset.updateType || 'replace';
 				if (updateType === 'replace') {
@@ -47,14 +47,12 @@ document.querySelectorAll("#photoform, #editform").forEach(form => {
 		})
 	})
 });
-document.querySelectorAll('.editformclose')
-	.forEach(btn => {
-		btn.addEventListener('click', evt => {
-			if($("#updateresponse").contents().length) {
-				window.location.href = '../Profile';
-			}
-		});
-});
+
+$('#editModal').on('hidden.bs.modal', function () {
+	if($(".updateresponse").contents().length) {
+		window.location.href = '../Profile';
+	}
+})
 
 $(function ($) {
     $.validator.addMethod('allowedfileextensions', function (value, element, params) {
