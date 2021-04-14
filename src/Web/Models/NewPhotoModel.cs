@@ -7,10 +7,10 @@ namespace Fakebook.Web.Models.ViewModels
 {
     public class NewPhotoModel
     {
-		[Required(ErrorMessage = "Please select an Image.")]
+		[Required(ErrorMessage = "Please select an image.")]
 		[DataType(DataType.Upload)]
-		[MaxFileSize(2097152)]
-		[AllowedFileExtensions(new string[] { ".jpg", ".png", ".jpeg" })]
+		[MaxFileSize(1048576, ErrorMessage = "Image too large. Maximum file size is 1MB")]
+		[AllowedFileExtensions(new string[] { ".jpg", ".png", ".jpeg" }, ErrorMessage = "Invalid file type")]
         public IFormFile File { get; set; }
     }
 }

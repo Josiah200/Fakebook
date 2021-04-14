@@ -9,12 +9,15 @@ namespace Fakebook.Core.Entities
 
 		[Required]
 		[StringLength(18)]
+		[Display(Name = "First name")]
 		public string FirstName { get; set; }
 		[Required]
 		[StringLength(18)]
+		[Display(Name = "Last name")]
 		public string LastName { get; set; }
 		[Required]
 		[StringLength(8)]
+		[Display(Name = "Public Id")]
 		public string PublicId { get; set; }
 		public List<Post> Posts { get; set; }
 		public ICollection<Photo> Photos { get; set; }

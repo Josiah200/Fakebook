@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -23,18 +24,27 @@ namespace Fakebook.Web.Attributes.ValidationAttributes
 				
 				if (!_extensions.Contains(extension.ToLower()))
 				{
-					return new ValidationResult(GetErrorMessage());
+					return new ValidationResult(ErrorMessage);
 				}
 			}
 			return ValidationResult.Success;
 		}
-		private string GetErrorMessage()
-		{
-			return $"File type not supported";
-		}
+
 		public void AddValidation(ClientModelValidationContext context)
 		{
-			
+			MergeAttribute(context.Attributes, "data-val", "true");
+			MergeAttribute(context.Attributes, "data-val-allowedfileextensions", ErrorMessage);
 		}
+
+		private static bool MergeAttribute(IDictionary<string, string> attributes, string key, string value)
+    	{
+			if (attributes.ContainsKey(key))
+			{
+				return false;
+			}
+
+			attributes.Add(key, value);
+			return true;
+    	}
     }
 }

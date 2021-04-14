@@ -72,12 +72,17 @@ namespace Fakebook.Web.Controllers
 
 		[HttpPost]
 		[Route("UpdateProfile")]
-
 		public async Task<IActionResult> UpdateProfile()
 		{
+			if(!ModelState.IsValid)
+			{
+				return BadRequest();
+			}
+
 			var currentApplicationUser = await _userManager.GetUserAsync(User);
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 			var successful = await _userService.UpdateProfileAsync(currentUser, UpdateInput);
+
 			if (successful)
 			{
 				return Content($"<h5>Updated</h5>");
