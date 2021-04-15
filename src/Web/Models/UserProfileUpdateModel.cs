@@ -9,15 +9,15 @@ namespace Fakebook.Web.Models
     {
         [Required]
 		[StringLength(18)]
-		[Display(Name = "First name")]
+		[Display(Name = "first name")]
 		public string FirstName { get; set; }
 		[Required]
 		[StringLength(18)]
-		[Display(Name = "Last name")]
+		[Display(Name = "last name")]
 		public string LastName { get; set; }
 		[Required]
 		[StringLength(8)]
-		[Display(Name = "Public Id")]
+		[Display(Name = "public ID")]
 		public string PublicId { get; set; }
 		[StringLength(450)]
 		public string? Bio { get; set; }

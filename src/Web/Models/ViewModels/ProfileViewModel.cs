@@ -9,7 +9,7 @@ namespace Fakebook.Web.Models.ViewModels
 		public User ProfileUser { get; set; }
 		public bool IsProfileOwner { get; set; }
 		public Friendship? Friendship { get; set; }
-		public User UpdateInput { get; set; }
+		public UserProfileUpdateModel UpdateInput { get; set; }
 		public NewPhotoModel PhotoInput { get; set; }
     }
 }
