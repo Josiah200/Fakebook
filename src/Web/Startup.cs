@@ -12,6 +12,9 @@ using Fakebook.Infrastructure.Data;
 using Fakebook.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Fakebook.Web
 {
@@ -31,26 +34,34 @@ namespace Fakebook.Web
 				.AddRazorRuntimeCompilation()
 				.AddNewtonsoftJson(o =>
 					o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+			services.AddDbContext<FakebookContext>(c =>
+			c.UseInMemoryDatabase("Fakebook"));
+
+			services.AddDbContext<FakebookIdentityContext>(c =>
+			c.UseInMemoryDatabase("Identity"));
+
 			ConfigureServices(services);
 		}
 
 		public void ConfigureProductionServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
+
+			services.AddDbContext<FakebookContext>(options => 
+				options.UseSqlServer(
+					Configuration.GetConnectionString("FakebookConnection")));
+
+			services.AddDbContext<FakebookIdentityContext>(options =>
+				options.UseSqlServer(
+					Configuration.GetConnectionString("IdentityConnection")));
+
 			ConfigureServices(services);
 		}
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-			services.AddDbContext<FakebookContext>(options => 
-				options.UseSqlServer(
-					Configuration.GetConnectionString("FakebookConnection")));
-
-			services.AddDbContext<FakebookIdentityContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("IdentityConnection")));
-
 			services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
@@ -63,7 +74,14 @@ namespace Fakebook.Web
 				.AddDefaultUI()
 				.AddEntityFrameworkStores<FakebookIdentityContext>()
 				.AddDefaultTokenProviders();
+				
+			services.AddAuthentication().AddFacebook(options =>
+			{
+				options.AppId = Configuration["Authentication:Facebook:AppId"];
+				options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
 
+			});
+			
 			services.AddRazorPages();
 
 			services.AddAutoMapper(typeof(Startup).Assembly);
