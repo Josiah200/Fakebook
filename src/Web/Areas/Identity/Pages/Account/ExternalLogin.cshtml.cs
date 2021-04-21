@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net.Http;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -111,13 +112,21 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
 
 				var identifier = info.Principal.FindFirstValue (ClaimTypes.NameIdentifier);
 				var pictureUrl = $"https://graph.facebook.com/{identifier}/picture";
+				ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+				byte[] profilePicture = null;
+
+                using (WebClient client = new())
+                {
+                    profilePicture = client.DownloadData(new Uri(pictureUrl));
+                }
 
 				var userResult = await _userService.NewUserAsync (
 					user.Id,
 					info.Principal.Claims.Where (c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname").First ().Value,
 					info.Principal.Claims.Where (c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname").First ().Value,
 					"",
-					null
+					null,
+					profilePicture
 				);
 
 				var result = await _userManager.CreateAsync (user);
