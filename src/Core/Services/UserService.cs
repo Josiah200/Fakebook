@@ -10,23 +10,24 @@ namespace Fakebook.Core.Services
     public class UserService : IUserService
 	{
 		private readonly IUserRepository _userRepository;
-
+		private static readonly byte[] defaultPicture = System.IO.File.ReadAllBytes(@"wwwroot/images/profilepicturedefault.png");
         public UserService(IUserRepository userRepository)
 		{
 			_userRepository = userRepository;
 		}
 		
-		public async Task<bool> NewUserAsync(string userId, string firstName, string lastName, string? gender, DateTime? birthdate)
+		public async Task<bool> NewUserAsync(string userId, string firstName, string lastName, string? gender, DateTime? birthdate, byte[] profilePicture = null)
 		{
+
 			var user = new User
 			{
 				Id = userId,
 				FirstName = firstName,
 				LastName = lastName,
-				ProfilePicture = System.IO.File.ReadAllBytes(@"wwwroot/images/profilepicturedefault.png"),
+				ProfilePicture = profilePicture ?? defaultPicture,
 				PublicId = await GenerateRandomPublicIdAsync(),
 				Gender = gender,
-				Birthdate = birthdate
+				Birthdate = birthdate,
 			};
 
 			var successful = await _userRepository.AddAsync(user);

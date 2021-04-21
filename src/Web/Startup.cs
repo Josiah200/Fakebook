@@ -7,18 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Fakebook.Core.Interfaces;
 using Fakebook.Core.Services;
-using Fakebook.Core.Entities;
 using Fakebook.Infrastructure.Data;
 using Fakebook.Infrastructure.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication.OAuth;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Fakebook.Web
 {
-    public class Startup
+	public class Startup
     {
 
 		public Startup(IConfiguration configuration) 
@@ -79,14 +73,12 @@ namespace Fakebook.Web
 			{
 				options.AppId = Configuration["Authentication:Facebook:AppId"];
 				options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-
 			});
 			
 			services.AddRazorPages();
 
 			services.AddAutoMapper(typeof(Startup).Assembly);
-			// services.AddCors();
-			
+
 			services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 			services.AddScoped<IPostRepository, PostRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
