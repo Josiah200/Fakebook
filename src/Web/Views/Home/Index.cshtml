@@ -1,14 +1,15 @@
 @model Fakebook.Web.Models.ViewModels.HomeViewModel
-
-<div class="col-md-5 sticky-top" style="padding-top: 4rem; z-index: 0;">
-	<div class="card card-outline-primary m-1 p-1">
-		<form asp-controller="Post" asp-action="NewPost" method="POST">
-			<textarea id="Text" name="Text" required placeholder="Whats on your mind?" style="resize: none; height: 8em; width: 100%;"></textarea>
-			<input type="submit" class="btn" value="Post" style="width: 100%"/>
-		</form>
+<div class="row">
+	<div class="col-md-5 sticky-top" style="z-index: 0;">
+		<div class="card card-outline-primary m-1 p-1">
+			<form asp-controller="Post" asp-action="NewPost" method="POST">
+				<textarea id="Text" name="Text" required placeholder="Whats on your mind?" style="resize: none; height: 8em; width: 100%;"></textarea>
+				<input type="submit" class="btn" value="Post" style="width: 100%"/>
+			</form>
+		</div>
 	</div>
+	<div id="posts" class="col-md-7" />
 </div>
-<div id="posts" class="col-md-7" style="padding-top:4rem" />
 
 @section Scripts
 {

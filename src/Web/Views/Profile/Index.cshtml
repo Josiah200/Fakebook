@@ -1,192 +1,194 @@
 @model Fakebook.Web.Models.ViewModels.ProfileViewModel
 
-<div class="col-md-5" style="z-index: 0;">
-	<div class="sticky-top" style="padding-top: 4rem;">
-		<div class="card card-outline-primary mb-1 mt-1 p-1" style="width:100%;">
-			<img class="img-fluid mx-auto" src="data:image/png;base64,@Convert.ToBase64String(Model.ProfileUser.ProfilePicture)" style="display: block; order: 0; left:100;" width="150" height="150"></img>
-			<div style="font-size: 2em; text-align: center;">@Model.ProfileUser.FirstName @Model.ProfileUser.LastName</div>
-			@if(Model.IsProfileOwner)
+<div class="row">
+	<div class="col-md-5" style="z-index: 0;">
+		<div class="sticky-top">
+			<div class="card card-outline-primary mb-1 mt-1 p-1" style="width:100%;">
+				<img class="img-fluid mx-auto" src="data:image/png;base64,@Convert.ToBase64String(Model.ProfileUser.ProfilePicture)" style="display: block; order: 0; left:100;" width="150" height="150"></img>
+				<div style="font-size: 2em; text-align: center;">@Model.ProfileUser.FirstName @Model.ProfileUser.LastName</div>
+				@if(Model.IsProfileOwner)
+					{
+						<a href="#" class="badge" data-toggle="modal" data-target="#editModal" style="position:absolute; right:0; top:0; margin:auto; z-index: 100;">
+							<img src="~/images/edit.svg"></img>
+							<div style="color: black">Edit Profile</div>
+						</a>
+					}
+			</div>
+			<div class="card card-outline-primary mb-1 mt-1 p-1" id="profilebadges" style="display: flex; flex-direction: row; flex-wrap: wrap; align-content: flex-start; width: 100%;">
+				@if (!String.IsNullOrEmpty(Model.ProfileUser.City))
 				{
-					<a href="#" class="badge" data-toggle="modal" data-target="#editModal" style="position:absolute; right:0; top:0; margin:auto; z-index: 100;">
-						<img src="~/images/edit.svg"></img>
-						<div style="color: black">Edit Profile</div>
-					</a>
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Current home" style="order: 0"><img src="~/images/home.svg" height="20px"></img>@Model.ProfileUser.City</div>
 				}
-		</div>
-		<div class="card card-outline-primary mb-1 mt-1 p-1" id="profilebadges" style="display: flex; flex-direction: row; flex-wrap: wrap; align-content: flex-start; width: 100%;">
-			@if (!String.IsNullOrEmpty(Model.ProfileUser.City))
-			{
-				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Current home" style="order: 0"><img src="~/images/home.svg" height="20px"></img>@Model.ProfileUser.City</div>
-			}
-			@if (!String.IsNullOrEmpty(Model.ProfileUser.Hometown))
-			{
-				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Hometown" style="order: 1">From @Model.ProfileUser.Hometown</div>
-			}
-			@if (!String.IsNullOrEmpty(Model.ProfileUser.Gender))
-			{
-				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Gender" style="order: 2">@Model.ProfileUser.Gender</div>
-			}
-			@if (Model.ProfileUser.Birthdate != null)
-			{
-				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Birthday" style="order: 3"><img src="~/images/birthday.svg" height="20px"></img>@Model.ProfileUser.Birthdate?.ToShortDateString()</div>
-			}
-			@if (!(String.IsNullOrEmpty(Model.ProfileUser.JobTitle)) && !(String.IsNullOrEmpty(Model.ProfileUser.Company)))
-			{
-				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Job" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.JobTitle at @Model.ProfileUser.Company</div>
-			}
-			else if (!String.IsNullOrEmpty(Model.ProfileUser.Company))
-			{
-				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Workplace" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.Company</div>
-			}
-			else if (!String.IsNullOrEmpty(Model.ProfileUser.JobTitle))
-			{
-				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Job title" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.JobTitle</div>
-			}
-			@if (!String.IsNullOrEmpty(Model.ProfileUser.HighSchool))
-			{
-				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="High school" style="order: 5"><img src="~/images/highschool.svg" height="20px"></img>@Model.ProfileUser.HighSchool</div>
-			}
-			@if (!String.IsNullOrEmpty(Model.ProfileUser.College))
-			{
-				<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="College" style="order: 6"><img src="~/images/college.svg" height="20px"></img>@Model.ProfileUser.College</div>
-			}
-		</div>
-		@if (!String.IsNullOrEmpty(Model.ProfileUser.Bio))
-		{
-			<div class="card mt-1 mb-1 p-1" style="width: 100%;">
-				<h3 style="border-bottom: 1px solid gray;">Bio</h3>
-				<p id="biotext">@Model.ProfileUser.Bio</p>
-			</div>
-		}
-		@if (!Model.IsProfileOwner)
-		{
-			<div>
-				@if (Model.Friendship == null) {
-					<a asp-controller="Friends" asp-Action="AddFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn" style="background-color:#7b2cab; border-color:#7b2cab; color:white; width: 100%;">Add Friend</a>
+				@if (!String.IsNullOrEmpty(Model.ProfileUser.Hometown))
+				{
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Hometown" style="order: 1">From @Model.ProfileUser.Hometown</div>
 				}
-
-				else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Pending) {
-					<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn" style="background-color:#7b2cab; border-color:#7b2cab; color:white; width: 100%;">Cancel Friend Request</a>
+				@if (!String.IsNullOrEmpty(Model.ProfileUser.Gender))
+				{
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Gender" style="order: 2">@Model.ProfileUser.Gender</div>
 				}
-
-				else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Accepted) {
-					<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn" style="background-color:#7b2cab; border-color:#7b2cab; color:white; width: 100%;">Remove Friend</a>
+				@if (Model.ProfileUser.Birthdate != null)
+				{
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Birthday" style="order: 3"><img src="~/images/birthday.svg" height="20px"></img>@Model.ProfileUser.Birthdate?.ToShortDateString()</div>
+				}
+				@if (!(String.IsNullOrEmpty(Model.ProfileUser.JobTitle)) && !(String.IsNullOrEmpty(Model.ProfileUser.Company)))
+				{
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Job" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.JobTitle at @Model.ProfileUser.Company</div>
+				}
+				else if (!String.IsNullOrEmpty(Model.ProfileUser.Company))
+				{
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Workplace" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.Company</div>
+				}
+				else if (!String.IsNullOrEmpty(Model.ProfileUser.JobTitle))
+				{
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Job title" style="order: 4"><img src="~/images/workplace.svg" height="20px"></img>@Model.ProfileUser.JobTitle</div>
+				}
+				@if (!String.IsNullOrEmpty(Model.ProfileUser.HighSchool))
+				{
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="High school" style="order: 5"><img src="~/images/highschool.svg" height="20px"></img>@Model.ProfileUser.HighSchool</div>
+				}
+				@if (!String.IsNullOrEmpty(Model.ProfileUser.College))
+				{
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="College" style="order: 6"><img src="~/images/college.svg" height="20px"></img>@Model.ProfileUser.College</div>
 				}
 			</div>
-		}
-	</div>
-</div>
-<div id="posts" class="col-md-7" style="padding-top:4rem"></div>
-@if(Model.IsProfileOwner)
-{
-	<div class="modal fade" id="editModal" role="form" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="editModalLabel">Edit Profile<h5>
-					<button type="button" class="close editformclose" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+			@if (!String.IsNullOrEmpty(Model.ProfileUser.Bio))
+			{
+				<div class="card mt-1 mb-1 p-1" style="width: 100%;">
+					<h3 style="border-bottom: 1px solid gray;">Bio</h3>
+					<p id="biotext">@Model.ProfileUser.Bio</p>
 				</div>
-				<div class="modal-body">
-					<form asp-controller="Photo" asp-action="NewProfilePhoto" method="post" id="photoform" enctype="multipart/form-data">
-						<div class="form-group">
-							<label asp-for="PhotoInput.File">Upload Photo</label>
-							<input asp-for="PhotoInput.File" type="file" accept="image/png, image/jpg, image/jpeg"></input>
-							<span asp-validation-for="PhotoInput.File" class="text-danger"></span>
-						</div>
-						<div id="updateresponse" class="updateresponse"></div>
-						<button type="submit" class="btn">Save changes</button>
-					</form>
-					<form asp-controller="Profile" asp-action="UpdateProfile" method="post" id="editform">
-						<div class="input-group">
-							<div class="form-group pr-1">
-								<label asp-for="UpdateInput.FirstName">First name</label>
-								<input asp-for="UpdateInput.FirstName" type="text" value="@Model.ProfileUser.FirstName" class="form-control"></input>
-								<span asp-validation-for="UpdateInput.FirstName" class="text-danger"></span>
+			}
+			@if (!Model.IsProfileOwner)
+			{
+				<div>
+					@if (Model.Friendship == null) {
+						<a asp-controller="Friends" asp-Action="AddFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn" style="background-color:#7b2cab; border-color:#7b2cab; color:white; width: 100%;">Add Friend</a>
+					}
+
+					else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Pending) {
+						<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn" style="background-color:#7b2cab; border-color:#7b2cab; color:white; width: 100%;">Cancel Friend Request</a>
+					}
+
+					else if (Model.Friendship.Status == Fakebook.Core.Entities.Status.Accepted) {
+						<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@Model.ProfileUser.PublicId" class="btn" style="background-color:#7b2cab; border-color:#7b2cab; color:white; width: 100%;">Remove Friend</a>
+					}
+				</div>
+			}
+		</div>
+	</div>
+	<div id="posts" class="col-md-7"></div>
+	@if(Model.IsProfileOwner)
+	{
+		<div class="modal fade" id="editModal" role="form" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editModalLabel">Edit Profile<h5>
+						<button type="button" class="close editformclose" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form asp-controller="Photo" asp-action="NewProfilePhoto" method="post" id="photoform" enctype="multipart/form-data">
+							<div class="form-group">
+								<label asp-for="PhotoInput.File">Upload Photo</label>
+								<input asp-for="PhotoInput.File" type="file" accept="image/png, image/jpg, image/jpeg"></input>
+								<span asp-validation-for="PhotoInput.File" class="text-danger"></span>
 							</div>
-							<div class="form-group pl-1">
-								<label asp-for="UpdateInput.LastName">Last name</label>
-								<input asp-for="UpdateInput.LastName" type="text" value="@Model.ProfileUser.LastName" class="form-control"></input>
-								<span asp-validation-for="UpdateInput.LastName" class="text-danger"></span>
-							</div>
-						</div>
-						<label asp-for="UpdateInput.Gender">Gender</label>
-						<div class="form-group" style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
-							<div class="btn-group btn-group-toggle" data-toggle="buttons" style="order: 0;">
-								<label class="btn">
-									<input type="radio" value="Male" id="maleradio" class="form-control genderradio"> Male
-								</label>
-								<label class="btn">
-									<input type="radio" value="Female" id="femaleradio" class="form-control genderradio"> Female
-								</label>
-								<label class="btn" id="gendercustombtn">
-									<input type="radio" value="Custom" id="gendercustom" class="form-control"> Custom
-								</label>
-							</div>
-							<input asp-for="UpdateInput.Gender" type="text" value="@Model.ProfileUser.Gender" maxlength="10" value="@Model.ProfileUser.Gender" class="form-control genderinput" style="width: 8rem; display: none; order: 1;"></input>
-							<span asp-validation-for="UpdateInput.Gender" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.Birthdate"></label>
-							<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate?.ToString("yyyy-MM-dd")" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.Birthdate" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.City"></label>
-							<input asp-for="UpdateInput.City" type="text" value="@Model.ProfileUser.City" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.City" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.Hometown"></label>
-							<input asp-for="UpdateInput.Hometown" type="text" value="@Model.ProfileUser.Hometown" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.Hometown" class="text-danger"></span>
-						</div>
-						<div class="input-group">
-							<div class="form-group pr-1">
-								<label asp-for="UpdateInput.JobTitle">Job title</label>
-								<input asp-for="UpdateInput.JobTitle" type="text" value="@Model.ProfileUser.JobTitle" class="form-control"></input>
-								<span asp-validation-for="UpdateInput.JobTitle" class="text-danger"></span>
-							</div>
-							<div class="form-group pl-1">
-								<label asp-for="UpdateInput.Company"></label>
-								<input asp-for="UpdateInput.Company" type="text" value="@Model.ProfileUser.Company" class="form-control"></input>
-								<span asp-validation-for="UpdateInput.Company" class="text-danger"></span>
-							</div>
-						</div>
-						<div class="input-group">
-							<div class="form-group pr-1">
-								<label asp-for="UpdateInput.HighSchool">High school</label>
-								<input asp-for="UpdateInput.HighSchool" type="text" value="@Model.ProfileUser.HighSchool" class="form-control"></input>
-								<span asp-validation-for="UpdateInput.HighSchool" class="text-danger"></span>
-							</div>
-							<div class="form-group pl-1">
-								<label asp-for="UpdateInput.College"></label>
-								<input asp-for="UpdateInput.College" type="text" value="@Model.ProfileUser.College" class="form-control"></input>
-								<span asp-validation-for="UpdateInput.College" class="text-danger"></span>
-							</div>
-						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.PublicId" title="This is the part of the Url that identifies your profile">Public Identifier <img height="18px" src="~/images/question.svg" class="pb-1"></label>
-							<input asp-for="UpdateInput.PublicId" type="text" value="@Model.ProfileUser.PublicId" class="form-control"></input>
-							<span asp-validation-for="UpdateInput.PublicId" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="UpdateInput.Bio">Bio</label>
-							<textarea id="bioinput" asp-for="UpdateInput.Bio" class="form-control"></textarea>
-							<span asp-validation-for="UpdateInput.Bio" class="text-danger"></span>
-						</div>
-						<div class="modal-footer">
-							<div id="updateprofileresponse" class="updateresponse"></div>
+							<div id="updateresponse" class="updateresponse"></div>
 							<button type="submit" class="btn">Save changes</button>
-							<button type="button" class="btn editformclose" data-dismiss="modal">Close</button>
-						</div>
-					</form>
+						</form>
+						<form asp-controller="Profile" asp-action="UpdateProfile" method="post" id="editform">
+							<div class="input-group">
+								<div class="form-group pr-1">
+									<label asp-for="UpdateInput.FirstName">First name</label>
+									<input asp-for="UpdateInput.FirstName" type="text" value="@Model.ProfileUser.FirstName" class="form-control"></input>
+									<span asp-validation-for="UpdateInput.FirstName" class="text-danger"></span>
+								</div>
+								<div class="form-group pl-1">
+									<label asp-for="UpdateInput.LastName">Last name</label>
+									<input asp-for="UpdateInput.LastName" type="text" value="@Model.ProfileUser.LastName" class="form-control"></input>
+									<span asp-validation-for="UpdateInput.LastName" class="text-danger"></span>
+								</div>
+							</div>
+							<label asp-for="UpdateInput.Gender">Gender</label>
+							<div class="form-group" style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
+								<div class="btn-group btn-group-toggle" data-toggle="buttons" style="order: 0;">
+									<label class="btn">
+										<input type="radio" value="Male" id="maleradio" class="form-control genderradio"> Male
+									</label>
+									<label class="btn">
+										<input type="radio" value="Female" id="femaleradio" class="form-control genderradio"> Female
+									</label>
+									<label class="btn" id="gendercustombtn">
+										<input type="radio" value="Custom" id="gendercustom" class="form-control"> Custom
+									</label>
+								</div>
+								<input asp-for="UpdateInput.Gender" type="text" value="@Model.ProfileUser.Gender" maxlength="10" value="@Model.ProfileUser.Gender" class="form-control genderinput" style="width: 8rem; display: none; order: 1;"></input>
+								<span asp-validation-for="UpdateInput.Gender" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="UpdateInput.Birthdate"></label>
+								<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate?.ToString("yyyy-MM-dd")" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.Birthdate" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="UpdateInput.City"></label>
+								<input asp-for="UpdateInput.City" type="text" value="@Model.ProfileUser.City" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.City" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="UpdateInput.Hometown"></label>
+								<input asp-for="UpdateInput.Hometown" type="text" value="@Model.ProfileUser.Hometown" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.Hometown" class="text-danger"></span>
+							</div>
+							<div class="input-group">
+								<div class="form-group pr-1">
+									<label asp-for="UpdateInput.JobTitle">Job title</label>
+									<input asp-for="UpdateInput.JobTitle" type="text" value="@Model.ProfileUser.JobTitle" class="form-control"></input>
+									<span asp-validation-for="UpdateInput.JobTitle" class="text-danger"></span>
+								</div>
+								<div class="form-group pl-1">
+									<label asp-for="UpdateInput.Company"></label>
+									<input asp-for="UpdateInput.Company" type="text" value="@Model.ProfileUser.Company" class="form-control"></input>
+									<span asp-validation-for="UpdateInput.Company" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="input-group">
+								<div class="form-group pr-1">
+									<label asp-for="UpdateInput.HighSchool">High school</label>
+									<input asp-for="UpdateInput.HighSchool" type="text" value="@Model.ProfileUser.HighSchool" class="form-control"></input>
+									<span asp-validation-for="UpdateInput.HighSchool" class="text-danger"></span>
+								</div>
+								<div class="form-group pl-1">
+									<label asp-for="UpdateInput.College"></label>
+									<input asp-for="UpdateInput.College" type="text" value="@Model.ProfileUser.College" class="form-control"></input>
+									<span asp-validation-for="UpdateInput.College" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label asp-for="UpdateInput.PublicId" title="This is the part of the Url that identifies your profile">Public Identifier <img height="18px" src="~/images/question.svg" class="pb-1"></label>
+								<input asp-for="UpdateInput.PublicId" type="text" value="@Model.ProfileUser.PublicId" class="form-control"></input>
+								<span asp-validation-for="UpdateInput.PublicId" class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label asp-for="UpdateInput.Bio">Bio</label>
+								<textarea id="bioinput" asp-for="UpdateInput.Bio" class="form-control"></textarea>
+								<span asp-validation-for="UpdateInput.Bio" class="text-danger"></span>
+							</div>
+							<div class="modal-footer">
+								<div id="updateprofileresponse" class="updateresponse"></div>
+								<button type="submit" class="btn">Save changes</button>
+								<button type="button" class="btn editformclose" data-dismiss="modal">Close</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-}
+	}
+</div>
 @section Scripts
 {
 	<script src ="~/js/postscroll.js" data-user_id="@Model.ProfileUser.Id" data-url="User" type="text/javascript"></script>

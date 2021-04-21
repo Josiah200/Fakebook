@@ -131,7 +131,7 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
 
 				var result = await _userManager.CreateAsync (user);
 
-				if (result.Succeeded) {
+				if (result.Succeeded && userResult is true) {
 					result = await _userManager.AddLoginAsync (user, info);
 					if (result.Succeeded) {
 						_logger.LogInformation ("User created an account using {Name} provider.", info.LoginProvider);
