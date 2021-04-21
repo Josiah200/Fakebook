@@ -67,12 +67,16 @@ background-color: #F2F2F2;
 	color: white;
 }
 
-.active
-{
+.btn:focus, .btn:active:not(.nav-link){
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: #5e1f83 !important;
+}
+
+.active {
 	background-color: #5e1f83 !important;
 }
-.profilebadge
-{
+.profilebadge {
 	background-color: #7b2cab;
 	color: white;
 	height: 2em;
