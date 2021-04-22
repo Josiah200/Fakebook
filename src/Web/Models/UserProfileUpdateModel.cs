@@ -24,6 +24,8 @@ namespace Fakebook.Web.Models
 		[StringLength(10)]
 		public string? Gender { get; set; }
 		public DateTime? Birthdate { get; set; }
+		[Display(Name = "Public birth year")]
+		public bool BirthdateYearPublic { get; set; }
 		[StringLength(40)]
 		public string? City { get; set;}
 		[StringLength(40)]

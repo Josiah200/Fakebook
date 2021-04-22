@@ -16,6 +16,7 @@ namespace Fakebook.Core.Entities
 		public string? Bio { get; set; }
 		public string? Gender { get; set; }
 		public DateTime? Birthdate { get; set; }
+		public bool BirthdateYearPublic { get; set; }
 		public string? City { get; set;}
 		public string? Hometown { get; set; }
 		public string? JobTitle { get; set; }

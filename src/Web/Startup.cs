@@ -29,11 +29,11 @@ namespace Fakebook.Web
 				.AddNewtonsoftJson(o =>
 					o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-			services.AddDbContext<FakebookContext>(c =>
-			c.UseInMemoryDatabase("Fakebook"));
+			services.AddDbContext<FakebookContext>(options =>
+			options.UseInMemoryDatabase("Fakebook"));
 
-			services.AddDbContext<FakebookIdentityContext>(c =>
-			c.UseInMemoryDatabase("Identity"));
+			services.AddDbContext<FakebookIdentityContext>(options =>
+				options.UseInMemoryDatabase("Identity"));
 
 			ConfigureServices(services);
 		}

@@ -79,6 +79,7 @@ background-color: #F2F2F2;
 .active {
 	background-color: #5e1f83 !important;
 }
+
 .profilebadge {
 	background-color: #7b2cab;
 	color: white;
@@ -88,7 +89,12 @@ background-color: #F2F2F2;
 	justify-content: left;
 	align-items: center;
 }
+
 .form-control:focus {
 	border-color: #7b2cab;
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(123, 44, 171, 0.6);
+}
+
+.form-check:checked {
+	background-color: #7b2cab;
 }

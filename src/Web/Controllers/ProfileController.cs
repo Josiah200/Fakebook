@@ -1,6 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using Fakebook.Core.Entities;
@@ -9,8 +7,6 @@ using Fakebook.Infrastructure.Identity;
 using Fakebook.Web.Models;
 using Fakebook.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

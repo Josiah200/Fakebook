@@ -29,7 +29,15 @@
 				}
 				@if (Model.ProfileUser.Birthdate != null)
 				{
-					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Birthday" style="order: 3"><img src="~/images/birthday.svg" height="20px"></img>@Model.ProfileUser.Birthdate?.ToShortDateString()</div>
+					@if (Model.ProfileUser.BirthdateYearPublic == true)
+					{
+						<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Birthday" style="order: 3"><img src="~/images/birthday.svg" height="20px"></img>@Model.ProfileUser.Birthdate?.ToShortDateString()</div>
+					}
+					else
+					{
+						<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Birthday" style="order: 3"><img src="~/images/birthday.svg" height="20px"></img>@Model.ProfileUser.Birthdate?.ToString("MMMM dd")</div>
+
+					}
 				}
 				@if (!(String.IsNullOrEmpty(Model.ProfileUser.JobTitle)) && !(String.IsNullOrEmpty(Model.ProfileUser.Company)))
 				{
@@ -125,13 +133,20 @@
 										<input type="radio" value="Custom" id="gendercustom" class="form-control"> Custom
 									</label>
 								</div>
-								<input asp-for="UpdateInput.Gender" type="text" value="@Model.ProfileUser.Gender" maxlength="10" value="@Model.ProfileUser.Gender" class="form-control genderinput" style="width: 8rem; display: none; order: 1;"></input>
+								<input asp-for="UpdateInput.Gender" type="text" value="@Model.ProfileUser.Gender" maxlength="10" class="form-control genderinput" style="width: 8rem; display: none; order: 1;"></input>
 								<span asp-validation-for="UpdateInput.Gender" class="text-danger"></span>
 							</div>
-							<div class="form-group">
-								<label asp-for="UpdateInput.Birthdate"></label>
-								<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate?.ToString("yyyy-MM-dd")" class="form-control"></input>
-								<span asp-validation-for="UpdateInput.Birthdate" class="text-danger"></span>
+							<div class="input-group">
+								<div class="form-group">
+									<label asp-for="UpdateInput.Birthdate"></label>
+									<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate?.ToString("yyyy-MM-dd")" class="form-control"></input>
+									<span asp-validation-for="UpdateInput.Birthdate" class="text-danger"></span>
+								</div>
+								<div class="form-group form-check">
+									<label asp-for="UpdateInput.BirthdateYearPublic" class="form-check-label"></label>
+									<input asp-for="UpdateInput.BirthdateYearPublic" class="form-check-input form-control" value="true" id="birthyearpubliccheck">
+									<span asp-validation-for="UpdateInput.BirthdateYearPublic"></span>
+								</div>
 							</div>
 							<div class="form-group">
 								<label asp-for="UpdateInput.City"></label>
@@ -223,7 +238,13 @@
 			<script language="javascript">
 				$("#bioinput").val($("#biotext").text());
 			</script>
-		}	
+		}
+		@if(Model.ProfileUser.BirthdateYearPublic == true)
+		{
+			<script language="javascript">
+				$("#birthyearpubliccheck").click();
+			</script>
+		}
 	}
 	<script language="javascript">
 		if ($("#profilebadges").children().length == 0)
