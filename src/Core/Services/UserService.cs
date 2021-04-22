@@ -61,6 +61,7 @@ namespace Fakebook.Core.Services
 
 		public async Task<List<User>> GetPageAsync(string? searchString, int page = 0)
 		{
+			searchString = searchString.ToLower();
 			return await _userRepository.GetPageAsync(searchString ?? "", page);
 		}
 

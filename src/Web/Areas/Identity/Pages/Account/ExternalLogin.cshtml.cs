@@ -110,8 +110,8 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
 			if (ModelState.IsValid) {
 				var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
 
-				var identifier = info.Principal.FindFirstValue (ClaimTypes.NameIdentifier);
-				var pictureUrl = $"https://graph.facebook.com/{identifier}/picture";
+				var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+				var pictureUrl = $"https://graph.facebook.com/{identifier}/picture?type=large";
 				ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 				byte[] profilePicture = null;
 
@@ -122,8 +122,8 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
 
 				var userResult = await _userService.NewUserAsync (
 					user.Id,
-					info.Principal.Claims.Where (c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname").First ().Value,
-					info.Principal.Claims.Where (c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname").First ().Value,
+					info.Principal.Claims.Where (c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname").First().Value,
+					info.Principal.Claims.Where (c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname").First().Value,
 					"",
 					null,
 					profilePicture

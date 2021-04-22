@@ -67,10 +67,13 @@ background-color: #F2F2F2;
 	color: white;
 }
 
-.btn:focus, .btn:active:not(.nav-link){
+.btn:focus:not(.nav-link):not(.text-muted), .btn:active:not(.nav-link):not(.text-muted) {
+  background-color: #5e1f83 !important;
+}
+
+.btn:focus, .btn:active {
   outline: none !important;
   box-shadow: none !important;
-  background-color: #5e1f83 !important;
 }
 
 .active {
