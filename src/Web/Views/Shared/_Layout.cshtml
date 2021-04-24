@@ -26,12 +26,14 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav ml-auto" style="height: 40px;">
-				<li class="nav-item">
-					<form asp-controller="Users" asp-action="Index" style="height: 40px;">
-						<input type="text" id="searchString" name="searchString" placeholder="Search Users" style="resize: none; height: 75%; margin-top: 5px;"></input>
-						<input type="submit" style="display: none" />
-					</form>
-				</li>
+				@if (SignInManager.IsSignedIn(User)) {
+					<li class="nav-item">
+						<form asp-controller="Users" asp-action="Index" asp-route-page="1" style="height: 40px;" method="get">
+							<input type="text" id="search" name="search" placeholder="Search Users" style="resize: none; height: 75%; margin-top: 5px;"></input>
+							<input type="submit" style="display: none" />
+						</form>
+					</li>
+				}
 				<partial name="_LoginPartial.cshtml" />
 			</ul>
 		</div>

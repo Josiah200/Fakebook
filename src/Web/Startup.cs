@@ -114,8 +114,8 @@ namespace Fakebook.Web
 					"profileRoute",
 					"{controller=Profile}/{action=Index}/{userPublicId?}"
 				);
-				
 				endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+				
 				endpoints.MapRazorPages();
             });
         }

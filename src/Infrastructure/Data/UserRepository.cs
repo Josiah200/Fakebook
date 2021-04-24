@@ -28,8 +28,8 @@ namespace Fakebook.Infrastructure.Data
 					(u.FirstName.ToLower() + " " + u.LastName.ToLower()).Contains(searchString))
 				.OrderBy(u => u.FirstName)
 				.ThenBy(u => u.LastName)
-				.Skip(page * 100)
-				.Take(100)
+				.Skip(page * 40)
+				.Take(40)
 				.ToListAsync();
 		}
 	}

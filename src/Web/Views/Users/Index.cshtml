@@ -20,28 +20,27 @@
 {
 	var NextPage = Model.Page + 1;
 	var LastPage = Model.Page - 1;
-	if (LastPage <0)
-	{
-		LastPage = 0;
-	}
 
 	<footer class="footer" style="position: fixed; bottom: 0; left: 0; width: 100%; height: 2rem; background: white;">
 		<div class="container">
 			<span class="row">
-				<span class="col" style="text-align: right">
-					@if (String.IsNullOrEmpty(Model.SearchString))
-					{
-						<a href="~/Users/@LastPage">
-							&laquo; Previous page
-						</a>
-					}
-					else
-					{
-						<a href="~/Users/@Model.SearchString/@LastPage">
-							&laquo; Previous page
-						</a>
-					}
-				</span>
+					<span class="col" style="text-align: right">
+						@if (LastPage > 0)
+						{
+							@if (String.IsNullOrEmpty(Model.SearchString))
+							{
+								<a href="~/Users/@LastPage">
+									&laquo; Previous page
+								</a>
+							}
+							else
+							{
+								<a href="~/Users/@LastPage?search=@Model.SearchString">
+									&laquo; Previous page
+								</a>
+							}
+						}
+					</span>
 				<span class="col" style="text-align: left">
 					@if (String.IsNullOrEmpty(Model.SearchString))
 					{
@@ -51,7 +50,7 @@
 					}
 					else
 					{
-						<a href="~/Users/@Model.SearchString/@NextPage">
+						<a href="~/Users/@NextPage?search=@Model.SearchString">
 							Next page &raquo;
 						</a>
 					}

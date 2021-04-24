@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Fakebook.Core.Interfaces;
 using Fakebook.Web.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fakebook.Web.Controllers
@@ -17,17 +18,17 @@ namespace Fakebook.Web.Controllers
 			_userService = userService;
 			_mapper = mapper;
 		}
-
-		[Route("Users/{searchString:alpha}/{page:int?}")]
-		[Route("Users/{page:int?}")]
-    	public async Task<IActionResult> Index(string searchString, int page)
+		
+		[Authorize]
+		[HttpGet("Users/{page:int}")]
+    	public async Task<IActionResult> Index(string search, int page)
 		{
-			var users = await _userService.GetPageAsync(searchString, page);
+			var users = await _userService.GetPageAsync(search, page - 1);
 			var viewModel = new UsersViewModel
 			{
 				Users = users.Select(_mapper.Map<UserViewModel>),
 				Page = page,
-				SearchString = searchString
+				SearchString = search
 			};
 
 			return View(viewModel);
