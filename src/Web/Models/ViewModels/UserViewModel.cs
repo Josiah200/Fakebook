@@ -6,5 +6,6 @@ namespace Fakebook.Web.Models.ViewModels
 		public string LastName { get; set; }
 		public string PublicId { get; set; }
 		public byte[] ProfilePicture { get; set; }
+		public string City { get; set; }
     }
 }

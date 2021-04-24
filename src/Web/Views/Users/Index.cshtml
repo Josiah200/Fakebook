@@ -8,6 +8,10 @@
 			<div class="Author p-1">
 				<img src="data:image/png;base64,@Convert.ToBase64String(user.ProfilePicture)" width="45" height="45"/>
 				<a href="~/Profile/@user.PublicId">@user.FirstName @user.LastName</a>
+				@if (!String.IsNullOrEmpty(user.City))
+				{
+			 <div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Current home" style="order: 0"><img src="~/images/home.svg" height="20px"></img>@user.City</div>
+				}
 			</div>
 		</div>
 	}
