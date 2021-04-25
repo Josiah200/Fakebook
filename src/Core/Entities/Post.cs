@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Fakebook.Core.Entities;
 
@@ -13,6 +15,6 @@ namespace Fakebook.Core.Entities
 		public User User { get; set; }
 		public string? PhotoId { get; set; }
 		public Photo? Photo { get; set; }
-
+		public ICollection<Like> Likes { get; set; }
     }
 }
