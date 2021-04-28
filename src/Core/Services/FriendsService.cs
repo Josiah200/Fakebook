@@ -31,7 +31,7 @@ namespace Fakebook.Core.Services
 				UserId = sender.Id,
 				FriendId = reciever.Id,
 				Status = Status.Pending,
-				Timestamp = DateTime.Now
+				Timestamp = DateTime.UtcNow
 			};
 			return await _friendshipRepository.AddAsync(friendship);
 		}

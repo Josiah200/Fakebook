@@ -15,7 +15,7 @@ namespace Fakebook.Web.Controllers
 {
 	[Authorize]
 	[Route("[Controller]")]
-    public class PostController : Controller
+    public class PostController : ControllerBase
     {
 		private readonly IPostService _postService;
 		private readonly UserManager<ApplicationUser> _userManager;
@@ -47,7 +47,7 @@ namespace Fakebook.Web.Controllers
 			{
 				var postModels = new List<PostViewModel>();
 				postModels.AddRange(posts.Select(_mapper.Map<PostViewModel>));
-				return PartialView("_PostsPagePartial", postModels);
+				return Ok(postModels);
 			}
 		}
 		
@@ -65,7 +65,7 @@ namespace Fakebook.Web.Controllers
 			{
 				var postModels = new List<PostViewModel>();
 				postModels.AddRange(posts.Select(_mapper.Map<PostViewModel>));
-				return PartialView("_PostsPagePartial", postModels);
+				return Ok(postModels);
 			}
 		}
 
@@ -86,12 +86,12 @@ namespace Fakebook.Web.Controllers
 
 			if (string.IsNullOrEmpty(newPost.Text))
 			{
-				return RedirectToAction("Index", "Home");
+				return BadRequest();
 			}
 
 			newPost.Id = Guid.NewGuid().ToString();
 			newPost.UserId = currentUser.Id;
-			newPost.DatePosted = DateTime.Now;
+			newPost.DatePosted = DateTime.UtcNow;
 			
 			await _postService.SavePostAsync(newPost);
 			return RedirectToAction("Index", "Home");

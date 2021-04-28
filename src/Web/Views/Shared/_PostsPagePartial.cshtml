@@ -1,7 +1,0 @@
-@using Fakebook.Web.Models.ViewModels;
-@model List<PostViewModel>
-
-@foreach (PostViewModel post in Model)
-{
-	@await Html.PartialAsync("_PostPartial", post);
-}
