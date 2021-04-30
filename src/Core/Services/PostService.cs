@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
+using System.Linq;
 
 namespace Fakebook.Core.Services
 {
@@ -27,7 +28,7 @@ namespace Fakebook.Core.Services
 			return successful;
 		}
 
-		public async Task<IReadOnlyCollection<Post>?> GetHomePostsPageAsync(string userId, int page, int blockSize)
+		public async Task<IReadOnlyCollection<Post>?> GetHomePostsPageAsync(string userId, int page, int pageSize)
 		{
 			var friends = await _friendsService.GetByUserIdAsync(userId);
 
@@ -47,7 +48,7 @@ namespace Fakebook.Core.Services
 				}
 			}
 
-			var posts = await _postRepository.GetPostsPageByUserIdListAsync(userIds, page, blockSize);
+			var posts = await _postRepository.GetPostsPageByUserIdListAsync(userIds, page, pageSize);
 			
 			if (posts.Count == 0)
 			{
@@ -60,11 +61,11 @@ namespace Fakebook.Core.Services
 			}
 		}
 		
-		public async Task<IReadOnlyCollection<Post>?> GetUserPostsPageAsync(string userId, int page, int blockSize)
+		public async Task<IReadOnlyCollection<Post>?> GetUserPostsPageAsync(string userId, int page, int pageSize)
 		{
 			var userIds = new List<string> {userId};
 
-			var posts = await _postRepository.GetPostsPageByUserIdListAsync(userIds, page, blockSize);
+			var posts = await _postRepository.GetPostsPageByUserIdListAsync(userIds, page, pageSize);
 
 			if (posts.Count == 0)
 			{
@@ -75,6 +76,30 @@ namespace Fakebook.Core.Services
 			{
 				return posts;
 			}
+		}
+
+		public async Task<bool> LikePostAsync(string postId, string userId)
+		{
+			var post = await _postRepository.GetByIdAsync(postId);
+			post.Likes = post.Likes.Concat(new string[] {userId}).ToArray();
+			return await _postRepository.UpdateAsync(post);
+		}
+		
+		public async Task<bool> UnlikePostAsync(string postId, string userId)
+		{
+			var post = await _postRepository.GetByIdAsync(postId);
+			post.Likes = post.Likes.Where(l => l != userId).ToArray();
+			return await _postRepository.UpdateAsync(post);
+		}
+		
+		public async Task<bool> CheckIfUserLikes(string postId, string userId)
+		{
+			var post = await _postRepository.GetByIdAsync(postId);
+			if (post.Likes.Contains(userId))
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

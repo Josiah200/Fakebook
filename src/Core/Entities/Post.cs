@@ -15,6 +15,6 @@ namespace Fakebook.Core.Entities
 		public User User { get; set; }
 		public string? PhotoId { get; set; }
 		public Photo? Photo { get; set; }
-		public ICollection<Like> Likes { get; set; }
+		public string[] Likes { get; set; }
     }
 }

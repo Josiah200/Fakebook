@@ -22,7 +22,8 @@ namespace Fakebook.Infrastructure.Data
 				var postsFaker = new Faker<Post>()
 					.RuleFor(p => p.Id, f => Guid.NewGuid().ToString())
 					.RuleFor(p => p.Text, f => f.Rant.Random.Words(r.Next(5, 200)))
-					.RuleFor(p => p.DatePosted, f => f.Date.Past());
+					.RuleFor(p => p.DatePosted, f => f.Date.Past())
+					.RuleFor(p => p.Likes, f => f.PickRandom(Enumerable.Range(0, r.Next(0,20)).Select(x => "AAA").ToArray(), Array.Empty<string>()));
 
 				var usersFaker = new Faker<User>()
 					.RuleFor(u => u.Id, f => Guid.NewGuid().ToString())

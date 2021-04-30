@@ -12,7 +12,6 @@ namespace Fakebook.Core.Entities
 		public ICollection<Photo> Photos { get; set; }
 		public byte[] ProfilePicture { get; set; }
 		public ICollection<Friendship> Friendships { get; set; }
-		public ICollection<Like> Likes { get; set; }
 		public List<Notification> Notifications { get; set; }
 		public string? Bio { get; set; }
 		public string? Gender { get; set; }

@@ -29,14 +29,14 @@ namespace Fakebook.Web.Controllers
 		}
 		
 		[HttpGet("HomePosts")]
-		public async Task<IActionResult> HomePosts(int page, int blockSize, string userId)
+		public async Task<IActionResult> HomePosts(int page, int pageSize, string userId)
 		{
 			if (!this.ModelState.IsValid)
 			{
 				return RedirectToAction("Index", "Home");
 			}
 			
-			var posts = await _postService.GetHomePostsPageAsync(userId, page, blockSize);
+			var posts = await _postService.GetHomePostsPageAsync(userId, page, pageSize);
 
 			if ((posts is null) || (!posts.Any()))
 			{
@@ -52,9 +52,9 @@ namespace Fakebook.Web.Controllers
 		}
 		
 		[HttpGet("UserPosts")]
-		public async Task<IActionResult> UserPosts(int page, int blockSize, string userId)
+		public async Task<IActionResult> UserPosts(int page, int pageSize, string userId)
 		{
-			var posts = await _postService.GetUserPostsPageAsync(userId, page, blockSize);
+			var posts = await _postService.GetUserPostsPageAsync(userId, page, pageSize);
 
 			if ((posts is null) || (!posts.Any()))
 			{
@@ -92,9 +92,35 @@ namespace Fakebook.Web.Controllers
 			newPost.Id = Guid.NewGuid().ToString();
 			newPost.UserId = currentUser.Id;
 			newPost.DatePosted = DateTime.UtcNow;
+			newPost.Likes = Array.Empty<string>();
 			
 			await _postService.SavePostAsync(newPost);
 			return RedirectToAction("Index", "Home");
+		}
+
+		[HttpPost("Like")]
+		public async Task<IActionResult> LikePost(string postId)
+		{
+			var currentUser = await _userManager.GetUserAsync(User);
+			var likesPost = await _postService.CheckIfUserLikes(postId, currentUser.Id);
+			if (!likesPost)
+			{
+				bool success = await _postService.LikePostAsync(postId, currentUser.Id);
+				if (success)
+				{
+					return Ok("Liked");
+				}
+			}
+			else
+			{
+				bool success = await _postService.UnlikePostAsync(postId, currentUser.Id);
+				if (success)
+				{
+					return Ok("Unliked");
+				}
+			}
+			
+			return BadRequest();
 		}
     }
 }

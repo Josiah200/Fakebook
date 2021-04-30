@@ -11,5 +11,6 @@ namespace Fakebook.Web.Models.ViewModels
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public byte[] ProfilePicture { get; set; }
+		public int Likes { get; set; }
     }
 }

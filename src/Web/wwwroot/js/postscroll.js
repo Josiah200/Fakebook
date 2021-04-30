@@ -1,19 +1,18 @@
 let page = 0;
 let docHeight = $(document).height();
-let blockSize = Math.floor(docHeight / 72);
+let pageSize = Math.floor(docHeight / 72);
 let userId = $(document.currentScript).attr('data-user_id');
 let url = "/Post/" + $(document.currentScript).attr('data-url')  + "Posts";
 let remaining = true;
 
-$(window).on("scroll load", function()
-{
+$(window).on("scroll load", function() {
 	let winScrolled = $(window).height() + $(window).scrollTop();
 	let docHeight = $(document).height();
 	if ((docHeight - winScrolled < 1) && remaining == true)
 	{
 		$.ajax({
 			url: url,
-			data: { page: page, blockSize: blockSize, userId: userId },
+			data: { page: page, pageSize: pageSize, userId: userId },
 			dataType: 'json',
 			type: 'GET',
 			statusCode: {
@@ -35,21 +34,35 @@ $(window).on("scroll load", function()
 function postTemplate(post) {
 	const datePosted = new Date(post.datePosted);
 	var timeString = getTimeString(datePosted);
-	
+
+	if (parseInt(post.likes) > 0) {
+		if (parseInt(post.likes == 1)) {
+			likes = `<div class="likes border-top">${post.likes} Like</div>`
+		}
+		else {
+			likes = `<div class="likes border-top">${post.likes} Likes</div>`
+		}
+	}
+	else {
+		likes = `<div class="likes border-top" style="display:none;">${post.likes} Likes</div>`;
+	}
+
 	var text = sanitize(post.text);
+
 	return `
 		<div class="post card card-outline-primary m-1 p-1">
-			<span name="PostId" type="hidden" value="${post.id}" />
+			<span name="PostId" class="post-id" style="display: none;">${post.id}</span>
 			<div class="Author p-1">
 				<img src="data:image/png;base64,${post.profilePicture}" style="width: 3rem; height: 3rem;" />
 				<a href="/Profile/${post.userPublicId}"> ${post.firstName} ${post.lastName}</a>
 				<time class="badge text-muted" title="${datePosted.toLocaleString()}">${timeString}</time>
 			</div>
 			<div class="post-text p-1" id="post-text">${text}</div>
+			${likes}
 			<div class="container-fluid">
 				<div class="row border-top border-bottom" style="margin:auto">
 					<div class="col-md-6 m-0 p-0">
-						<input type="button" class="btn text-center text-muted m-0 like-btn" value="Like" style="width: 100%">
+						<input type="button" class="like-btn btn text-center text-muted m-0 like-btn" value="Like" style="width: 100%">
 					</div>
 					<div class="col-md-6 m-0 p-0">
 						<input type="button" class="btn text-center text-muted m-0" value="Comment" style="width: 100%">

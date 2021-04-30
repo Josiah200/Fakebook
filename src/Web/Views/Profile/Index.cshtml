@@ -207,11 +207,12 @@
 @section Scripts
 {
 	<script src ="~/js/postscroll.js" data-user_id="@Model.ProfileUser.Id" data-url="User" type="text/javascript"></script>
+	<script src="~/js/likepost.js" type="text/javascript"></script>
 	@if(Model.IsProfileOwner)
 	{
 		<script src="~/lib/jquery-validate/jquery.validate.js"></script>
    		<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-		<script src="~/js/gendercustom.js" language="javascript"></script>	
+		<script src="~/js/gendercustom.js" language="javascript"></script>
 		<script src="~/js/updateprofile.js" language="javascript"></script>
 
 		@if(Model.ProfileUser.Gender == "Male")
