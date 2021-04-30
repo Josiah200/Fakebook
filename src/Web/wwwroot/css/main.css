@@ -61,23 +61,28 @@ body {
 background-color: #F2F2F2;
 }
 
-.btn:not(.active label):not(.text-muted){
+.post .btn {
+	background-color: transparent;
+	border-color: none !important;
+  	outline: 0;
+  	outline: none !important;
+ 	/* IE6-9 */
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: transparent !important;
+}
+
+.btn:not(.post .btn){
+	color: white !important;
+}
+
+.btn:not(.active, .focus, .post .btn) {
 	background-color: #7b2cab; 
 	border-color: #7b2cab; 
-	color: white;
 }
 
-.btn:focus:not(.nav-link):not(.text-muted), .btn:active:not(.nav-link):not(.text-muted) {
+.btn:focus:not(.nav-link):not(.text-muted), .btn:active:not(.nav-link):not(.text-muted), .active {
   background-color: #5e1f83 !important;
-}
-
-.btn:focus, .btn:active {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.active {
-	background-color: #7b2cab !important;
 }
 
 .profilebadge {
@@ -105,17 +110,21 @@ input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
-.form-control:focus,
-.btn.focus,
-.uneditable-input:focus {
-  border-color: #7b2cab;
+input[type="radio"]:focus,
+.form-control:focus:not(.post .btn):not(.checkbox-custom),
+.btn:focus:not(.post .btn):not(.checkbox-custom),
+.btn:active:not(.post .btn):not(.checkbox-custom),
+.btn:active:focus:not(.post .btn):not(.checkbox-custom),
+.btn.focus:not(.post .btn):not(.checkbox-custom),
+.uneditable-input:focus:not(.post .btn){
+  border-color: #7b2cab !important;
   outline: 0;
   outline: thin dotted \9;
   /* IE6-9 */
 
-  -webkit-box-shadow: inset 0 1px 1px #7b2cab, 0 0 8px #7b2cab;
-  -moz-box-shadow: inset 0 1px 1px #7b2cab, 0 0 8px #7b2cab;
-  box-shadow: inset 0 1px 1px #7b2cab, 0 0 8px #7b2cab;
+  -webkit-box-shadow: inset 0 1px 1px #7b2cab, 0 0 8px #7b2cab !important;
+  -moz-box-shadow: inset 0 1px 1px #7b2cab, 0 0 8px #7b2cab !important;
+  box-shadow: inset 0 1px 1px #7b2cab, 0 0 8px #7b2cab !important;
 }
 
 .checkbox-custom:active,
