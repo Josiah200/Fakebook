@@ -88,13 +88,10 @@ namespace Fakebook.Web.Controllers
 			{
 				return BadRequest();
 			}
-
-			newPost.Id = Guid.NewGuid().ToString();
 			newPost.UserId = currentUser.Id;
-			newPost.DatePosted = DateTime.UtcNow;
-			newPost.Likes = Array.Empty<string>();
 			
 			await _postService.SavePostAsync(newPost);
+			
 			return RedirectToAction("Index", "Home");
 		}
 

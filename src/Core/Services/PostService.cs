@@ -24,6 +24,11 @@ namespace Fakebook.Core.Services
 			{
 				throw new ArgumentNullException(nameof(post));
 			}
+
+			post.Id = Guid.NewGuid().ToString();
+			post.DatePosted = DateTime.UtcNow;
+			post.Likes = Array.Empty<string>();
+			
 			bool successful = await _postRepository.AddAsync(post);
 			return successful;
 		}
