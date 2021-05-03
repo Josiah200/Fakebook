@@ -20,8 +20,9 @@ namespace Fakebook.Web.Controllers
 		private readonly IPostService _postService;
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IMapper _mapper;
-        
-		public PostController(IPostService postService, UserManager<ApplicationUser> userManager, IMapper mapper)
+
+		public PostController(IPostService postService, 
+					UserManager<ApplicationUser> userManager, IMapper mapper)
 		{
 			_postService = postService;
 			_userManager = userManager;
@@ -65,6 +66,17 @@ namespace Fakebook.Web.Controllers
 			{
 				var postModels = new List<PostViewModel>();
 				postModels.AddRange(posts.Select(_mapper.Map<PostViewModel>));
+				foreach (PostViewModel post in postModels)
+				{
+					if (await _postService.CheckIfUserLikesPostAsync(post.Id, userId))
+					{
+						post.UserLikes = true;
+					}
+					else
+					{
+						post.UserLikes = false;
+					}
+				}
 				return Ok(postModels);
 			}
 		}
@@ -79,27 +91,23 @@ namespace Fakebook.Web.Controllers
 				return Challenge();
 			}
 
-			if (newPost is null)
-			{
-				throw new ArgumentNullException(nameof(newPost));
-			}
-
-			if (string.IsNullOrEmpty(newPost.Text))
+			if (newPost is null || string.IsNullOrEmpty(newPost.Text))
 			{
 				return BadRequest();
 			}
+
 			newPost.UserId = currentUser.Id;
 			
 			await _postService.SavePostAsync(newPost);
 			
 			return RedirectToAction("Index", "Home");
 		}
-
+		
 		[HttpPost("Like")]
 		public async Task<IActionResult> LikePost(string postId)
 		{
 			var currentUser = await _userManager.GetUserAsync(User);
-			var likesPost = await _postService.CheckIfUserLikes(postId, currentUser.Id);
+			var likesPost = await _postService.CheckIfUserLikesPostAsync(postId, currentUser.Id);
 			if (!likesPost)
 			{
 				bool success = await _postService.LikePostAsync(postId, currentUser.Id);

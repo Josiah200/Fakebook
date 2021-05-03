@@ -97,7 +97,7 @@ namespace Fakebook.Core.Services
 			return await _postRepository.UpdateAsync(post);
 		}
 		
-		public async Task<bool> CheckIfUserLikes(string postId, string userId)
+		public async Task<bool> CheckIfUserLikesPostAsync(string postId, string userId)
 		{
 			var post = await _postRepository.GetByIdAsync(postId);
 			if (post.Likes.Contains(userId))

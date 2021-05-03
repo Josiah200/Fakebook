@@ -134,3 +134,27 @@ input[type="radio"]:focus,
   outline: 0;
   box-shadow: none;
 }
+
+.post-text {
+	font-size: 1.1rem;
+}
+.post-author {
+	font-size: 1.2rem;
+}
+
+.post-date {
+	font-size: .8rem;
+}
+
+.comment-text {
+	font-size: .9rem;
+}
+
+.comment-date {
+	font-size: .6rem;
+}
+
+.comment-likes, .comment-like-btn{
+	font-size: .8rem;
+	display: inline-block;
+}

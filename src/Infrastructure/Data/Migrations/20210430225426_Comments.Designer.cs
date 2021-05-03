@@ -4,14 +4,16 @@ using Fakebook.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fakebook.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(FakebookContext))]
-    partial class FakebookContextModelSnapshot : ModelSnapshot
+    [Migration("20210430225426_Comments")]
+    partial class Comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,13 +25,6 @@ namespace Fakebook.Infrastructure.Data.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("DatePosted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Likes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostId")
                         .IsRequired()
@@ -49,7 +44,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Friendship", b =>
@@ -220,7 +215,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Fakebook.Core.Entities.User", "User")
-                        .WithMany("Comments")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -297,8 +292,6 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Fakebook.Core.Entities.User", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Friendships");
 
                     b.Navigation("Notifications");

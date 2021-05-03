@@ -17,6 +17,8 @@ namespace Fakebook.Infrastructure.Data
 		{
 			return await _dbContext.Posts
 				.Include(p => p.User)
+				.Include(p => p.Comments.OrderByDescending(c => c.DatePosted))
+				.ThenInclude(c => c.User)
 				.Where(p=> userIds.Contains(p.UserId))
 				.OrderByDescending(p => p.DatePosted)
 				.Skip(page*pageSize)

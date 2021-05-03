@@ -16,6 +16,7 @@ namespace Fakebook.Infrastructure.Data
 		public DbSet<Photo> Photos { get; set; }
 		public DbSet<Friendship> Friendships { get; set; }
 		public DbSet<Notification> Notifications { get; set; }
+		public DbSet<Comment> Comments { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
@@ -40,6 +41,13 @@ namespace Fakebook.Infrastructure.Data
 
 			builder.Entity<Post>()
 				.Property(p => p.Likes)
+				.HasConversion(
+					l => string.Join(',', l),
+					l => l.Split(',', StringSplitOptions.RemoveEmptyEntries)
+				);
+				
+			builder.Entity<Comment>()
+				.Property(c => c.Likes)
 				.HasConversion(
 					l => string.Join(',', l),
 					l => l.Split(',', StringSplitOptions.RemoveEmptyEntries)

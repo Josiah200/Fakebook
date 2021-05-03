@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Fakebook.Web.Models.ViewModels
 {
@@ -12,5 +13,7 @@ namespace Fakebook.Web.Models.ViewModels
 		public string LastName { get; set; }
 		public byte[] ProfilePicture { get; set; }
 		public int Likes { get; set; }
+		public bool UserLikes { get; set; }
+		public List<CommentViewModel> Comments { get; set; }
     }
 }

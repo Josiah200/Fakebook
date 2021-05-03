@@ -42,13 +42,6 @@ namespace Fakebook.Web
 		{
 			services.AddControllersWithViews();
 
-			services.AddDbContext<FakebookContext>(options => 
-				options.UseSqlServer(
-					Configuration.GetConnectionString("FakebookConnection")));
-
-			services.AddDbContext<FakebookIdentityContext>(options =>
-				options.UseSqlServer(
-					Configuration.GetConnectionString("IdentityConnection")));
 
 			ConfigureServices(services);
 		}
@@ -84,12 +77,14 @@ namespace Fakebook.Web
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 			services.AddScoped<IPhotoRepository, PhotoRepository>();
+			services.AddScoped<ICommentRepository, CommentRepository>();
 			services.AddScoped<INotificationsRepository, NotificiationsRepository>();
 
 			services.AddScoped<IPostService, PostService>();
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IFriendsService, FriendsService>();
 			services.AddScoped<IPhotoService, PhotoService>();
+			services.AddScoped<ICommentService, CommentService>();
 			services.AddScoped<INotificationsService, NotificationsService>();
         }
 

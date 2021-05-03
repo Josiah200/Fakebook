@@ -34,17 +34,18 @@ $(window).on("scroll load", function() {
 function postTemplate(post) {
 	const datePosted = new Date(post.datePosted);
 	var timeString = getTimeString(datePosted);
+	var postLikes = parseInt(post.likes);
 
-	if (parseInt(post.likes) > 0) {
-		if (parseInt(post.likes == 1)) {
-			likes = `<div class="likes border-top">${post.likes} Like</div>`
+	if (postLikes > 0) {
+		if (postLikes == 1) {
+			likes = `<div class="post-likes border-top">${post.likes} Like</div>`
 		}
 		else {
-			likes = `<div class="likes border-top">${post.likes} Likes</div>`
+			likes = `<div class="post-likes border-top">${post.likes} Likes</div>`
 		}
 	}
 	else {
-		likes = `<div class="likes border-top" style="display:none;">${post.likes} Likes</div>`;
+		likes = `<div class="post-likes border-top" style="display:none;">${post.likes} Likes</div>`;
 	}
 
 	var text = sanitize(post.text);
@@ -52,10 +53,10 @@ function postTemplate(post) {
 	return `
 		<div class="post card card-outline-primary m-1 p-1">
 			<span name="PostId" class="post-id" style="display: none;">${post.id}</span>
-			<div class="Author p-1">
+			<div class="post-author p-1">
 				<img src="data:image/png;base64,${post.profilePicture}" style="width: 3rem; height: 3rem;" />
 				<a href="/Profile/${post.userPublicId}"> ${post.firstName} ${post.lastName}</a>
-				<time class="badge text-muted" title="${datePosted.toLocaleString()}">${timeString}</time>
+				<time class="post-date badge text-muted" title="${datePosted.toLocaleString()}">${timeString}</time>
 			</div>
 			<div class="post-text p-1" id="post-text">${text}</div>
 			${likes}
@@ -69,8 +70,45 @@ function postTemplate(post) {
 					</div>
 				</div>
 			</div>
+			<div class="Comments">
+				${post.comments.map(commentTemplate).join("")}
+			</div>
 		</div>
 	`;
+}
+
+function commentTemplate(comment)
+{
+	const datePosted = new Date(comment.datePosted);
+	var timeString = getTimeString(datePosted);
+
+	var commentLikes = parseInt(comment.likes);
+
+	if (commentLikes > 0) {
+		if (commentLikes == 1) {
+			likes = `<div class="comment-likes">${comment.likes} Like</div>`
+		}
+		else {
+			likes = `<div class="comment-likes">${comment.likes} Likes</div>`
+		}
+	}
+	else {
+		likes = `<div class="comment-likes" style="display:none;">${comment.likes} Likes</div>`;
+	}
+
+	return `
+		<div class="comment pt-1">
+			<span name="CommentId" class="comment-id" style="display: none;">${comment.id}</span>
+			<div class="comment-info">
+				<img src="data:image/png;base64,${comment.profilePicture}" style="width: 1.7rem; height: 1.7rem;" />
+				<a href="/Profile/${comment.authorPublicId}"> ${comment.author}</a>
+				<time class="comment-date badge text-muted" title="${datePosted.toLocaleString()}">${timeString}</time>
+			</div>
+			<div class="comment-text" style="padding-left: .6em; padding-right: .6em">${comment.text}</div>
+			${likes}
+			<a type="button" class="comment-like-btn pl-1">Like</a>
+		</div>
+	`
 }
 
 function sanitize(string) {
@@ -93,6 +131,7 @@ function getTimeString(datePosted)
 	const hoursSince = timeSince / 1000 / 3600;
 	const minutesSince = Math.floor((timeSince / 1000) / 60);
 	const secondsSince = timeSince / 1000;
+
 	if (daysSince < 1) {
 		if (minutesSince < 1) {
 			return `${Math.floor(secondsSince)}s`;
@@ -109,10 +148,10 @@ function getTimeString(datePosted)
 	}
 	else {
 		if (datePosted.getFullYear == Date.now.getFullYear) {
-			return datePosted.toLocaleString();
+			return datePosted.toLocaleDateString([], {year: '2-digit', month: '2-digit', day: '2-digit'});
 		}
 		else {
-			return datePosted.toLocaleString();
+			return datePosted.toLocaleDateString([], { year: '2-digit', month: '2-digit', day: '2-digit' });
 		}
 	}
 }
