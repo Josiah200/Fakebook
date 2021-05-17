@@ -29,11 +29,19 @@ namespace Fakebook.Web
 				.AddNewtonsoftJson(o =>
 					o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-			services.AddDbContext<FakebookContext>(options =>
-			options.UseInMemoryDatabase("Fakebook"));
+			services.AddDbContext<FakebookContext>(options => 
+				options.UseSqlServer(
+					Configuration.GetConnectionString("FakebookConnection")));
 
 			services.AddDbContext<FakebookIdentityContext>(options =>
-				options.UseInMemoryDatabase("Identity"));
+				options.UseSqlServer(
+					Configuration.GetConnectionString("IdentityConnection")));
+
+			// services.AddDbContext<FakebookContext>(options =>
+			// 	options.UseInMemoryDatabase("Fakebook"));
+
+			// services.AddDbContext<FakebookIdentityContext>(options =>
+			// 	options.UseInMemoryDatabase("Identity"));
 
 			ConfigureServices(services);
 		}
@@ -42,6 +50,13 @@ namespace Fakebook.Web
 		{
 			services.AddControllersWithViews();
 
+			services.AddDbContext<FakebookContext>(options => 
+				options.UseSqlServer(
+					Configuration.GetConnectionString("FakebookConnection")));
+
+			services.AddDbContext<FakebookIdentityContext>(options =>
+				options.UseSqlServer(
+					Configuration.GetConnectionString("IdentityConnection")));
 
 			ConfigureServices(services);
 		}
@@ -76,16 +91,14 @@ namespace Fakebook.Web
 			services.AddScoped<IPostRepository, PostRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IFriendshipRepository, FriendshipRepository>();
-			services.AddScoped<IPhotoRepository, PhotoRepository>();
 			services.AddScoped<ICommentRepository, CommentRepository>();
-			services.AddScoped<INotificationsRepository, NotificiationsRepository>();
 
 			services.AddScoped<IPostService, PostService>();
+			services.AddScoped<ICommentService, CommentService>();
+			services.AddScoped(typeof(ILikeService<>), typeof(LikeService<>));
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IFriendsService, FriendsService>();
 			services.AddScoped<IPhotoService, PhotoService>();
-			services.AddScoped<ICommentService, CommentService>();
-			services.AddScoped<INotificationsService, NotificationsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

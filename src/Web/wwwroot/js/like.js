@@ -3,7 +3,7 @@ $("#posts").on("click", "input.like-btn", function(e) {
 
 	$.ajax({
 		url: '/Post/Like',
-		data: {postId},
+		data: { postId },
 		dataType: 'html',
 		type: 'POST',
 		statusCode: {

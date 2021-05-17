@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Fakebook.Core.Entities
 {
@@ -10,6 +11,6 @@ namespace Fakebook.Core.Entities
 		public string UserId { get; set; }
 		public User User { get; set; }
 		public DateTime DatePosted { get; set; }
-		public string[] Likes { get; set; }
-    }
+		public ICollection<Like<Comment>> Likes { get; set; }
+	}
 }

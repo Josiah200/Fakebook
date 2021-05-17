@@ -27,10 +27,6 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Likes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PostId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -74,6 +70,42 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.HasIndex("FriendId");
 
                     b.ToTable("Friendships");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Like<Fakebook.Core.Entities.Comment>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PostId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "PostId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("CommentLikes");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Like<Fakebook.Core.Entities.Post>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PostId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "PostId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("PostLikes");
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Notification", b =>
@@ -132,10 +164,6 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Likes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhotoId")
                         .HasColumnType("nvarchar(max)");
@@ -222,7 +250,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.HasOne("Fakebook.Core.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -245,6 +273,44 @@ namespace Fakebook.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Friend");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Like<Fakebook.Core.Entities.Comment>", b =>
+                {
+                    b.HasOne("Fakebook.Core.Entities.Comment", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Fakebook.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Like<Fakebook.Core.Entities.Post>", b =>
+                {
+                    b.HasOne("Fakebook.Core.Entities.Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("Fakebook.Core.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -282,15 +348,22 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.HasOne("Fakebook.Core.Entities.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Fakebook.Core.Entities.Comment", b =>
+                {
+                    b.Navigation("Likes");
+                });
+
             modelBuilder.Entity("Fakebook.Core.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Likes");
 
                     b.Navigation("Photo");
                 });

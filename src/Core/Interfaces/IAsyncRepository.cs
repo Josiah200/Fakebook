@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 
@@ -11,5 +12,6 @@ namespace Fakebook.Core.Interfaces
 		Task<bool> AddAsync(T entity);
 		Task<bool> DeleteAsync(T entity);
 		Task<bool> UpdateAsync(T entity);
+		Task<bool> SaveChangesAsync();
     }
 }

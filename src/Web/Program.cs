@@ -26,7 +26,7 @@ namespace Fakebook.Web
 				}
 				catch (Exception ex)
 				{
-					Console.WriteLine(ex.ToString() + " Seeding failed.");
+					Console.WriteLine(ex.Message.ToString() + " Seeding failed.");
 				}
 			}
 			host.Run();

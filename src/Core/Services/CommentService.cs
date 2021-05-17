@@ -27,28 +27,9 @@ namespace Fakebook.Core.Services
 			return successful;
 		}
 
-		public async Task<bool> LikeCommentAsync(string commentId, string userId)
+		public async Task<Comment> GetByIdAsync(string commentId)
 		{
-			var comment = await _commentRepository.GetByIdAsync(commentId);
-			comment.Likes = comment.Likes.Concat(new string[] {userId}).ToArray();
-			return await _commentRepository.UpdateAsync(comment);
-		}
-
-		public async Task<bool> UnlikeCommentAsync(string commentId, string userId)
-		{
-			var comment = await _commentRepository.GetByIdAsync(commentId);
-			comment.Likes = comment.Likes.Where(l => l != userId).ToArray();
-			return await _commentRepository.UpdateAsync(comment);
-		}
-
-		public async Task<bool> CheckIfUserLikesCommentAsync(string commentId, string userId)
-		{
-			var comment = await _commentRepository.GetByIdAsync(commentId);
-			if (comment.Likes.Contains(userId))
-			{
-				return true;
-			}
-			return false;
+			return await _commentRepository.GetByIdAsync(commentId);
 		}
     }
 }

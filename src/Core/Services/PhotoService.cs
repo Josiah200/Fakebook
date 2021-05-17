@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
@@ -9,9 +10,9 @@ namespace Fakebook.Core.Services
 {
 	public class PhotoService : IPhotoService
 	{
-		private readonly IPhotoRepository _photoRepository;
+		private readonly IAsyncRepository<Photo> _photoRepository;
 		
-		public PhotoService(IPhotoRepository photoRepository)
+		public PhotoService(IAsyncRepository<Photo> photoRepository)
 		{
 			_photoRepository = photoRepository;
 		}
@@ -33,7 +34,13 @@ namespace Fakebook.Core.Services
 				IsProfilePicture = true
 			};
 
-			var currentPhoto = await _photoRepository.GetProfilePictureAsync(user.Id);
+			var photos = await _photoRepository.ListAllAsync();
+
+			var currentPhoto = photos
+				.Where(p => p.UserId == user.Id)
+				.Where(p => p.IsProfilePicture == true)
+				.First();
+
 			var successfulAdd = await _photoRepository.AddAsync(photo);
 
 			if(currentPhoto != null && successfulAdd == true)

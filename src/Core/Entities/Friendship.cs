@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fakebook.Core.Entities
 {
-	public class Friendship : BaseEntity, IDisposable
+	public class Friendship : BaseEntity
 	{
         public string UserId { get; set; }
 		[ForeignKey("UserId")]
@@ -13,7 +13,6 @@ namespace Fakebook.Core.Entities
 		public User Friend { get; set; }
 		public Status Status { get; set; }
 		public DateTime Timestamp { get; set; }
-		public void Dispose() {}
     }
 
 	public enum Status

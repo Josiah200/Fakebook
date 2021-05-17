@@ -14,15 +14,15 @@ namespace Fakebook.Web.Controllers
     public class CommentController : ControllerBase
     {	
 		private readonly ICommentService _commentService;
+		private readonly ILikeService<Comment> _likeService;
 		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly IMapper _mapper;
         
-		public CommentController(ICommentService commentService,
-					UserManager<ApplicationUser> userManager, IMapper mapper)
+		public CommentController(ICommentService commentService, 
+			ILikeService<Comment> likeService, UserManager<ApplicationUser> userManager)
 		{
 			_commentService = commentService;
+			_likeService = likeService;
 			_userManager = userManager;
-			_mapper = mapper;
 		}
 		
 		[HttpPost]
@@ -52,14 +52,17 @@ namespace Fakebook.Web.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+		[Authorize]
 		[HttpPost("Like")]
-		public async Task<IActionResult> LikeComment(string commentId)
+		public async Task<IActionResult> Like(string commentId)
 		{
 			var currentUser = await _userManager.GetUserAsync(User);
-			var likesPost = await _commentService.CheckIfUserLikesCommentAsync(commentId, currentUser.Id);
+
+			var likesPost = await _likeService.CheckIfUserLikesAsync(commentId, currentUser.Id);
+
 			if (!likesPost)
 			{
-				bool success = await _commentService.LikeCommentAsync(commentId, currentUser.Id);
+				bool success = await _likeService.LikeAsync(commentId, currentUser.Id);
 				if (success)
 				{
 					return Ok("Liked");
@@ -67,13 +70,13 @@ namespace Fakebook.Web.Controllers
 			}
 			else
 			{
-				bool success = await _commentService.UnlikeCommentAsync(commentId, currentUser.Id);
+				bool success = await _likeService.UnlikeAsync(commentId, currentUser.Id);
 				if (success)
 				{
 					return Ok("Unliked");
 				}
 			}
-			
+
 			return BadRequest();
 		}
     }

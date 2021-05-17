@@ -43,7 +43,7 @@ namespace Fakebook.Infrastructure.Data
 					.RuleFor(p => p.Text, f => f.Rant.Random.Words(r.Next(5, 200)))
 					.RuleFor(p => p.DatePosted, f => f.Date.Past())
 					.RuleFor(p => p.UserId, f => f.PickRandom(userData).Id)
-					.RuleFor(p => p.Likes, f => f.PickRandom(Enumerable.Range(0, r.Next(0,20)).Select(x => "AAA").ToArray(), Array.Empty<string>()));
+					.RuleFor(p => p.Likes, f => new List<Like<Post>>());
 
 				var postData = postsFaker.Generate(1000);
 
@@ -52,15 +52,15 @@ namespace Fakebook.Infrastructure.Data
 					.RuleFor(c => c.Text, f => f.Rant.Random.Words(r.Next(3, 40)))
 					.RuleFor(c => c.DatePosted, f => f.Date.Past())
 					.RuleFor(c => c.PostId, f => f.PickRandom(postData).Id)
-					.RuleFor(c => c.UserId, f => f.PickRandom(userData).Id)
-					.RuleFor(c => c.Likes, f => f.PickRandom(Enumerable.Range(0, r.Next(0,20)).Select(x => "AAA").ToArray(), Array.Empty<string>()));
+					.RuleFor(c => c.UserId, f => f.PickRandom(userData).Id);
+					// .RuleFor(c => c.Likes, f => f.PickRandom(Enumerable.Range(0, r.Next(0,20)).Select(x => "AAA").ToArray(), Array.Empty<string>()));
 
 				var commentData = commentsFaker.Generate(1500);
 
-				await fakebookContext.Users.AddRangeAsync(userData);
-				await fakebookContext.Posts.AddRangeAsync(postData);
-				await fakebookContext.Comments.AddRangeAsync(commentData);
-				await fakebookContext.SaveChangesAsync();
+				fakebookContext.Users.AddRange(userData);
+				fakebookContext.Posts.AddRange(postData);
+				fakebookContext.Comments.AddRange(commentData);
+				fakebookContext.SaveChanges();
 			}
 		}
 	}

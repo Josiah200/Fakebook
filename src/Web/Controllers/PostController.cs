@@ -18,13 +18,15 @@ namespace Fakebook.Web.Controllers
     public class PostController : ControllerBase
     {
 		private readonly IPostService _postService;
+		private readonly ILikeService<Post> _likeService;
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IMapper _mapper;
 
-		public PostController(IPostService postService, 
-					UserManager<ApplicationUser> userManager, IMapper mapper)
+		public PostController(IPostService postService, ILikeService<Post> likeService, 
+			UserManager<ApplicationUser> userManager, IMapper mapper)
 		{
 			_postService = postService;
+			_likeService = likeService;
 			_userManager = userManager;
 			_mapper = mapper;
 		}
@@ -68,7 +70,7 @@ namespace Fakebook.Web.Controllers
 				postModels.AddRange(posts.Select(_mapper.Map<PostViewModel>));
 				foreach (PostViewModel post in postModels)
 				{
-					if (await _postService.CheckIfUserLikesPostAsync(post.Id, userId))
+					if (await _likeService.CheckIfUserLikesAsync(post.Id, userId))
 					{
 						post.UserLikes = true;
 					}
@@ -102,15 +104,18 @@ namespace Fakebook.Web.Controllers
 			
 			return RedirectToAction("Index", "Home");
 		}
-		
+
+		[Authorize]
 		[HttpPost("Like")]
-		public async Task<IActionResult> LikePost(string postId)
+		public async Task<IActionResult> Like(string postId)
 		{
 			var currentUser = await _userManager.GetUserAsync(User);
-			var likesPost = await _postService.CheckIfUserLikesPostAsync(postId, currentUser.Id);
+
+			var likesPost = await _likeService.CheckIfUserLikesAsync(postId, currentUser.Id);
+
 			if (!likesPost)
 			{
-				bool success = await _postService.LikePostAsync(postId, currentUser.Id);
+				bool success = await _likeService.LikeAsync(postId, currentUser.Id);
 				if (success)
 				{
 					return Ok("Liked");
@@ -118,13 +123,13 @@ namespace Fakebook.Web.Controllers
 			}
 			else
 			{
-				bool success = await _postService.UnlikePostAsync(postId, currentUser.Id);
+				bool success = await _likeService.UnlikeAsync(postId, currentUser.Id);
 				if (success)
 				{
 					return Ok("Unliked");
 				}
 			}
-			
+
 			return BadRequest();
 		}
     }

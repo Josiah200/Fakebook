@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fakebook.Infrastructure.Data
 {
-	public class EfRepository<T> where T : BaseEntity
+	public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity
     {
 		protected readonly FakebookContext _dbContext;
 		
@@ -14,11 +14,13 @@ namespace Fakebook.Infrastructure.Data
 		{
 			_dbContext = dbContext;
 		}
+
 		public async Task<T> GetByIdAsync(string id)
 		{
 			return await _dbContext.Set<T>()
 				.FirstOrDefaultAsync(x => x.Id == id);
 		}
+
 		public async Task<IReadOnlyList<T>> ListAllAsync()
 		{
 			return await _dbContext.Set<T>().ToListAsync();

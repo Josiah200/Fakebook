@@ -24,13 +24,17 @@ namespace Fakebook.Core.Services
 			{
 				throw new ArgumentNullException(nameof(post));
 			}
-
+			post.Likes = new List<Like<Post>>();
 			post.Id = Guid.NewGuid().ToString();
 			post.DatePosted = DateTime.UtcNow;
-			post.Likes = Array.Empty<string>();
 			
 			bool successful = await _postRepository.AddAsync(post);
 			return successful;
+		}
+
+		public async Task<Post> GetByIdAsync(string postId)
+		{
+			return await _postRepository.GetByIdAsync(postId);
 		}
 
 		public async Task<IReadOnlyCollection<Post>?> GetHomePostsPageAsync(string userId, int page, int pageSize)
@@ -81,30 +85,6 @@ namespace Fakebook.Core.Services
 			{
 				return posts;
 			}
-		}
-
-		public async Task<bool> LikePostAsync(string postId, string userId)
-		{
-			var post = await _postRepository.GetByIdAsync(postId);
-			post.Likes = post.Likes.Concat(new string[] {userId}).ToArray();
-			return await _postRepository.UpdateAsync(post);
-		}
-		
-		public async Task<bool> UnlikePostAsync(string postId, string userId)
-		{
-			var post = await _postRepository.GetByIdAsync(postId);
-			post.Likes = post.Likes.Where(l => l != userId).ToArray();
-			return await _postRepository.UpdateAsync(post);
-		}
-		
-		public async Task<bool> CheckIfUserLikesPostAsync(string postId, string userId)
-		{
-			var post = await _postRepository.GetByIdAsync(postId);
-			if (post.Likes.Contains(userId))
-			{
-				return true;
-			}
-			return false;
 		}
 	}
 }
