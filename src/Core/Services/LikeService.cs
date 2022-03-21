@@ -8,16 +8,16 @@ namespace Fakebook.Core.Services
 {
     public class LikeService<T> : ILikeService<T> where T : BaseEntity
     {
-        private readonly IAsyncRepository<Like<T>> _likeRepository;
+        private readonly IAsyncRepository<Like> _likeRepository;
 
-		public LikeService(IAsyncRepository<Like<T>> likeRepository)
+		public LikeService(IAsyncRepository<Like> likeRepository)
 		{
 			_likeRepository = likeRepository;
 		}
 
 		public async Task<bool> LikeAsync(string postId, string userId)
 		{
-			var like = new Like<T>
+			var like = new Like
 			{
 				UserId = userId,
 				PostId = postId
@@ -34,11 +34,11 @@ namespace Fakebook.Core.Services
 		
 		public async Task<bool> CheckIfUserLikesAsync(string postId, string userId)
 		{
-			if ((await _likeRepository.ListAllAsync()).Where(l => l.PostId == postId && l.UserId == userId).Any())
-			{
-				return true;
-			}
-			return false;
+			var likes = await _likeRepository.ListAllAsync();
+			return likes
+				.Where(l => l.PostId == postId)
+			 	.Where(l => l.UserId == userId)
+				.Any();
 		}
 	}
 }

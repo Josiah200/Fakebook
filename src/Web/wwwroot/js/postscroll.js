@@ -34,6 +34,7 @@ $(window).on("scroll load", function() {
 function postTemplate(post) {
 	const datePosted = new Date(post.datePosted);
 	var timeString = getTimeString(datePosted);
+	var likeString = "Like";
 	var postLikes = parseInt(post.likes);
 
 	if (postLikes > 0) {
@@ -47,6 +48,10 @@ function postTemplate(post) {
 	else {
 		likes = `<div class="post-likes border-top" style="display:none;">${post.likes} Likes</div>`;
 	}
+	if (post.userLikes)
+	{
+		likeString = "Unlike";
+	}
 
 	var text = sanitize(post.text);
 
@@ -54,7 +59,7 @@ function postTemplate(post) {
 		<div class="post card card-outline-primary m-1 p-1">
 			<span name="PostId" class="post-id" style="display: none;">${post.id}</span>
 			<div class="post-author p-1">
-				<img src="data:image/png;base64,${post.profilePicture}" style="width: 3rem; height: 3rem;" />
+				<img src="data:image/png;base64,${post.profilePicture}" style="width: 3rem; height: 3rem;" />	
 				<a href="/Profile/${post.userPublicId}"> ${post.firstName} ${post.lastName}</a>
 				<time class="post-date badge text-muted" title="${datePosted.toLocaleString()}">${timeString}</time>
 			</div>
@@ -63,7 +68,7 @@ function postTemplate(post) {
 			<div class="container-fluid">
 				<div class="row border-top border-bottom" style="margin:auto">
 					<div class="col-md-6 m-0 p-0">
-						<input type="button" class="like-btn btn text-center text-muted m-0 like-btn" value="Like" style="width: 100%">
+						<input type="button" class="like-btn btn text-center text-muted m-0 like-btn" value="${likeString}" style="width: 100%">
 					</div>
 					<div class="col-md-6 m-0 p-0">
 						<input type="button" class="btn text-center text-muted m-0" value="Comment" style="width: 100%">
@@ -81,6 +86,7 @@ function commentTemplate(comment)
 {
 	const datePosted = new Date(comment.datePosted);
 	var timeString = getTimeString(datePosted);
+	var likeString = "Like";
 
 	var commentLikes = parseInt(comment.likes);
 
@@ -96,6 +102,10 @@ function commentTemplate(comment)
 		likes = `<div class="comment-likes" style="display:none;">${comment.likes} Likes</div>`;
 	}
 
+	if (comment.userLikes) {
+		likeString = "Unlike";
+	}
+
 	return `
 		<div class="comment pt-1">
 			<span name="CommentId" class="comment-id" style="display: none;">${comment.id}</span>
@@ -106,7 +116,7 @@ function commentTemplate(comment)
 			</div>
 			<div class="comment-text" style="padding-left: .6em; padding-right: .6em">${comment.text}</div>
 			${likes}
-			<a type="button" class="comment-like-btn pl-1">Like</a>
+			<a type="button" class="comment-like-btn pl-1">${likeString}</a>
 		</div>
 	`
 }
@@ -126,7 +136,8 @@ function sanitize(string) {
 
 function getTimeString(datePosted)
 {
-	const timeSince = (new Date().getTime() - datePosted.getTime());
+	const timePosted = datePosted.valueOf();
+	const timeSince = (Date.now() - timePosted);
 	const daysSince = Math.round(timeSince / (1000 * 60 * 60 * 24));
 	const hoursSince = timeSince / 1000 / 3600;
 	const minutesSince = Math.floor((timeSince / 1000) / 60);

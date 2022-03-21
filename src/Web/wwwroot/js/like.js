@@ -45,11 +45,14 @@ $("#posts").on("click", "a.comment-like-btn", function (e) {
 			200: function (response) {
 				var likes = $(e.target).closest('.comment').find('.comment-likes');
 				var likecount = likes.text();
+				var btn = $(e.target).closest('.comment').find('.comment-like-btn');
 				if (response == "Liked") {
 					var newLikes = parseInt(likecount) + 1;
+					btn.text('Unlike');
 				}
 				else if (response == "Unliked") {
 					var newLikes = parseInt(likecount) - 1;
+					btn.text('Like');
 				}
 				if (newLikes == 0) {
 					likes.text('0 Likes')

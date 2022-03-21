@@ -1,18 +1,21 @@
 using AutoMapper;
 using Fakebook.Core.Entities;
+using Fakebook.Core.Interfaces;
 using Fakebook.Web.Models;
 using Fakebook.Web.Models.ViewModels;
 
 namespace Fakebook.Web
 {
-    public class MappingProfile : Profile
+    public sealed class MappingProfile : Profile
     {
         public MappingProfile()
         {
 			CreateMap<User, UserViewModel>();
 			CreateMap<UserProfileUpdateModel, User>();
-			
-            CreateMap<Post, PostViewModel>()
+
+			CreateMap<Post, PostViewModel>()
+				.ForMember(m => m.Text, o => o.MapFrom(src => src.Text))
+				.ForMember(m => m.DatePosted, o => o.MapFrom(src => src.DatePosted))
 				.ForMember(m => m.FirstName, o => o.MapFrom(src => src.User.FirstName))
 				.ForMember(m => m.LastName, o => o.MapFrom(src => src.User.LastName))
 				.ForMember(m => m.UserPublicId, o => o.MapFrom(src => src.User.PublicId))

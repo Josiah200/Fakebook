@@ -11,6 +11,6 @@ namespace Fakebook.Core.Entities
 		public string UserId { get; set; }
 		public User User { get; set; }
 		public DateTime DatePosted { get; set; }
-		public ICollection<Like<Comment>> Likes { get; set; }
+		public ICollection<Like> Likes { get; set; }
 	}
 }

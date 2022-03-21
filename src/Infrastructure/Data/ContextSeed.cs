@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Fakebook.Infrastructure.Data
 {
-    public class ContextSeed
+    public static class ContextSeed
     {
 		public static async Task SeedAllAsync(FakebookContext fakebookContext)
 		{
@@ -43,7 +43,7 @@ namespace Fakebook.Infrastructure.Data
 					.RuleFor(p => p.Text, f => f.Rant.Random.Words(r.Next(5, 200)))
 					.RuleFor(p => p.DatePosted, f => f.Date.Past())
 					.RuleFor(p => p.UserId, f => f.PickRandom(userData).Id)
-					.RuleFor(p => p.Likes, f => new List<Like<Post>>());
+					.RuleFor(p => p.Likes, f => new List<Like>());
 
 				var postData = postsFaker.Generate(1000);
 

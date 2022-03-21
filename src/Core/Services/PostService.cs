@@ -24,7 +24,7 @@ namespace Fakebook.Core.Services
 			{
 				throw new ArgumentNullException(nameof(post));
 			}
-			post.Likes = new List<Like<Post>>();
+			post.Likes = new List<Like>();
 			post.Id = Guid.NewGuid().ToString();
 			post.DatePosted = DateTime.UtcNow;
 			
