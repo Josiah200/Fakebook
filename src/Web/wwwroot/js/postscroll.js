@@ -136,12 +136,13 @@ function sanitize(string) {
 
 function getTimeString(datePosted)
 {
-	const timePosted = datePosted.valueOf();
-	const timeSince = (Date.now() - timePosted);
-	const daysSince = Math.round(timeSince / (1000 * 60 * 60 * 24));
-	const hoursSince = timeSince / 1000 / 3600;
-	const minutesSince = Math.floor((timeSince / 1000) / 60);
-	const secondsSince = timeSince / 1000;
+	const msPosted = new Date(datePosted);
+	const msNow = Date.now();
+	const msSince = (msNow - msPosted);
+	const daysSince = Math.round(msSince / (1000 * 60 * 60 * 24));
+	const hoursSince = Math.floor(msSince / 1000 / 3600);
+	const minutesSince = Math.floor((msSince / 1000) / 60);
+	const secondsSince = Math.floor(msSince / 1000);
 
 	if (daysSince < 1) {
 		if (minutesSince < 1) {
