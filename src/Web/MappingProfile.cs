@@ -14,8 +14,6 @@ namespace Fakebook.Web
 			CreateMap<UserProfileUpdateModel, User>();
 
 			CreateMap<Post, PostViewModel>()
-				.ForMember(m => m.Text, o => o.MapFrom(src => src.Text))
-				.ForMember(m => m.DatePosted, o => o.MapFrom(src => src.DatePosted))
 				.ForMember(m => m.FirstName, o => o.MapFrom(src => src.User.FirstName))
 				.ForMember(m => m.LastName, o => o.MapFrom(src => src.User.LastName))
 				.ForMember(m => m.UserPublicId, o => o.MapFrom(src => src.User.PublicId))
