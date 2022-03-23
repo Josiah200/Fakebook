@@ -30,17 +30,17 @@
 			<sup class="text-muted">optional</sup>
 			<div class="form-group" style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons" style="order: 0;">
-					<label class="btn">
-						<input type="radio" value="Male" id="maleradio" class="form-control genderradio"> Male
+					<label class="btn btn-primary">
+						<input type="radio" value="Male" id="maleradio" class="genderradio"> Male
 					</label>
-					<label class="btn">
-						<input type="radio" value="Female" id="femaleradio" class="form-control genderradio"> Female
+					<label class="btn btn-primary">
+						<input type="radio" value="Female" id="femaleradio" class="genderradio"> Female
 					</label>
-					<label class="btn" id="gendercustombtn">
-						<input type="radio" value="Custom" id="gendercustom" class="form-control"> Custom	
+					<label class="btn btn-primary" id="gendercustombtn">
+						<input type="radio" value="Custom" id="gendercustom" class=""> Custom	
 					</label>
 				</div>
-				<input asp-for="Input.Gender" maxlength="10" class="form-control genderinput" style="width: 8rem; display: none; order: 1;"></input>
+				<input asp-for="Input.Gender" maxlength="10" class="form-control genderinput" style="width: 8rem; display: none; order: 1;">
 				<span asp-validation-for="Input.Gender" class="text-danger"></span>
 			</div>
 			<div class="form-group">
