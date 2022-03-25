@@ -36,7 +36,7 @@ namespace Fakebook.Infrastructure.Data
 		public Task<Friendship> GetFriendAsync(User user, User friend)
 		{
 			return _dbContext.Friendships
-				.Where(f => (f.UserId == user.Id && f.FriendId == friend.Id) | (f.UserId == friend.Id && f.FriendId == user.Id))
+				.Where(f => (f.UserId == user.Id && f.FriendId == friend.Id) || (f.UserId == friend.Id && f.FriendId == user.Id))
 				.FirstOrDefaultAsync();
 		}
 

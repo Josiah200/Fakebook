@@ -43,9 +43,7 @@ namespace Tests.Core.Services.PostServiceTests
 				new Post() {UserId = "f66f7807-657c-4c49-b101-2e294a615429", Text = "Friend3 Text3", DatePosted = DateTime.Now}
 			};
 
-			_allPostData = new List<Post>
-			{
-			};
+			_allPostData = new List<Post>();
 			_allPostData.AddRange(_userPostData);
 			_allPostData.AddRange(_friendsPostData);
 

@@ -69,7 +69,7 @@ namespace Fakebook.Web.Controllers
 
 			var reciever = await _userService.GetByPublicIdAsync(userPublicId);
 
-			if (currentUser == reciever | currentUser is null | reciever is null)
+			if (currentUser == reciever || currentUser is null || reciever is null)
 			{
 				return BadRequest();
 			}
@@ -103,7 +103,7 @@ namespace Fakebook.Web.Controllers
 			var currentUser = await _userService.GetByIdAsync(currentApplicationUser.Id);
 			var friend = await _userService.GetByPublicIdAsync(userPublicId);
 
-			if (currentUser == null | friend == null)
+			if (currentUser == null || friend == null)
 			{
 				return BadRequest();
 			}

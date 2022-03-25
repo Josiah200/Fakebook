@@ -37,8 +37,7 @@ namespace Fakebook.Core.Services
 			var likes = await _likeRepository.ListAllAsync();
 			return likes
 				.Where(l => l.PostId == postId)
-			 	.Where(l => l.UserId == userId)
-				.Any();
+				.Any(l => l.UserId == userId);
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace Fakebook.Core.Services
             {
                 image.CopyTo(memoryStream);
                 photoByteArray = memoryStream.ToArray();
-            };
+            }
 
 			var photo = new Photo()
 			{
@@ -38,15 +38,14 @@ namespace Fakebook.Core.Services
 
 			var currentPhoto = photos
 				.Where(p => p.UserId == user.Id)
-				.Where(p => p.IsProfilePicture == true)
-				.First();
+				.First(p => p.IsProfilePicture);
 
 			var successfulAdd = await _photoRepository.AddAsync(photo);
 
-			if(currentPhoto != null && successfulAdd == true)
+			if(currentPhoto != null && successfulAdd)
 			{
 				var successfulDelete = await _photoRepository.DeleteAsync(currentPhoto);
-				if ((successfulAdd == true) && (successfulDelete == true))
+				if (successfulAdd && successfulDelete)
 				{
 					user.ProfilePicture = photoByteArray;
 					await _photoRepository.SaveChangesAsync();
