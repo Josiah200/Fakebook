@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Fakebook.Core.Services
 {
@@ -70,7 +69,7 @@ namespace Fakebook.Core.Services
 
 		private async Task<string> GenerateRandomPublicIdAsync()
 		{
-			var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-";
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-";
 			var random = new Random();
 			string id;
 			
