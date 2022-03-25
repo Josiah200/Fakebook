@@ -137,6 +137,7 @@ input[type="radio"]:focus,
 
 .post-text {
 	font-size: 1.1rem;
+	white-space:pre-wrap;
 }
 .post-author {
 	font-size: 1.2rem;
@@ -148,6 +149,7 @@ input[type="radio"]:focus,
 
 .comment-text {
 	font-size: .9rem;
+	white-space:pre-wrap;
 }
 
 .comment-date {
