@@ -20,11 +20,13 @@ namespace Fakebook.Web.Controllers
 
     	public async Task<IActionResult> Index()
 		{
-			var user = await _userManager.GetUserAsync(User);
-			var viewModel = new HomeViewModel
+			var viewModel = new HomeViewModel();
+			
+			if(User != null)
 			{
-				CurrentUserId = user.Id,
-			};
+				var user = await _userManager.GetUserAsync(User);
+				viewModel.CurrentUserId = user.Id;
+			}
 
 			return View(viewModel);
 		}

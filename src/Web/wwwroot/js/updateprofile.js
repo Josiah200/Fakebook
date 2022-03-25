@@ -48,7 +48,7 @@ document.querySelectorAll("#photoform, #editform").forEach(form => {
 	})
 });
 
-$('#editModal').on('hidden.bs.modal', function () {
+$('#profileEditModal').on('hidden.bs.modal', function () {
 	if($(".updateresponse").contents().length) {
 		window.location.href = '../Profile';
 	}

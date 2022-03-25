@@ -8,10 +8,10 @@
 				<div style="font-size: 2em; text-align: center;">@Model.ProfileUser.FirstName @Model.ProfileUser.LastName</div>
 				@if(Model.IsProfileOwner)
 					{
-						<a href="#" class="badge" data-toggle="modal" data-target="#editModal" style="position:absolute; right:0; top:0; margin:auto; z-index: 100;">
+						<button type="button" class="btn" data-toggle="modal" data-target="#profileEditModal" style="position:absolute; right:0; top:0; margin:auto; z-index: 100;">
 							<img src="~/images/edit.svg"></img>
 							<div style="color: black">Edit Profile</div>
-						</a>
+						</button>
 					}
 			</div>
 			<div class="card card-outline-primary mb-1 mt-1 p-1" id="profilebadges" style="display: flex; flex-direction: row; flex-wrap: wrap; align-content: flex-start; width: 100%;">
@@ -88,11 +88,11 @@
 	<div id="posts" class="col-md-7"></div>
 	@if(Model.IsProfileOwner)
 	{
-		<div class="modal fade" id="editModal" role="form" aria-hidden="true">
+		<div class="modal fade" id="profileEditModal" tabindex="-1" role="form" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="editModalLabel">Edit Profile<h5>
+						<h5 class="modal-title" id="profileEditModalLabel">Edit Profile<h5>
 						<button type="button" class="close editformclose" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
