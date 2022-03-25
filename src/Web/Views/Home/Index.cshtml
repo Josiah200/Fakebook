@@ -1,18 +1,10 @@
 @model Fakebook.Web.Models.ViewModels.HomeViewModel
 <div class="row">
-	<div class="col-md-5" style="z-index: 0;">
-		<div class="sticky-top" style="top: 4rem">
-			<div class="card card-outline-primary m-1 p-1">
-				<form asp-controller="Post" asp-action="NewPost" method="POST">
-					<textarea id="Text" name="Text" required placeholder="Whats on your mind?" style="resize: none; height: 8em; width: 100%;"></textarea>
-					<input type="submit" class="btn" value="Post" style="width: 100%"/>
-				</form>
-			</div>
-		</div>
+	<div class="col-md-5">
+		<partial name="_NewPostPartial" />
 	</div>
 	<div id="posts" class="col-md-7" />
 </div>
-
 @section Scripts
 {
 	<script type="text/javascript" data-user_id="@Model.CurrentUserId" data-url="Home" src ="~/js/postscroll.js"></script>

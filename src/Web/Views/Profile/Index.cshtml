@@ -8,7 +8,7 @@
 				<div style="font-size: 2em; text-align: center;">@Model.ProfileUser.FirstName @Model.ProfileUser.LastName</div>
 				@if(Model.IsProfileOwner)
 					{
-						<button type="button" class="btn" data-toggle="modal" data-target="#profileEditModal" style="position:absolute; right:0; top:0; margin:auto; z-index: 100;">
+						<button type="button" class="btn" id="profileEditBtn" data-toggle="modal" data-target="#profileEditModal" style="position:absolute; right:0; top:0; margin:auto; z-index:100;">
 							<img src="~/images/edit.svg"></img>
 							<div style="color: black">Edit Profile</div>
 						</button>
@@ -85,7 +85,12 @@
 			}
 		</div>
 	</div>
-	<div id="posts" class="col-md-7"></div>
+	<div class="col-md-7" id="posts">
+		@if(Model.IsProfileOwner)
+		{
+			<partial name="_NewPostPartial" />
+		}
+	</div>
 	@if(Model.IsProfileOwner)
 	{
 		<div class="modal fade" id="profileEditModal" tabindex="-1" role="form" aria-hidden="true">

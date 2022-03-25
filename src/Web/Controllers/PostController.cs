@@ -93,7 +93,9 @@ namespace Fakebook.Web.Controllers
 			
 			await _postService.SavePostAsync(newPost);
 			
-			return RedirectToAction("Index", "Home");
+			string referrer = Request.Headers["Referer"].ToString();
+			return Redirect(referrer);
+
 		}
 
 		[Authorize]

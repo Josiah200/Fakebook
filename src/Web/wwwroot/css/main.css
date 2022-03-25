@@ -156,7 +156,13 @@ input[type="radio"]:focus,
 	font-size: .6rem;
 }
 
-.comment-likes, .comment-like-btn{
+.comment-likes, .comment-like-btn {
 	font-size: .8rem;
 	display: inline-block;
+}
+
+#profileEditBtn {
+	background-color: transparent !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
 }
