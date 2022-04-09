@@ -22,6 +22,7 @@ namespace Fakebook.Core.Services
 				throw new ArgumentNullException(nameof(comment));
 			}
 			comment.DatePosted = DateTime.UtcNow;
+			comment.Id = Guid.NewGuid().ToString();
 			
 			bool successful = await _commentRepository.AddAsync(comment);
 			return successful;

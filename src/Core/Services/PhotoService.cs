@@ -36,7 +36,7 @@ namespace Fakebook.Core.Services
 
 			var photos = await _photoRepository.ListAllAsync();
 
-			var currentPhoto = photos
+			Photo? currentPhoto = photos
 				.Where(p => p.UserId == user.Id)
 				.First(p => p.IsProfilePicture);
 

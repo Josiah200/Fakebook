@@ -61,10 +61,15 @@ namespace Fakebook.Infrastructure.Data
 				.OnDelete(DeleteBehavior.ClientCascade);
 
 			builder.Entity<Comment>()
-				.HasMany(p => p.Likes)
+				.HasMany(c => c.Likes)
 				.WithOne(l => l.Comment)
 				.HasForeignKey(l => l.PostId)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.Entity<Comment>()
+				.HasMany(c => c.Replies)
+				.WithOne(r => r.Parent)
+				.HasForeignKey(r => r.ParentCommentId);
 
 			builder.Entity<Friendship>()
 				.HasKey(f => new { f.UserId, f.FriendId });

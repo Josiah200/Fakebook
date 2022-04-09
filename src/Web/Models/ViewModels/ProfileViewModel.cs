@@ -11,5 +11,6 @@ namespace Fakebook.Web.Models.ViewModels
 		public Friendship? Friendship { get; set; }
 		public UserProfileUpdateModel UpdateInput { get; set; }
 		public NewPhotoModel PhotoInput { get; set; }
+		public NewCommentModel CommentInput { get; set; }
     }
 }

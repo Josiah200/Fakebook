@@ -2,26 +2,46 @@ let page = 0;
 let docHeight = $(document).height();
 let pageSize = Math.floor(docHeight / 72);
 let userId = $(document.currentScript).attr('data-user_id');
-let url = "/Post/" + $(document.currentScript).attr('data-url')  + "Posts";
+let url = "/Post/" + $(document.currentScript).attr('data-url') + "Posts";
 let remaining = true;
 
-$(window).on("scroll load", function() {
+$(window).on("scroll load", function () {
 	let winScrolled = $(window).height() + $(window).scrollTop();
 	let docHeight = $(document).height();
-	if ((docHeight - winScrolled < 1) && remaining == true)
-	{
+	if ((docHeight - winScrolled < 1) && remaining == true) {
 		$.ajax({
 			url: url,
 			data: { page: page, pageSize: pageSize, userId: userId },
 			dataType: 'json',
 			type: 'GET',
 			statusCode: {
-				200: function(response) {
+				200: function (response) {
 					$("#posts").append(`
 					${response.map(postTemplate).join("")}
 					`);
+					response.forEach(function (post) {
+						let commentBtn = document.getElementById('comment-btn-' + post.id);
+
+						commentBtn.addEventListener('click', function () {
+							toggleCommentForm(commentBtn, post);
+						});
+						post.comments.forEach(function (comment) {
+							let commentBtn = document.getElementById('comment-btn-' + comment.id, false);
+
+							commentBtn.addEventListener('click', function () {
+								toggleCommentForm(commentBtn, comment);
+							});
+							var replyBtns = $('.reply-btn-' + comment.id);
+							replyBtns.each(function () {
+								replyBtn = $(this);
+								this.addEventListener('click', function () {
+									toggleCommentForm(replyBtn, comment);
+								});
+							});
+						});
+					});
 				},
-				404: function() {
+				404: function () {
 					remaining = false;
 				}
 			}
@@ -29,7 +49,7 @@ $(window).on("scroll load", function() {
 		page = page + 1;
 	}
 	return false;
-	});
+});
 
 function postTemplate(post) {
 	const datePosted = new Date(post.datePosted);
@@ -48,16 +68,14 @@ function postTemplate(post) {
 	else {
 		likes = `<div class="post-likes border-top" style="display:none;">${post.likes} Likes</div>`;
 	}
-	if (post.userLikes)
-	{
+	if (post.userLikes) {
 		likeString = "Unlike";
 	}
 
 	var text = sanitize(post.text);
 
-	return `
+	var template = `
 		<div class="post card card-outline-primary m-1 p-1">
-			<span name="PostId" class="post-id" style="display: none;">${post.id}</span>
 			<div class="post-author p-1">
 				<img src="data:image/png;base64,${post.profilePicture}" style="width: 3rem; height: 3rem;" />	
 				<a href="/Profile/${post.userPublicId}"> ${post.firstName} ${post.lastName}</a>
@@ -71,19 +89,20 @@ function postTemplate(post) {
 						<input type="button" class="like-btn btn text-center text-muted m-0 like-btn" value="${likeString}" style="width: 100%">
 					</div>
 					<div class="col-md-6 m-0 p-0">
-						<input type="button" class="btn text-center text-muted m-0" value="Comment" style="width: 100%">
+						<input type="button" class="btn text-center text-muted m-0" id="comment-btn-${post.id}" value="Comment" style="width: 100%">
 					</div>
 				</div>
 			</div>
-			<div class="Comments">
-				${post.comments.map(commentTemplate).join("")}
+			<div class="comments">
+				${post.comments.map(commentTemplate).join('')}
 			</div>
 		</div>
 	`;
+
+	return template;
 }
 
-function commentTemplate(comment)
-{
+function commentTemplate(comment) {
 	const datePosted = new Date(comment.datePosted);
 	var timeString = getTimeString(datePosted);
 	var likeString = "Like";
@@ -107,8 +126,7 @@ function commentTemplate(comment)
 	}
 
 	return `
-		<div class="comment pt-1">
-			<span name="CommentId" class="comment-id" style="display: none;">${comment.id}</span>
+		${comment.isReply ? '<div class="reply pl-4 pt-1">' : `<div class="comment pt-1" id=${comment.id}>`}
 			<div class="comment-info">
 				<img src="data:image/png;base64,${comment.profilePicture}" style="width: 1.7rem; height: 1.7rem;" />
 				<a href="/Profile/${comment.authorPublicId}"> ${comment.author}</a>
@@ -117,6 +135,8 @@ function commentTemplate(comment)
 			<div class="comment-text" style="padding-left: .6em; padding-right: .6em">${comment.text}</div>
 			${likes}
 			<a type="button" class="comment-like-btn pl-1">${likeString}</a>
+			${comment.isReply ? `<a type="button" class="reply-btn reply-btn-${comment.parentCommentId}">Reply</a>` : `<a type="button" id="comment-btn-${comment.id}" class="reply-btn">Reply</a>`}
+		${comment.replies ? comment.replies.map(commentTemplate).join("") : ''}
 		</div>
 	`
 }
@@ -134,8 +154,7 @@ function sanitize(string) {
 	return string.replace(reg, (match) => (map[match]));
 }
 
-function getTimeString(datePosted)
-{
+function getTimeString(datePosted) {
 	const msPosted = new Date(datePosted);
 	const msNow = Date.now();
 	const msSince = (msNow - msPosted);
@@ -160,10 +179,41 @@ function getTimeString(datePosted)
 	}
 	else {
 		if (datePosted.getFullYear == Date.now.getFullYear) {
-			return datePosted.toLocaleDateString([], {year: '2-digit', month: '2-digit', day: '2-digit'});
+			return datePosted.toLocaleDateString([], { year: '2-digit', month: '2-digit', day: '2-digit' });
 		}
 		else {
 			return datePosted.toLocaleDateString([], { year: '2-digit', month: '2-digit', day: '2-digit' });
 		}
 	}
+}
+
+function toggleCommentForm(commentBtn, post) {
+	let commentForm = document.getElementById('newComment');
+	let commentId = "";
+	let dest;
+	let postId = "";
+	if (post.hasOwnProperty('comments')) {
+		dest = commentBtn;
+		$(dest).closest('.post').append(commentForm);
+		// dest = $(document.getElementById(post.id));
+		postId = post.id;
+	}
+	else {
+		dest = $(document.getElementById(post.id));
+		commentId = post.id;
+		$(dest).append(commentForm);
+		postId = post.postId;
+	}
+
+	$(commentForm).find('#comment-id').val(commentId);
+	$(commentForm).find('#post-id').val(postId);
+	if ($(commentForm).is(':visible') == false) {
+		$(commentForm).toggle();
+	}
+
+	let commentTextBox = document.getElementById('commentTextForm');
+	commentTextBox.value = '';
+	commentTextBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	commentTextBox.focus();
+	commentTextBox.select();
 }

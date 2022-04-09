@@ -95,7 +95,6 @@ namespace Fakebook.Web.Controllers
 			
 			string referrer = Request.Headers["Referer"].ToString();
 			return Redirect(referrer);
-
 		}
 
 		[Authorize]

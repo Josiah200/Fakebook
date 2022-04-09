@@ -12,5 +12,9 @@ namespace Fakebook.Core.Entities
 		public User User { get; set; }
 		public DateTime DatePosted { get; set; }
 		public ICollection<Like> Likes { get; set; }
+		public bool IsReply { get; set; }
+		public string? ParentCommentId { get; set; }
+		public Comment? Parent { get; set; }
+		public ICollection<Comment> Replies { get; set; }
 	}
 }

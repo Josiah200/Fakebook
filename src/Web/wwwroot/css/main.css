@@ -57,11 +57,13 @@ body {
 	background: red;
 	color: white;
 }
-.post .btn:hover {
+.post .btn:hover,
+#commentSubmitBtn:hover {
 background-color: #F2F2F2;
 }
 
-.post .btn {
+.post .btn,
+#commentSubmitBtn {
 	background-color: transparent;
 	border-color: none !important;
   	outline: 0;
@@ -81,7 +83,7 @@ background-color: #F2F2F2;
 	border-color: #7b2cab; 
 }
 
-.btn:focus:not(.nav-link):not(.text-muted), .btn:active:not(.nav-link):not(.text-muted), .active {
+.btn:focus:not(.nav-link):not(.text-muted):not(#commentSubmitBtn):not(#profileEditBtn), .btn:active:not(.nav-link):not(.text-muted):not(#commentSubmitBtn):not(#profileEditBtn), .active {
   background-color: #5e1f83 !important;
 }
 
@@ -156,13 +158,32 @@ input[type="radio"]:focus,
 	font-size: .6rem;
 }
 
-.comment-likes, .comment-like-btn {
-	font-size: .8rem;
-	display: inline-block;
-}
-
 #profileEditBtn {
 	background-color: transparent !important;
 	border-color: transparent !important;
 	box-shadow: none !important;
+}
+
+#commentTextForm {
+	height: 46px;
+	overflow: hidden;
+	margin:0px 0px;
+	padding:15px;
+	line-height:16px;
+	display:block;
+}
+
+#postTextForm {
+	height: 8em;
+	min-height: 8em;
+	overflow: hidden;
+	padding: 8px;
+}
+.comment-like-btn,
+.comment-btn,
+.comment-likes,
+.reply-btn {
+	color: inherit;
+	font-size: .8rem;
+	display: inline-block;
 }

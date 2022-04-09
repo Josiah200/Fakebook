@@ -1,8 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
 using Fakebook.Infrastructure.Identity;
+using Fakebook.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +28,7 @@ namespace Fakebook.Web.Controllers
 		}
 		
 		[HttpPost]
-		public async Task<IActionResult> AddComment(string postId, string text)
+		public async Task<IActionResult> AddComment([FromForm] NewCommentModel commentInput)
 		{
 			var currentUser = await _userManager.GetUserAsync(User);
 
@@ -35,21 +37,28 @@ namespace Fakebook.Web.Controllers
 				return Challenge();
 			}
 
-			if (postId is null || string.IsNullOrEmpty(text))
+			if (commentInput.PostId is null || string.IsNullOrEmpty(commentInput.Text))
 			{
 				return BadRequest();
 			}
 			
 			Comment comment = new() 
 			{
-				PostId = postId,
-				Text = text,
+				PostId = commentInput.PostId,
+				Text = commentInput.Text,
 				UserId = currentUser.Id
 			};
-
-			await _commentService.SaveCommentAsync(comment);
 			
-			return RedirectToAction("Index", "Home");
+			if (!string.IsNullOrEmpty(commentInput.CommentId))
+			{
+				comment.IsReply = true;
+				comment.ParentCommentId = commentInput.CommentId;
+			}
+			
+			await _commentService.SaveCommentAsync(comment);
+
+			string referrer = Request.Headers["Referer"].ToString();
+			return Redirect(referrer);
 		}
 
 		[Authorize]
