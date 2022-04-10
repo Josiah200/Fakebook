@@ -1,11 +1,11 @@
 @model NewCommentModel
-<div style="z-index: 0; display: none;" id="newComment" class=" border-top container-fluid">
+<div style="z-index: 0; display: none;" id="newComment" class=" container-fluid">
 	<div class="mt-1">
 		<form asp-controller="Comment" asp-action="AddComment" method="POST">
 			<input name="CommentId" id="comment-id" style="display: none;"></input>
 			<input name="PostId" id="post-id" style="display: none;"></input>
 			<textarea id="commentTextForm" name="Text" required placeholder="Comment" style="resize: none; width: 100%;"></textarea>
-			<input type="submit" id="commentSubmitBtn" class="btn" value="Post" style="width: 100%" />
+			<input type="submit" id="commentSubmitBtn" class="btn border-top border-bottom mt-1" value="Post" style="width: 100%" />
 		</form>
 	</div>
 </div>
