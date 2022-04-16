@@ -12,5 +12,6 @@ namespace Fakebook.Core.Interfaces
 		Task<User> GetByPublicIdAsync(string publicId);
 		Task<List<User>> GetPageAsync(string? searchString, int page = 0);
 		Task<bool> UpdateProfileAsync(User currentUser, User userInput);
+		Task<bool> UpdatePublicIdAsync(User currentUser, string publicIdInput);
 	}
 }

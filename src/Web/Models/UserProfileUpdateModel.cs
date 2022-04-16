@@ -15,10 +15,6 @@ namespace Fakebook.Web.Models
 		[StringLength(18)]
 		[Display(Name = "last name")]
 		public string LastName { get; set; }
-		[Required]
-		[StringLength(8)]
-		[Display(Name = "public ID")]
-		public string PublicId { get; set; }
 		[StringLength(450)]
 		public string? Bio { get; set; }
 		[StringLength(10)]

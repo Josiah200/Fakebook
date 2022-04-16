@@ -1,4 +1,4 @@
-document.querySelectorAll("#photoform, #editform").forEach(form => {
+document.querySelectorAll("#photoform, #editform, #pidform").forEach(form => {
 	const document = form.ownerDocument;
 	form.addEventListener('click', evt => {
 		form.submitter = evt.target.closest('[type=submit]')
@@ -49,7 +49,7 @@ document.querySelectorAll("#photoform, #editform").forEach(form => {
 });
 
 $('#profileEditModal').on('hidden.bs.modal', function () {
-	if($(".updateresponse").contents().length) {
+	if($("#photoupdateresponse").contents().length) {
 		window.location.href = '../Profile';
 	}
 })
@@ -100,3 +100,8 @@ $(function ($) {
         options.messages['maxfilesize'] = options.message;
     });
 }(jQuery));
+
+$('#profileEditModal').on('hidden.bs.modal', function () {
+	let url = window.location.toString().split("/").pop();
+	window.location.replace(window.location.toString().replace('/' + url, ''));
+});

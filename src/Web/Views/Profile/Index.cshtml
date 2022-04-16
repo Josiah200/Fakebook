@@ -110,10 +110,23 @@
 								<input asp-for="PhotoInput.File" type="file" accept="image/png, image/jpg, image/jpeg"></input>
 								<span asp-validation-for="PhotoInput.File" class="text-danger"></span>
 							</div>
-							<div id="updateresponse" class="updateresponse"></div>
-							<button type="submit" class="btn">Save changes</button>
+							<div id="photoupdateresponse" class="updateresponse"></div>
+							<button type="submit" class="btn">Save Photo</button>
 						</form>
-						<form asp-controller="Profile" asp-action="UpdateProfile" method="post" id="editform">
+						<form asp-controller="User" asp-action="UpdatePublicId" method="post" id="pidform" enctype="multipart/form-data">
+							<div class="row">
+								<div class="form-group col">
+									<label asp-for="PublicIdInput.PublicId" title="This is the part of the Url that identifies your profile">Public Identifier <img height="18px" src="~/images/question.svg" class="pb-1"/></label>
+									<input asp-for="PublicIdInput.PublicId" type="text" value="@Model.ProfileUser.PublicId" class="form-control"></input>
+									<span asp-validation-for="PublicIdInput.PublicId" class="text-danger"></span>
+								</div>
+								<div class="ml-30 col p-0">
+									<button type="submit" style="margin-top: 7px; position: absolute; top: 50%; -ms-transform: translateY(-50%); transform: translateY(-50%);" class="btn">Save Public ID</button> 
+								</div>
+								<div id="pidupdateresponse" class="updateresponse col" style="padding-top: 2.2rem; padding-left: 0; padding-right: 0; "></div>
+							</div>
+						</form>
+						<form asp-controller="User" asp-action="UpdateProfile" method="post" id="editform">
 							<div class="input-group">
 								<div class="form-group pr-1">
 									<label asp-for="UpdateInput.FirstName">First name</label>
@@ -189,13 +202,8 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label asp-for="UpdateInput.PublicId" title="This is the part of the Url that identifies your profile">Public Identifier <img height="18px" src="~/images/question.svg" class="pb-1"></label>
-								<input asp-for="UpdateInput.PublicId" type="text" value="@Model.ProfileUser.PublicId" class="form-control"></input>
-								<span asp-validation-for="UpdateInput.PublicId" class="text-danger"></span>
-							</div>
-							<div class="form-group">
 								<label asp-for="UpdateInput.Bio">Bio</label>
-								<textarea id="bioinput" asp-for="UpdateInput.Bio" class="form-control"></textarea>
+								<textarea asp-for="UpdateInput.Bio" id="bioinput" class="form-control"></textarea>
 								<span asp-validation-for="UpdateInput.Bio" class="text-danger"></span>
 							</div>
 							<div class="modal-footer">
@@ -219,42 +227,42 @@
 	{
 		<script src="~/lib/jquery-validate/jquery.validate.js"></script>
    		<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-		<script src="~/js/gendercustom.js" language="javascript"></script>
-		<script src="~/js/updateprofile.js" language="javascript"></script>
+		<script src="~/js/gendercustom.js" ></script>
+		<script src="~/js/updateprofile.js" ></script>
 
 		@if(Model.ProfileUser.Gender == "Male")
 		{
-			<script language="javascript">
+			<script >
 				$("#maleradio").last().prop('checked', true);
 			</script>
 		}
 		else if(Model.ProfileUser.Gender == "Female")
 		{
-			<script language="javascript">
+			<script >
 				$("#femaleradio").last().prop('checked', true);
 			</script>
 		}
 		else
 		{
-			<script language="javascript">
+			<script >
 				$("#gendercustom").last().prop('checked', true);
 				$("#UpdateInput_Gender").toggle();
 			</script>
 		}
 		@if(!String.IsNullOrEmpty(Model.ProfileUser.Bio))
 		{
-			<script language="javascript">
+			<script >
 				$("#bioinput").val($("#biotext").text());
 			</script>
 		}
 		@if(Model.ProfileUser.BirthdateYearPublic == true)
 		{
-			<script language="javascript">
+			<script >
 				$('#UpdateInput_BirthdateYearPublic').prop("checked", true);
 			</script>
 		}
 	}
-	<script language="javascript">
+	<script >
 		if ($("#profilebadges").children().length == 0)
 		{
 			($("#profilebadges").toggle());

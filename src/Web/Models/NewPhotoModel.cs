@@ -3,7 +3,7 @@ using Fakebook.Web.Attributes.ValidationAttributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fakebook.Web.Models.ViewModels
+namespace Fakebook.Web.Models
 {
     public class NewPhotoModel
     {
