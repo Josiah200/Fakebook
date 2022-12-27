@@ -31,8 +31,9 @@
 			<ul class="navbar-nav ml-auto" style="height: 40px;">
 				@if (SignInManager.IsSignedIn(User)) {
 					<li class="nav-item">
-						<form asp-controller="Users" asp-action="Index" asp-route-page="1" style="height: 40px;" method="get">
-							<input type="text" id="search" name="search" placeholder="Search Users" style="resize: none; height: 75%; margin-top: 5px;" />
+						<form asp-controller="UserSearch" asp-action="Index" style="height: 40px;" method="get">
+								<input type="text" id="q" name="q" placeholder="Search Users" style="resize: none; height: 75%; margin-top: 5px;" />
+								<input id="page" name="page" type="hidden" value="1"></input>
 							<input type="submit" style="display: none" />
 						</form>
 					</li>

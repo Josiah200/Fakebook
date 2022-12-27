@@ -36,6 +36,7 @@ namespace Fakebook.Web
             Host.CreateDefaultBuilder(args)
 				.ConfigureLogging(logging =>
 				{
+					
 					logging.ClearProviders();
 					logging.AddConsole();
 				})

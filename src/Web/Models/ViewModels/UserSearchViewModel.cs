@@ -3,7 +3,7 @@ using Fakebook.Core.Entities;
 
 namespace Fakebook.Web.Models.ViewModels
 {
-    public class UsersViewModel
+    public class UserSearchViewModel
     {
         public IEnumerable<UserViewModel> Users { get; set; }
 		public int Page { get; set; }

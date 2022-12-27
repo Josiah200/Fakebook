@@ -8,27 +8,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fakebook.Web.Controllers
 {
-    public class UsersController : Controller
+    public class UserSearchController : Controller
     {
 		private readonly IUserService _userService;
 		private readonly IMapper _mapper;
 
-		public UsersController(IUserService userService, IMapper mapper)
+		public UserSearchController(IUserService userService, IMapper mapper)
 		{
 			_userService = userService;
 			_mapper = mapper;
 		}
 		
 		[Authorize]
-		[HttpGet("Users/{page:int}")]
-    	public async Task<IActionResult> Index(string search, int page)
+		[HttpGet,Route("UserSearch/{q?}/{page?}")]
+    	public async Task<IActionResult> Index(string q, int page)
 		{
-			var users = await _userService.GetPageAsync(search, page - 1);
-			var viewModel = new UsersViewModel
+			var users = await _userService.GetPageAsync(q, page - 1);
+			var viewModel = new UserSearchViewModel
 			{
 				Users = users.Select(_mapper.Map<UserViewModel>),
 				Page = page,
-				SearchString = search
+				SearchString = q
 			};
 
 			return View(viewModel);
