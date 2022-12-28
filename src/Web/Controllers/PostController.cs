@@ -52,10 +52,11 @@ namespace Fakebook.Web.Controllers
 			{
 				var postModels = new List<PostViewModel>();
 				postModels.AddRange(posts.Select(_mapper.Map<PostViewModel>));
+				postModels = await CheckIfUserLikesPosts(postModels, userId);
 				return Ok(postModels);
 			}
 		}
-		
+
 		[HttpGet("UserPosts")]
 		public async Task<IActionResult> UserPosts(int page, int pageSize, string userId)
 		{
@@ -70,6 +71,7 @@ namespace Fakebook.Web.Controllers
 			{
 				var postModels = new List<PostViewModel>();
 				postModels.AddRange(posts.Select(_mapper.Map<PostViewModel>));
+				postModels = await CheckIfUserLikesPosts(postModels, userId);
 				return Ok(postModels);
 			}
 		}
@@ -124,5 +126,22 @@ namespace Fakebook.Web.Controllers
 
 			return BadRequest();
 		}
-    }
+
+		private async Task<List<PostViewModel>> CheckIfUserLikesPosts(List<PostViewModel> postModels, string userId)
+		{
+			foreach (var post in postModels)
+			{
+				foreach (var comment in post.Comments)
+				{
+					foreach (var reply in comment.Replies)
+					{
+						reply.UserLikes = await _commentLikeService.CheckIfUserLikesAsync(reply.Id, userId);
+					}
+					comment.UserLikes = await _commentLikeService.CheckIfUserLikesAsync(comment.Id, userId);
+				}
+				post.UserLikes = await _postLikeService.CheckIfUserLikesAsync(post.Id, userId);
+			}
+			return postModels;
+		}
+	}
 }

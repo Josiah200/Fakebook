@@ -13,6 +13,7 @@ namespace Fakebook.Web.Models.ViewModels
 		public string LastName { get; set; }
 		public byte[] ProfilePicture { get; set; }
 		public int Likes { get; set; }
+		public bool UserLikes { get; set; }
 		public List<ParentCommentViewModel> Comments { get; set; }
     }
 }

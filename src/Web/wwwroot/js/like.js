@@ -1,6 +1,6 @@
 $("#posts").on("click", "input.like-btn", function(e) {
-	var postId = $(e.target).closest('.post').find('.post-id').text();
-
+    var postId = $(e.target).closest('.post').attr('id');
+    var likeBtn = $(e.target).closest('.like-btn');
 	$.ajax({
 		url: '/Post/Like',
 		data: { postId },
@@ -12,9 +12,11 @@ $("#posts").on("click", "input.like-btn", function(e) {
 				var likecount = likes.text();
 				if (response == "Liked") {
 					var newLikes = parseInt(likecount) + 1;
+					likeBtn.val('Unlike');
 				}
 				else if (response == "Unliked") {
 					var newLikes = parseInt(likecount) - 1;
+					likeBtn.val('Like');
 				}
 				if (newLikes == 0) {
 					likes.text('0 Likes')
@@ -26,7 +28,7 @@ $("#posts").on("click", "input.like-btn", function(e) {
 				}
 				else {
 					likes.text(newLikes + ' Likes');
-					likes.show();
+					likes.show()
 				}
 			}
 		}
@@ -34,8 +36,8 @@ $("#posts").on("click", "input.like-btn", function(e) {
 });
 
 $("#posts").on("click", "a.comment-like-btn", function (e) {
-	var commentId = $(e.target).closest('.comment').find('.comment-id').text();
-
+	// var commentId = $(e.target).closest('.cmnt').attr('id');
+	var commentId = $(e.currentTarget).attr('id').substring(5);
 	$.ajax({
 		url: '/Comment/Like',
 		data: { commentId },
@@ -43,9 +45,9 @@ $("#posts").on("click", "a.comment-like-btn", function (e) {
 		type: 'POST',
 		statusCode: {
 			200: function (response) {
-				var likes = $(e.target).closest('.comment').find('.comment-likes');
+				var btn = $(`#like-${commentId}`);
+				var likes = $(`#likes-count-${commentId}`);
 				var likecount = likes.text();
-				var btn = $(e.target).closest('.comment').find('.comment-like-btn');
 				if (response == "Liked") {
 					var newLikes = parseInt(likecount) + 1;
 					btn.text('Unlike');

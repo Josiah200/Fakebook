@@ -75,7 +75,7 @@ function postTemplate(post) {
 	var text = sanitize(post.text);
 
 	var template = `
-		<div class="post card card-outline-primary m-1 p-1">
+		<div class="post card card-outline-primary m-1 p-1" id=${post.id}>
 			<div class="post-author p-1">
 				<img src="data:image/png;base64,${post.profilePicture}" style="width: 3rem; height: 3rem;" />	
 				<a href="/Profile/${post.userPublicId}"> ${post.firstName} ${post.lastName}</a>
@@ -111,14 +111,14 @@ function commentTemplate(comment) {
 
 	if (commentLikes > 0) {
 		if (commentLikes == 1) {
-			likes = `<div class="comment-likes">${comment.likes} Like</div>`
+            likes = `<div class="comment-likes" id="likes-count-${comment.id}">${comment.likes} Like</div>`
 		}
 		else {
-			likes = `<div class="comment-likes">${comment.likes} Likes</div>`
+			likes = `<div class="comment-likes" id="likes-count-${comment.id}">${comment.likes} Likes</div>`
 		}
 	}
 	else {
-		likes = `<div class="comment-likes" style="display:none;">${comment.likes} Likes</div>`;
+		likes = `<div class="comment-likes" id="likes-count-${comment.id}" style="display:none;">${comment.likes} Likes</div>`;
 	}
 
 	if (comment.userLikes) {
@@ -126,7 +126,7 @@ function commentTemplate(comment) {
 	}
 
 	return `
-		${comment.isReply ? '<div class="reply pl-4 pt-1">' : `<div class="comment pt-1" id=${comment.id}>`}
+		${comment.isReply ? `<div class="cmnt reply pl-4 pt-1" id=${comment.id}>` : `<div class="comment cmnt pt-1" id=${comment.id}>`}
 			<div class="comment-info">
 				<img src="data:image/png;base64,${comment.profilePicture}" style="width: 1.7rem; height: 1.7rem;" />
 				<a href="/Profile/${comment.authorPublicId}"> ${comment.author}</a>
@@ -134,7 +134,7 @@ function commentTemplate(comment) {
 			</div>
 			<div class="comment-text" style="padding-left: .6em; padding-right: .6em">${comment.text}</div>
 			${likes}
-			<a type="button" class="comment-like-btn pl-1">${likeString}</a>
+			<a type="button" class="comment-like-btn pl-1" id="like-${comment.id}">${likeString}</a>
 			${comment.isReply ? `<a type="button" class="reply-btn reply-btn-${comment.parentCommentId}">Reply</a>` : `<a type="button" id="comment-btn-${comment.id}" class="reply-btn">Reply</a>`}
 		${comment.replies ? comment.replies.map(commentTemplate).join("") : ''}
 		</div>
