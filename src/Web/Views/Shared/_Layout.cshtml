@@ -18,19 +18,12 @@
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top flex-md-nowrap" style="background-color:#7b2cab; justify-content: center;">
 		<a class="navbar-brand" href="/">Fakebook</a>
 		@if (SignInManager.IsSignedIn(User)) {
-			<ul class="navbar-nav mr-auto" style="flex-direction: row; display: block; height: 40px;">
+			<ul class="navbar-nav mr-auto" style="flex-direction: row; height: 40px;">
 				<li id="friendsBtn" class="nav-item friends-btn">
 					<input class="friends-button nav-link btn p-0" align="right" type="image" src="~/images/friends.svg" style="height: 40px;"/>
 				</li>
-			</ul>
-		}
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarCollapse">
-			<ul class="navbar-nav ml-auto" style="height: 40px;">
 				@if (SignInManager.IsSignedIn(User)) {
-					<li class="nav-item">
+					<li class="nav-item pl-4">
 						<form asp-controller="UserSearch" asp-action="Index" style="height: 40px;" method="get">
 								<input type="text" id="q" name="q" placeholder="Search Users" style="resize: none; height: 75%; margin-top: 5px;" />
 								<input id="page" name="page" type="hidden" value="1"></input>
@@ -38,6 +31,13 @@
 						</form>
 					</li>
 				}
+			</ul>
+		}
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav ml-auto" style="height: 40px;">
 				<partial name="_LoginPartial.cshtml" />
 			</ul>
 		</div>
