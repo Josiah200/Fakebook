@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Fakebook.Core.Entities;
@@ -20,12 +22,14 @@ namespace Fakebook.Web.Controllers
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IUserService _userService;
 		private readonly IFriendsService _friendsService;
+		private readonly IMapper _mapper;
 		
 		public ProfileController(IUserService userService, IFriendsService friendsService, UserManager<ApplicationUser> userManager, IMapper mapper)
 		{
 			_userService = userService;
 			_userManager = userManager;
 			_friendsService = friendsService;
+			_mapper = mapper;
 		}
 
 		[HttpGet]
@@ -40,12 +44,11 @@ namespace Fakebook.Web.Controllers
 				return RedirectToAction("Index", "Profile", new { userPublicId = currentUser.PublicId });
 			}
 
-			var viewModel = new ProfileViewModel()
+			var viewModel = new ProfileViewModel
 			{
-				IsProfileOwner = true
+				IsProfileOwner = true,
+				ProfileUser = await _userService.GetByPublicIdAsync(userPublicId),
 			};
-
-			viewModel.ProfileUser = await _userService.GetByPublicIdAsync(userPublicId);
 
 			if (viewModel.ProfileUser == null)
 			{
@@ -56,9 +59,9 @@ namespace Fakebook.Web.Controllers
 			{
 				viewModel.IsProfileOwner = false;
 				viewModel.Friendship = await _friendsService.GetFriendAsync(currentUser, viewModel.ProfileUser);
-				
 			}
-			
+
+			viewModel.Friends = (await _friendsService.GetFriendsListByUserIdAsync(viewModel.ProfileUser.Id)).Select(_mapper.Map<FriendViewModel>);
 			return View(viewModel);
 		}
     }

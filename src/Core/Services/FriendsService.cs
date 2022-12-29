@@ -53,5 +53,27 @@ namespace Fakebook.Core.Services
 		{
 			return await _friendshipRepository.GetFriendAsync(user, friend);
 		}
+		/// <summary>
+		/// Gets all friends of input user, outputting a list of friendships with input user as Friendship.User
+		/// </summary>
+		public async Task<List<Friendship>> GetFriendsListByUserIdAsync(string userId)
+		{			List<Friendship> fixedList = new();
+			var friendslist = await _friendshipRepository.GetByUserIdAsync(userId);
+			foreach (Friendship fr in friendslist)
+			{
+				if (fr.FriendId == userId)
+				{
+					(fr.User, fr.Friend) = (fr.Friend, fr.User);
+					fr.UserId = fr.User.Id;
+					fr.FriendId = fr.Friend.Id;
+					fixedList.Add(fr);
+				}
+				else
+				{
+					fixedList.Add(fr);
+				}
+			}
+			return fixedList;
+		}
 	}
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Fakebook.Core.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,5 +14,6 @@ namespace Fakebook.Web.Models.ViewModels
 		public NewPublicIdModel PublicIdInput { get; set; }
 		public NewPhotoModel PhotoInput { get; set; }
 		public NewCommentModel CommentInput { get; set; }
-    }
+		public IEnumerable<FriendViewModel> Friends { get; set; }
+	}
 }

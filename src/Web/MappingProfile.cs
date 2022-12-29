@@ -33,6 +33,12 @@ namespace Fakebook.Web
 
 			CreateMap<Comment, ParentCommentViewModel>()
 				.ForMember(m => m.Replies, o => o.MapFrom(src => src.Replies));
+
+			CreateMap<Friendship, FriendViewModel>()
+				.ForMember(m => m.PublicId, o => o.MapFrom(src => src.Friend.PublicId))
+				.ForMember(m => m.FirstName, o => o.MapFrom(src => src.Friend.FirstName))
+				.ForMember(m => m.LastName, o => o.MapFrom(src => src.Friend.LastName))
+				.ForMember(m => m.ProfilePicture, o => o.MapFrom(src => src.Friend.ProfilePicture));
 		}
     }
 }

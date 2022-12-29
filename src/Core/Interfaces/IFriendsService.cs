@@ -12,5 +12,9 @@ namespace Fakebook.Core.Interfaces
 		Task<Friendship> GetFriendAsync(User user, User friend);
 		Task<bool> RemoveFriendAsync(User user, User friend);
 		Task<bool> AcceptRequestAsync(User user, User sender);
+		/// <summary>
+		/// Gets all friends of input user, outputting a list of friendships with input user as Friendship.User
+		/// </summary>
+		Task<List<Friendship>> GetFriendsListByUserIdAsync(string userId);
 	}
 }

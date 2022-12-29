@@ -83,6 +83,21 @@
 					}
 				</div>
 			}
+			@if (Model.Friends.Any())
+			{
+				<div class="card card-outline-primary mb-1 mt-1 p-1 " id="friendslist" style="display: flex; flex-direction: row; flex-wrap: wrap; align-content: flex-start; width: 100%;">
+					<h3 class="m-0" style="border-bottom: 1px solid gray; width:100%;">Friends</h3>
+					@foreach(FriendViewModel friend in Model.Friends)
+					{
+						<div class="friend m-1" style="outline: none;">
+							<a href="/Profile/@friend.PublicId">
+								<img class="img-fluid mx-auto" src="data:image/png;base64,@Convert.ToBase64String(friend.ProfilePicture)" style="display: block; order: 0; left:100;" width="105" height="105"></img>
+							</a>
+							<a href="/Profile/@friend.PublicId" class="friend-name ml-1 mr-1" style="font-size: 13px">@friend.FirstName @friend.LastName</a>
+						</div>
+					}
+				</div>
+			}
 		</div>
 	</div>
 	<div class="col-md-7" id="posts">

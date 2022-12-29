@@ -36,7 +36,7 @@ namespace Fakebook.Infrastructure.Data
 					.RuleFor(u => u.HighSchool, f => f.PickRandom(new string[] {"Savanna High School", "Darwin High", "Blue River High", "Blue River School"}).OrNull(f, 0.2f))
 					.RuleFor(u => u.College, f => f.PickRandom(new string[] {"Lone Pine College", "Mammoth College", "Saint Helena School of Fine Arts", "Storm Coast College", "White Mountain College"}).OrNull(f, 0.5f));
 
-				var userData = usersFaker.Generate(60);
+				var userData = usersFaker.Generate(80);
 
 				var postsFaker = new Faker<Post>()
 					.RuleFor(p => p.Id, f => Guid.NewGuid().ToString())
@@ -55,13 +55,60 @@ namespace Fakebook.Infrastructure.Data
 					.RuleFor(c => c.UserId, f => f.PickRandom(userData).Id);
 					// .RuleFor(c => c.Likes, f => f.PickRandom(Enumerable.Range(0, r.Next(0,20)).Select(x => "AAA").ToArray(), Array.Empty<string>()));
 
-				var commentData = commentsFaker.Generate(1500);
+				var commentData = commentsFaker.Generate(1000);
 
+				var friendsFaker = new Faker<Friendship>()
+					.RuleFor(fr => fr.Id, f => Guid.NewGuid().ToString())
+					.RuleFor(fr => fr.UserId, f => f.PickRandom(userData).Id)
+					.RuleFor(fr => fr.FriendId, f => f.PickRandom(userData).Id)
+					.RuleFor(fr => fr.Timestamp, f => f.Date.Past())
+					.RuleFor(fr => fr.Status, Status.Accepted);
+
+				var friendData = CleanFriendData(friendsFaker.Generate(400));
+				
 				fakebookContext.Users.AddRange(userData);
 				fakebookContext.Posts.AddRange(postData);
 				fakebookContext.Comments.AddRange(commentData);
+				fakebookContext.Friendships.AddRange(friendData);
 				fakebookContext.SaveChanges();
 			}
+		}
+		
+		private static List<Friendship> CleanFriendData(List<Friendship> friendData)
+		{
+			var badData = new List<string>();
+
+			foreach (Friendship fr in friendData)
+			{
+				var u = fr.UserId;
+				var f = fr.FriendId;
+
+				if (u == f)
+				{
+					badData.Add(fr.Id);
+				}
+				var counter = 0;
+				foreach (Friendship fri in friendData)
+				{
+					if (u == fri.FriendId && f == fri.UserId)
+					{
+						badData.Add(fri.Id);
+					}
+					else if (u == fri.UserId && f == fri.FriendId)
+					{
+						counter++;
+					}
+					if (counter > 1)
+					{
+						badData.Add(fri.Id);
+					}
+				}
+			}
+			foreach (string badId in badData)
+			{
+				friendData.RemoveAll(fr => fr.Id == badId);
+			}
+			return friendData;
 		}
 	}
 }
