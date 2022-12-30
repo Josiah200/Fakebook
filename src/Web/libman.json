@@ -21,6 +21,10 @@
     {
       "library": "popper.js@2.11.4",
       "destination": "wwwroot\\lib\\popper.js"
+    },
+    {
+      "library": "marked@4.2.5",
+      "destination": "wwwroot\\lib\\marked"
     }
   ]
 }

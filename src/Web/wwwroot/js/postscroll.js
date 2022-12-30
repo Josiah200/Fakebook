@@ -72,8 +72,7 @@ function postTemplate(post) {
 		likeString = "Unlike";
 	}
 
-	var text = sanitize(post.text);
-
+	//var text = sanitize(post.text);
 	var template = `
 		<div class="post card card-outline-primary m-1 p-1" id=${post.id}>
 			<div class="post-author p-1">
@@ -81,7 +80,7 @@ function postTemplate(post) {
 				<a href="/Profile/${post.userPublicId}"> ${post.firstName} ${post.lastName}</a>
 				<time class="post-date badge text-muted" title="${datePosted.toLocaleString()}">${timeString}</time>
 			</div>
-			<div class="post-text p-1" id="post-text">${text}</div>
+			<div class="post-text p-1" id="post-text">${formatPost(post.text)}</div>
 			${likes}
 			<div class="container-fluid">
 				<div class="row border-top border-bottom" style="margin:auto">
@@ -127,12 +126,12 @@ function commentTemplate(comment) {
 
 	return `
 		${comment.isReply ? `<div class="cmnt reply pl-4 pt-1" id=${comment.id}>` : `<div class="comment cmnt pt-1" id=${comment.id}>`}
-			<div class="comment-info">
+			<div class="comment-info pb-1">
 				<img src="data:image/png;base64,${comment.profilePicture}" style="width: 1.7rem; height: 1.7rem;" />
 				<a href="/Profile/${comment.authorPublicId}"> ${comment.author}</a>
 				<time class="comment-date badge text-muted" title="${datePosted.toLocaleString()}">${timeString}</time>
 			</div>
-			<div class="comment-text" style="padding-left: .6em; padding-right: .6em">${comment.text}</div>
+			<div class="comment-text" style="padding-left: .6em; padding-right: .6em">${formatPost(comment.text)}</div>
 			${likes}
 			<a type="button" class="comment-like-btn pl-1" id="like-${comment.id}">${likeString}</a>
 			${comment.isReply ? `<a type="button" class="reply-btn reply-btn-${comment.parentCommentId}">Reply</a>` : `<a type="button" id="comment-btn-${comment.id}" class="reply-btn">Reply</a>`}
@@ -216,4 +215,10 @@ function toggleCommentForm(commentBtn, post) {
 	commentTextBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
 	commentTextBox.focus();
 	commentTextBox.select();
+}
+
+function formatPost(post)
+{
+	html = marked.parse(post);
+	return html;
 }

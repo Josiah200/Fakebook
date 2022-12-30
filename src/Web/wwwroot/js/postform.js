@@ -10,3 +10,7 @@ function expandTextArea(id) {
 
 expandTextArea('commentTextForm');
 expandTextArea('postTextForm');
+
+document.getElementById('postTextForm').addEventListener('input', function () {
+	document.getElementById('markdownOutput').innerHTML = marked.parse(this.value);
+});
