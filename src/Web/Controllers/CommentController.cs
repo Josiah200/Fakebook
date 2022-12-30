@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using System.Web;
 using AutoMapper;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
@@ -45,7 +46,7 @@ namespace Fakebook.Web.Controllers
 			Comment comment = new() 
 			{
 				PostId = commentInput.PostId,
-				Text = commentInput.Text,
+				Text = HttpUtility.HtmlEncode(commentInput.Text),
 				UserId = currentUser.Id
 			};
 			

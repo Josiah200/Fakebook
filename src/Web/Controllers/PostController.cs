@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using Fakebook.Web.Models.ViewModels;
 using AutoMapper;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Web;
 
 namespace Fakebook.Web.Controllers
 {
@@ -92,7 +94,7 @@ namespace Fakebook.Web.Controllers
 			}
 
 			newPost.UserId = currentUser.Id;
-			
+			newPost.Text = HttpUtility.HtmlEncode(newPost.Text);
 			await _postService.SavePostAsync(newPost);
 			
 			string referrer = Request.Headers["Referer"].ToString();

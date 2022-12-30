@@ -25,6 +25,10 @@
     {
       "library": "marked@4.2.5",
       "destination": "wwwroot\\lib\\marked"
+    },
+    {
+      "library": "dompurify@2.4.1",
+      "destination": "wwwroot\\lib\\dompurify"
     }
   ]
 }
