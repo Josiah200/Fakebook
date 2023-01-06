@@ -188,6 +188,19 @@ input[type="radio"]:focus,
 	color: white;
 }
 
+#messengerCloseBtn {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #7135a7 !important;
+	border: none;
+	cursor: pointer;
+	transform: translate(-7px, -7px);
+	display: none;
+	color: white;
+	z-index: 1;
+}
+
 #postForm:hover .markdown-preview-btn {
 	display: block;
 }
@@ -221,4 +234,8 @@ input[type="radio"]:focus,
 	color: inherit;
 	font-size: .8rem;
 	display: inline-block;
+}
+
+#messengerWindow {
+	max-width: 40% !important;
 }

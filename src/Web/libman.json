@@ -29,6 +29,10 @@
     {
       "library": "dompurify@2.4.1",
       "destination": "wwwroot\\lib\\dompurify"
+    },
+    {
+      "library": "microsoft-signalr@7.0.0",
+      "destination": "wwwroot\\lib\\microsoft-signalr"
     }
   ]
 }

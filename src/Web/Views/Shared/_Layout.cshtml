@@ -54,7 +54,9 @@
 	</div>
 	@RenderSection("Scripts", required: false)
 	@if (SignInManager.IsSignedIn(User)) {
-		<script src="~/js/friends.js" ></script>
+		<script src="~/js/friends.js"></script>
+		<script src="~/lib/microsoft-signalr/signalr.js"></script>
+		<script src="~/js/messenger.js"></script>
 	}
 </body>
 @if (SignInManager.IsSignedIn(User)) {
@@ -70,6 +72,7 @@
 			</div>
 		</div>
 	</div>
+	<partial name="_MessengerPartial" />
 	<script type="text/javascript">
 		document.getElementById('commentTextForm').addEventListener('input', function () {
 				document.getElementById('markdownOutput').innerHTML = marked.parse(this.value);

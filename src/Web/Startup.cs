@@ -9,6 +9,7 @@ using Fakebook.Core.Interfaces;
 using Fakebook.Core.Services;
 using Fakebook.Infrastructure.Data;
 using Fakebook.Infrastructure.Identity;
+using Fakebook.Web.Areas.Messenger;
 
 namespace Fakebook.Web
 {
@@ -76,7 +77,7 @@ namespace Fakebook.Web
 			});
 			
 			services.AddRazorPages();
-			
+			services.AddSignalR();
 			services.AddAutoMapper(typeof(Startup).Assembly);
 
 			services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
@@ -108,7 +109,7 @@ namespace Fakebook.Web
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+			app.UseEndpoints(endpoints =>
             {
 				endpoints.MapControllerRoute(
 					"profileRoute",
@@ -116,6 +117,7 @@ namespace Fakebook.Web
 				);
 				endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 				endpoints.MapRazorPages();
+				endpoints.MapHub<MessengerHub>("/Messenger");
             });
         }
     }
