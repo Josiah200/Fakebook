@@ -21,7 +21,7 @@ namespace Fakebook.Core.Services
 		
 		public async Task<List<Friendship>> GetIncomingRequestsByUserIdAsync(string userId)
 		{
-			return await _friendshipRepository.GetIncomingRequestsByUserIdAsync(userId);
+			return FixFriendsList(await _friendshipRepository.GetIncomingRequestsByUserIdAsync(userId), userId);
 		}
 		
 		public async Task<bool> SendRequestAsync(User sender, User reciever)
@@ -45,21 +45,27 @@ namespace Fakebook.Core.Services
 		public async Task<bool> RemoveFriendAsync(User user, User friend)
 		{
 			var friendship = await _friendshipRepository.GetFriendAsync(user, friend);
-			bool successful = await _friendshipRepository.DeleteAsync(friendship);
-			return successful;
+			return await _friendshipRepository.DeleteAsync(friendship);
 		}
 
 		public async Task<Friendship> GetFriendAsync(User user, User friend)
 		{
 			return await _friendshipRepository.GetFriendAsync(user, friend);
 		}
-		/// <summary>
-		/// Gets all friends of input user, outputting a list of friendships with input user as Friendship.User
-		/// </summary>
+
+
 		public async Task<List<Friendship>> GetFriendsListByUserIdAsync(string userId)
-		{			List<Friendship> fixedList = new();
-			var friendslist = await _friendshipRepository.GetByUserIdAsync(userId);
-			foreach (Friendship fr in friendslist)
+		{
+			return FixFriendsList(await _friendshipRepository.GetByUserIdAsync(userId), userId);
+		}
+
+		/// <summary>
+		/// Outputs a list of friendships with input user as Friendship.User
+		/// </summary>
+		private static List<Friendship> FixFriendsList(List<Friendship> list, string userId)
+		{
+			List<Friendship> fixedList = new();
+			foreach (Friendship fr in list)
 			{
 				if (fr.FriendId == userId)
 				{

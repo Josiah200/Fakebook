@@ -76,8 +76,20 @@ namespace Fakebook.Web
 				options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
 			});
 			
+			services.AddCors(options =>
+			{
+				options.AddDefaultPolicy(
+					builder =>
+					{
+						builder.WithOrigins("http://localhost:5000", "http://localhost:5001")
+						.AllowAnyHeader()
+						.WithMethods("GET", "POST")
+						.AllowCredentials();
+					});
+			});
+
 			services.AddRazorPages();
-			services.AddSignalR();
+			services.AddSignalR(options => options.EnableDetailedErrors = true);
 			services.AddAutoMapper(typeof(Startup).Assembly);
 
 			services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
@@ -92,6 +104,7 @@ namespace Fakebook.Web
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IFriendsService, FriendsService>();
 			services.AddScoped<IPhotoService, PhotoService>();
+			services.AddScoped<IMessengerService, MessengerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +121,7 @@ namespace Fakebook.Web
 
 			app.UseAuthentication();
 			app.UseAuthorization();
+			app.UseCors();
 
 			app.UseEndpoints(endpoints =>
             {
@@ -117,7 +131,7 @@ namespace Fakebook.Web
 				);
 				endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 				endpoints.MapRazorPages();
-				endpoints.MapHub<MessengerHub>("/Messenger");
+				endpoints.MapHub<MessengerHub>("/messenger");
             });
         }
     }

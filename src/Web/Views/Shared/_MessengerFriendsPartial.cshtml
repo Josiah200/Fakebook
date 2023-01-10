@@ -1,0 +1,15 @@
+@using Fakebook.Core.Entities
+@model List<Friendship>
+
+@foreach (Friendship friend in Model) 
+{
+	@if (friend.Status == Status.Accepted)
+	{
+		<div id ='messenger-friend-@friend.Friend.Id' class="card card-outline-primary m-1 p-1 row h-25 messenger-friend">
+			<div>
+				<img src="data:image/png;base64,@Convert.ToBase64String(friend.User.ProfilePicture)" width="40" height="40"/>
+				<a>@friend.Friend.FirstName @friend.Friend.LastName</a>
+			</div>
+		</div>
+	}
+}

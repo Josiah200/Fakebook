@@ -18,6 +18,7 @@ namespace Fakebook.Infrastructure.Data
 		public DbSet<Photo> Photos { get; set; }
 		public DbSet<Friendship> Friendships { get; set; }
 		public DbSet<Notification> Notifications { get; set; }
+		public DbSet<Connection> Connections { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

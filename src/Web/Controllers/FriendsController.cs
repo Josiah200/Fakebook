@@ -10,8 +10,6 @@ using System.Security.Claims;
 using Fakebook.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 
-using AutoMapper;
-
 namespace Fakebook.Web.Controllers
 {
 	[Route("[Controller]")]
@@ -33,12 +31,25 @@ namespace Fakebook.Web.Controllers
 		public async Task<IActionResult> GetFriends()
 		{
 			var currentUser = await _userManager.GetUserAsync(User);
-			var friends = await _friendsService.GetByUserIdAsync(currentUser.Id);
+			var friends = await _friendsService.GetFriendsListByUserIdAsync(currentUser.Id);
 			if (friends.Count == 0)
 			{
 				return NotFound();
 			}
 			return PartialView("_FriendsChunkPartial", friends);
+		}
+
+		[HttpGet("Messenger")]
+		[Authorize]
+		public async Task<IActionResult> GetMessengerList()
+		{
+			var currentUser = await _userManager.GetUserAsync(User);
+			var friends = await _friendsService.GetFriendsListByUserIdAsync(currentUser.Id);
+			if (friends.Count == 0)
+			{
+				return NotFound();
+			}
+			return PartialView("_MessengerFriendsPartial", friends);
 		}
 
 		[HttpGet("Requests")]

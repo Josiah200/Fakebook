@@ -1,21 +1,22 @@
 @using Fakebook.Core.Entities
 @model List<Friendship>
 
-@foreach (Friendship friend in Model) {
-	<div id="request" class="card card-outline-primary m-1 p-1 row h-25">
+@foreach (Friendship friend in Model) 
+{
+	<div id ='friend-@friend.Friend.Id' class="card card-outline-primary m-1 p-1 row h-25">
 		<div>
 			<img src="data:image/png;base64,@Convert.ToBase64String(friend.User.ProfilePicture)" width="40" height="40"/>
-			<a href="~/Profile/@friend.User.PublicId">@friend.User.FirstName @friend.User.LastName</a>
+			<a href="~/Profile/@friend.Friend.PublicId">@friend.Friend.FirstName @friend.Friend.LastName</a>
 		</div>
 		<div class="container-fluid">
 			<div class="row">
 				@if (friend.Status == 0)
 				{
 					<div class="col-6" style="padding: 4px 2px 4px 4px">
-						<a asp-controller="Friends" asp-Action="AddFriend" asp-route-userPublicId="@friend.User.PublicId" class="btn btn-block" style="background-color:#7b2cab; color:white;">Accept</a>
+						<a asp-controller="Friends" asp-Action="AddFriend" asp-route-userPublicId="@friend.Friend.PublicId" class="btn btn-block" style="background-color:#7b2cab; color:white;">Accept</a>
 					</div>
 					<div class="col-6" style="padding: 4px 4px 4px 2px">
-						<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@friend.User.PublicId" class="btn btn-block" style="background-color:#7b2cab; color:white;">Decline</a>
+						<a asp-controller="Friends" asp-Action="RemoveFriend" asp-route-userPublicId="@friend.Friend.PublicId" class="btn btn-block" style="background-color:#7b2cab; color:white;">Decline</a>
 					</div>
 				}
 			</div>
