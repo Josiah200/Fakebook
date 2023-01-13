@@ -22,16 +22,19 @@ namespace Fakebook.Web.Controllers
 		private readonly IPostService _postService;
 		private readonly ILikeService<Post> _postLikeService;
 		private readonly ILikeService<Comment> _commentLikeService;
+		private readonly IFriendsService _friendsService;
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IMapper _mapper;
 
 		public PostController(IPostService postService, ILikeService<Post> postLikeService,
-			ILikeService<Comment> commentLikeService, UserManager<ApplicationUser> userManager, IMapper mapper)
+			ILikeService<Comment> commentLikeService, IFriendsService friendsService, UserManager<ApplicationUser> userManager, IMapper mapper)
 		{
 			_postService = postService;
 			_postLikeService = postLikeService;
 			_commentLikeService = commentLikeService;
+			_friendsService = friendsService;
 			_userManager = userManager;
+
 			_mapper = mapper;
 		}
 		
@@ -42,8 +45,8 @@ namespace Fakebook.Web.Controllers
 			{
 				return RedirectToAction("Index", "Home");
 			}
-			
-			var posts = await _postService.GetHomePostsPageAsync(userId, page, pageSize);
+			var friends = await _friendsService.GetByUserIdAsync(userId);
+			var posts = await _postService.GetHomePostsPageAsync(userId, page, pageSize, friends);
 
 			if (posts?.Any() != true)
 			{
