@@ -8,7 +8,7 @@
 				<div style="font-size: 2em; text-align: center;">@Model.ProfileUser.FirstName @Model.ProfileUser.LastName</div>
 				@if(Model.IsProfileOwner)
 					{
-						<button type="button" class="btn" id="profileEditBtn" data-toggle="modal" data-target="#profileEditModal" style="position:absolute; right:0; top:0; margin:auto; z-index:100;">
+						<button type="button" class="btn" id="profileEditBtn" data-bs-toggle="modal" data-bs-target="#profileEditModal" style="position:absolute; right:0; top:0; margin:auto; z-index:100;">
 							<img src="~/images/edit.svg"></img>
 							<div style="color: black">Edit Profile</div>
 						</button>
@@ -127,12 +127,12 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="profileEditModalLabel">Edit Profile<h5>
-						<button type="button" class="close editformclose" data-dismiss="modal" aria-label="Close">
+						<button type="button" class="close editformclose" data-bs-dismiss="modal" aria-label="Close" style="border: none !important; background-color: white;">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<form asp-controller="Photo" asp-action="NewProfilePhoto" method="post" id="photoform" enctype="multipart/form-data">
+						<form asp-controller="Photo" asp-action="NewProfilePhoto" method="post" id="photoform" enctype="multipart/form-data" style="display:inline-block !important;">
 							<div class="form-group">
 								<label asp-for="PhotoInput.File">Upload Photo</label>
 								<br>
@@ -150,7 +150,7 @@
 									<span asp-validation-for="PublicIdInput.PublicId" class="text-danger"></span>
 								</div>
 								<div class="ml-30 col p-0">
-									<button type="submit" style="margin-top: 7px; position: absolute; top: 50%; -ms-transform: translateY(-50%); transform: translateY(-50%);" class="btn">Save Public ID</button> 
+									<button type="submit" style="margin-top: 1.5rem !important;" class="btn">Save Public ID</button> 
 								</div>
 								<div id="pidupdateresponse" class="updateresponse col" style="padding-top: 2.2rem; padding-left: 0; padding-right: 0; "></div>
 							</div>
@@ -170,11 +170,11 @@
 							</div>
 							<label asp-for="UpdateInput.Gender">Gender</label>
 							<div class="form-group" style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
-								<div class="btn-group btn-group-toggle" data-toggle="buttons" style="order: 0;">
-									<label class="btn">
+								<div class="btn-group btn-group-toggle" data-bs-toggle="buttons" style="order: 0;">
+									<label class="btn" id="genderMaleBtn">
 										<input type="radio" value="Male" id="maleradio" class="form-control genderradio"> Male
 									</label>
-									<label class="btn">
+									<label class="btn" id="genderFemaleBtn">
 										<input type="radio" value="Female" id="femaleradio" class="form-control genderradio"> Female
 									</label>
 									<label class="btn" id="gendercustombtn">
@@ -187,12 +187,12 @@
 							<div class="input-group">
 								<div class="form-group">
 									<label asp-for="UpdateInput.Birthdate"></label>
-										<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate?.ToString("yyyy-MM-dd")" class="form-control" max="9999-12-31"></input>
+									<input asp-for="UpdateInput.Birthdate" type="date" value="@Model.ProfileUser.Birthdate?.ToString("yyyy-MM-dd")" class="form-control" max="9999-12-31"></input>
 									<span asp-validation-for="UpdateInput.Birthdate" class="text-danger"></span>
 								</div>
-								<div class="form-group form-check">
-									<label asp-for="UpdateInput.BirthdateYearPublic"></label>
-									<input asp-for="UpdateInput.BirthdateYearPublic" class="form-control checkbox-custom" type="checkbox" value="true">
+								<div class="form-group form-check pt-4">
+									<label asp-for="UpdateInput.BirthdateYearPublic" class="form-check-label"></label>
+									<input asp-for="UpdateInput.BirthdateYearPublic" class="form-control form-check-input checkbox-custom" type="checkbox" value="true">
 									<span asp-validation-for="UpdateInput.BirthdateYearPublic"></span>
 								</div>
 							</div>
@@ -238,7 +238,7 @@
 							<div class="modal-footer">
 								<div id="updateprofileresponse" class="updateresponse"></div>
 								<button type="submit" class="btn">Save changes</button>
-								<button type="button" class="btn editformclose" data-dismiss="modal">Close</button>
+								<button type="button" class="btn editformclose" data-bs-dismiss="modal">Close</button>
 							</div>
 						</form>
 					</div>

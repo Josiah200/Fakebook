@@ -9,9 +9,7 @@
 	<meta name="viewport" content ="width=device-width" />
 	<title>Fakebook</title>
 	<script src="~/lib/jquery/jquery.min.js"></script>
-	@* <script src="~/lib/popper.js/umd/popper.min.js"></script> *@
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
+	<script src="~/lib/popper.js/umd/popper.min.js"></script>
 	<link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
 	<script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
 	<script src="~/lib/marked/marked.min.js" type="text/javascript"></script>
@@ -19,7 +17,7 @@
 	<link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
 </head>
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark fixed-top flex-md-nowrap" style="background-color:#7b2cab; justify-content: center;">
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top flex-md-nowrap" style="background-color:#7b2cab; padding-left: 1em !important; justify-content: center;">
 		<a class="navbar-brand" href="/">Fakebook</a>
 		@if (SignInManager.IsSignedIn(User)) {
 			<ul class="navbar-nav mr-auto" style="flex-direction: row; height: 40px;">
@@ -40,7 +38,7 @@
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarCollapse">
+		<div class="collapse navbar-collapse flex-row-reverse" id="navbarCollapse" style="">
 			<ul class="navbar-nav ml-auto" style="height: 40px;">
 				<partial name="_LoginPartial.cshtml" />
 			</ul>

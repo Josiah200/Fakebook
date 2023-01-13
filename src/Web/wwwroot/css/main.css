@@ -94,6 +94,13 @@ background-color: #F2F2F2;
 	justify-content: left;
 	align-items: center;
 }
+#managenav > * > *{
+	color: blue;
+}
+#gendercustom, .genderradio {
+	appearance: none !important;
+	display:none !important;
+}
 
 textarea:focus,
 input[type="text"]:focus,
@@ -130,7 +137,6 @@ input[type="radio"]:focus,
 .checkbox-custom:active,
 .checkbox-custom:focus,
 .checkbox-custom:focus:active {
-  background-image: none;
   outline: 0;
   box-shadow: none;
 }
@@ -200,6 +206,7 @@ input[type="radio"]:focus,
 	color: white;
 	z-index: 1;
 }
+
 
 #postForm:hover .markdown-preview-btn {
 	display: block;
@@ -321,4 +328,10 @@ a.active {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
+}
+
+.search-user {
+	display: inline-block !important;
+	height: fit-content;
+	width: fit-content;
 }

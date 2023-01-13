@@ -19,7 +19,7 @@
       "destination": "wwwroot\\lib\\twitter-bootstrap"
     },
     {
-      "library": "popper.js@2.11.4",
+      "library": "popper.js@2.11.6",
       "destination": "wwwroot\\lib\\popper.js"
     },
     {

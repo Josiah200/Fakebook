@@ -1,16 +1,16 @@
 @using Fakebook.Web.Models
 @model UserSearchViewModel
 
-<div class="users row">
+<div class="users row w-100" style="display: inline-block;">
 	@foreach (UserViewModel user in Model.Users)
 	{
-		<div class="post card card-outline-primary m-1 p-1">
-			<div class="Author p-1">
+		<div class="card card-outline-primary m-1 p-1 search-user">
+			<div class="Author p-1" >
 				<img src="data:image/png;base64,@Convert.ToBase64String(user.ProfilePicture)" width="45" height="45" />
 				<a href="~/Profile/@user.PublicId">@user.FirstName @user.LastName</a>
 				@if (!String.IsNullOrEmpty(user.City))
 				{
-					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Current home" style="order: 0"><img
+					<div class="badge pr-2 pt-2 pb-2 m-1 profilebadge" title="Current home" style="order: 0;"><img
 					src="~/images/home.svg" height="20px"></img>@user.City</div>
 				}
 			</div>

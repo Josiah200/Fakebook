@@ -18,12 +18,21 @@ document.querySelectorAll('.genderradio').forEach(item => {
 
 document.getElementById('maleradio').addEventListener('click', function() {
 	$('.genderinput').val('Male');
+	$("#gendercustombtn").removeClass('active');
+	$('#genderfemalebtn').removeClass('active');
+	$('#gendermalebtn').addClass('active');
 });
 
 document.getElementById('femaleradio').addEventListener('click', function() {
 	$('.genderinput').val('Female');
+	$('#gendermalebtn').removeClass('active');
+	$("#gendercustombtn").removeClass('active');
+	$('#genderfemalebtn').addClass('active');
 });
 
 document.getElementById('gendercustom').addEventListener('click', function() {
 	$(".genderinput").val('');
+	$('#gendermalebtn').removeClass('active');
+	$('#genderfemalebtn').removeClass('active');
+	$("#gendercustombtn").addClass('active');
 });

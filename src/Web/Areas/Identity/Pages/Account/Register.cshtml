@@ -30,14 +30,14 @@
 			<sup class="text-muted">optional</sup>
 			<div class="form-group" style="display: flex; flex-direction: row; justify-content: flex-start; flex-wrap: wrap;">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons" style="order: 0;">
-					<label class="btn btn-primary">
+					<label class="btn btn-primary" id="gendermalebtn">
 						<input type="radio" value="Male" id="maleradio" class="genderradio"> Male
 					</label>
-					<label class="btn btn-primary">
+					<label class="btn btn-primary" id="genderfemalebtn">
 						<input type="radio" value="Female" id="femaleradio" class="genderradio"> Female
 					</label>
 					<label class="btn btn-primary" id="gendercustombtn">
-						<input type="radio" value="Custom" id="gendercustom" class=""> Custom	
+						<input type="radio" value="Custom" id="gendercustom" > Custom	
 					</label>
 				</div>
 				<input asp-for="Input.Gender" maxlength="10" class="form-control genderinput" style="width: 8rem; display: none; order: 1;">
