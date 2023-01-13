@@ -59,9 +59,9 @@ namespace Tests.Core.Services.PostServiceTests
 		public async Task InvokesPostRepositoryOnce()
 		{
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
-			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
+			var postService = new PostService(_mockPostRepo.Object);
 
-			await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);
+			await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16, null);
 
 			_mockPostRepo.Verify(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
 		}
@@ -70,9 +70,9 @@ namespace Tests.Core.Services.PostServiceTests
 		public async Task ReturnsListOfPosts()
 		{
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
-			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
+			var postService = new PostService(_mockPostRepo.Object);
 
-			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);	
+			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16, null);	
 
 			Assert.IsType<List<Post>>(result);
 		}
@@ -81,9 +81,9 @@ namespace Tests.Core.Services.PostServiceTests
 		public async Task ReturnsCurrentUsersPosts()
 		{
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
-			var postService = new PostService(_mockPostRepo.Object,  _mockFriendsService.Object);
+			var postService = new PostService(_mockPostRepo.Object);
 
-			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);	
+			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16, null);	
 
 			result.Should().Contain(_userPostData);
 		}
@@ -92,9 +92,9 @@ namespace Tests.Core.Services.PostServiceTests
 		public async Task ReturnsFriendsPosts()
 		{
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(_allPostData);
-			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
+			var postService = new PostService(_mockPostRepo.Object);
 
-			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);	
+			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16, null);	
 
 			result.Should().Contain(_friendsPostData);
 		}
@@ -103,9 +103,9 @@ namespace Tests.Core.Services.PostServiceTests
 		public async Task ReturnsNullIfNoPostsFound()
 		{
 			_mockPostRepo.Setup(x => x.GetPostsPageByUserIdListAsync(It.IsAny<List<string>>(), It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(new List<Post>().AsReadOnly());
-			var postService = new PostService(_mockPostRepo.Object, _mockFriendsService.Object);
+			var postService = new PostService(_mockPostRepo.Object);
 
-			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16);	
+			var result = await postService.GetHomePostsPageAsync("ba6bd0bf-7cee-4a7f-ba72-fbd41ce4540b", 0, 16, null);	
 
 			result.Should().BeNull();
 		}

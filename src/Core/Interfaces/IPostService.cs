@@ -8,7 +8,7 @@ namespace Fakebook.Core.Interfaces
     {
 		Task<bool> SavePostAsync(Post post);
 		Task<Post> GetByIdAsync(string postId);
-		Task<IReadOnlyCollection<Post>?> GetHomePostsPageAsync(string userId, int page, int pageSize);
+		Task<IReadOnlyCollection<Post>?> GetHomePostsPageAsync(string userId, int page, int pageSize, List<Friendship>? friends);
 		Task<IReadOnlyCollection<Post>?> GetUserPostsPageAsync(string userId, int page, int pageSize);
 	}
 }
