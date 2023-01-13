@@ -5,11 +5,12 @@
 {
 	@if (friend.Status == Status.Accepted)
 	{
-		<div id ='messenger-friend-@friend.Friend.Id' class="card card-outline-primary m-1 p-1 row h-25 messenger-friend">
-			<div>
-				<img src="data:image/png;base64,@Convert.ToBase64String(friend.User.ProfilePicture)" width="40" height="40"/>
-				<a>@friend.Friend.FirstName @friend.Friend.LastName</a>
+		<a data-toggle="list" id='@friend.Friend.Id' class="messenger-friend list-group-item list-group-item-action" href="#chat-@friend.Friend.Id" style="width:100%; text-decoration: none;" role="tab" aria-controls="chat-@friend.Friend.Id" aria-selected="false">
+			<div class="" style="text-decoration: none;">
+				<img src="data:image/png;base64,@Convert.ToBase64String(friend.Friend.ProfilePicture)" width="40" height="40" style="display: inline-block;" class="ml-1 mr-1"/>
+				<p style="display: inline-block; text-decoration: none; color:#000000;" id="name-@friend.Friend.Id" class="messenger-friend-name">@friend.Friend.FirstName @friend.Friend.LastName</p>
 			</div>
-		</div>
+		</a>
 	}
 }
+ 

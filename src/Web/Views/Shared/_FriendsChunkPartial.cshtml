@@ -5,7 +5,7 @@
 {
 	<div id ='friend-@friend.Friend.Id' class="card card-outline-primary m-1 p-1 row h-25">
 		<div>
-			<img src="data:image/png;base64,@Convert.ToBase64String(friend.User.ProfilePicture)" width="40" height="40"/>
+			<img src="data:image/png;base64,@Convert.ToBase64String(friend.Friend.ProfilePicture)" width="40" height="40"/>
 			<a href="~/Profile/@friend.Friend.PublicId">@friend.Friend.FirstName @friend.Friend.LastName</a>
 		</div>
 		<div class="container-fluid">

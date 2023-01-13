@@ -10,10 +10,19 @@ $(window).on("load", function () {
 	});
 
 	connection.on("RecieveMessage", (user, message) => {
-		var li = document.createElement("li");
-		li.textContent = message;
-		document.getElementById('messages-messenger-friend-' + user).appendChild(li);
-		console.log("message recieved");
+		var recievedWrapper = document.createElement("div");
+		recievedWrapper.classList.add("message-wrapper", "friend-message-wrapper");
+		var recievedHeader = document.createElement("div");
+		recievedHeader.innerHTML = $('#name-' + user).text().split(" ")[0];
+		recievedHeader.classList.add("message-header");
+		var msg = document.createElement("div");
+		msg.textContent = message;
+		msg.classList.add("friend-message", "message")
+		document.getElementById('chat-' + user).appendChild(recievedWrapper);
+
+		recievedWrapper.appendChild(recievedHeader);
+		recievedWrapper.appendChild(msg);
+		document.getElementById('chat-' + selectedUserId).scrollTop = document.getElementById('chat-' + selectedUserId).scrollHeight;
 	});
 	
 	connection.on("SendSuccess", () => {
@@ -21,13 +30,41 @@ $(window).on("load", function () {
 	});
 
 	document.getElementById("messengerSendBtn").addEventListener("click", function (event) {
-		var message = document.getElementById("messengerInput").value;
-		connection.invoke("SendMessage", selectedUserId, message).catch(function (err) {
-			return console.error(err.toString());
-		});
 		event.preventDefault();
-	});
+		var message = document.getElementById("messengerInput").value;
+		if (message !== "")
+		{
+			$('#messengerInput').val("");
+			connection.invoke("SendMessage", selectedUserId, message).catch(function (err) {
+				return console.error(err.toString());
+			});
+			var sentwrapper = document.createElement("div");
+			sentwrapper.classList.add("message-wrapper", "sent-message-wrapper");
 
+			var sentheader = document.createElement("div");
+			sentheader.innerHTML = $(".first-name").text();
+			sentheader.classList.add("message-header");
+
+			var sentmsg = document.createElement("div");
+			sentmsg.textContent = message;
+			sentmsg.classList.add("sent-message", "message")
+
+			document.getElementById('chat-' + selectedUserId).appendChild(sentwrapper);
+			sentwrapper.appendChild(sentheader);
+			sentwrapper.appendChild(sentmsg);
+
+			document.getElementById('chat-' + selectedUserId).scrollTop = document.getElementById('chat-' + selectedUserId).scrollHeight;
+		}
+	});
+	document.getElementById("messengerInput").addEventListener("keydown", function (event) {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			if (document.getElementById("messengerInput").value !== "")
+			{
+				document.getElementById("messengerSendBtn").click();
+			}
+		}
+	})
 	let btn = document.getElementById('messengerBtn');
 	btn.addEventListener('click', function() {
 		$('#messengerList').empty();
@@ -47,19 +84,34 @@ $(window).on("load", function () {
 					messengerList.append(response);
 					$('.messenger-friend').each(function(index) {
 						$(this).on("click", function() {
-							$('#chatArea').children().css({
-								'display' : 'none'
-							});
-							$('#messages-' + $(this).attr('Id')).show();
+							selectedUserId = $(this).attr('Id');
 						});
+
 						var idstring = $(this).attr('Id');
-						selectedUserId = idstring.substr(17);
-						if ($('#chatArea').has('#messages-' + idstring).length) {
+						if ($('#chatArea').has('#chat-' + idstring).length) {
 
 						}
 						else {
-							$('#chatArea').append('<ul id="messages-' + idstring + '"class="messages"></ul>');
+							var div = document.createElement('div');
+							div.id= "chat-" + idstring;
+							div.classList = "messages tab-pane pt-4";
+							div.role="tabpanel";
+							div.ariaLabel = idstring;
+							document.getElementById('chatArea').appendChild(div);
+							var emptySpace = document.createElement('div');
+							emptySpace.classList = "m-0 p-0 chatempty";
+							div.appendChild(emptySpace);
 						}
+
+						var triggerTabList = [].slice.call(document.querySelectorAll('.messenger-friend'))
+						triggerTabList.forEach(function (triggerEl) {
+							var tabTrigger = new bootstrap.Tab(triggerEl)
+
+							triggerEl.addEventListener('click', function (event) {
+								event.preventDefault()
+								tabTrigger.show()
+							})
+						});
 					});
 				}
 			}
@@ -72,5 +124,3 @@ $(window).on("load", function () {
 		$('#messengerCloseBtn').toggle();
 	})
 });
-
-// let userId = $(document.currentScript).attr('data-user_id');

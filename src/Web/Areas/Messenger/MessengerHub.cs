@@ -40,7 +40,6 @@ namespace Fakebook.Web.Areas.Messenger
 				foreach (var c in connections)
 				{
 					await Clients.Client(c.Id).SendAsync("RecieveMessage", userId, message);
-					await Clients.Client(c.Id).SendAsync("SendSuccess");
 				}
 				await Clients.Client(connectionId).SendAsync("SendSuccess");
 			}
