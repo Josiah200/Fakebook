@@ -16,5 +16,6 @@ namespace Fakebook.Core.Interfaces
 		/// Gets all friends of input user, outputting a list of friendships with input user as Friendship.User
 		/// </summary>
 		Task<List<Friendship>> GetFriendsListByUserIdAsync(string userId);
+		Task<List<Friendship>> GetFriendsWithMessagesAsync(string userId);
 	}
 }

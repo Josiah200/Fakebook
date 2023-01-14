@@ -9,6 +9,7 @@ using Fakebook.Infrastructure.Identity;
 using System.Security.Claims;
 using Fakebook.Core.Services;
 using Microsoft.AspNetCore.Authorization;
+using Fakebook.Web.Models.ViewModels;
 
 namespace Fakebook.Web.Controllers
 {
@@ -17,12 +18,14 @@ namespace Fakebook.Web.Controllers
     {
 		private readonly IFriendsService _friendsService; 
 		private readonly IUserService _userService;
+		private readonly IMessengerService _messengerService;
 		private readonly UserManager<ApplicationUser> _userManager;
 
-	    public FriendsController(IFriendsService friendsService, IUserService userService, UserManager<ApplicationUser> userManager)
+	    public FriendsController(IFriendsService friendsService, IUserService userService, IMessengerService messengerService,UserManager<ApplicationUser> userManager)
 		{
 			_friendsService = friendsService;
 			_userService = userService;
+			_messengerService = messengerService;
 			_userManager = userManager;
 		}
 
@@ -37,19 +40,6 @@ namespace Fakebook.Web.Controllers
 				return NotFound();
 			}
 			return PartialView("_FriendsChunkPartial", friends);
-		}
-
-		[HttpGet("Messenger")]
-		[Authorize]
-		public async Task<IActionResult> GetMessengerList()
-		{
-			var currentUser = await _userManager.GetUserAsync(User);
-			var friends = await _friendsService.GetFriendsListByUserIdAsync(currentUser.Id);
-			if (friends.Count == 0)
-			{
-				return NotFound();
-			}
-			return PartialView("_MessengerFriendsPartial", friends);
 		}
 
 		[HttpGet("Requests")]
@@ -122,5 +112,30 @@ namespace Fakebook.Web.Controllers
 			await _friendsService.RemoveFriendAsync(currentUser, friend);
 			return Redirect(Request.Headers["Referer"].ToString());
 		}
-    }
+
+		[HttpGet("Messenger")]
+		[Authorize]
+		public async Task<IActionResult> Messenger()
+		{
+			var currentUser = await _userManager.GetUserAsync(User);
+			var friends = await _friendsService.GetFriendsWithMessagesAsync(currentUser.Id);
+
+			if (friends.Count == 0)
+			{
+				return NotFound();
+			}
+			var viewModel = new MessengerViewModel()
+			{
+				Friends = friends,
+				Messages = new List<List<Message>>()
+			};
+
+			foreach(Friendship friendship in friends)
+			{
+				viewModel.Messages.Add(await _messengerService.GetAllMessagesAsync(currentUser.Id, friendship.FriendId));
+			}
+			
+			return PartialView("_MessengerFriendsPartial", viewModel);
+		}
+	}
 }

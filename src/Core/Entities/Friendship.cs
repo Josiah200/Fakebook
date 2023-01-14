@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fakebook.Core.Entities
@@ -13,6 +14,7 @@ namespace Fakebook.Core.Entities
 		public User Friend { get; set; }
 		public Status Status { get; set; }
 		public DateTime Timestamp { get; set; }
+		public List<Message> Messages { get; set; }
     }
 
 	public enum Status

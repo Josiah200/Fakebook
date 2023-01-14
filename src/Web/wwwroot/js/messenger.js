@@ -67,60 +67,54 @@ $(window).on("load", function () {
 	})
 	let btn = document.getElementById('messengerBtn');
 	btn.addEventListener('click', function() {
-		$('#messengerList').empty();
 		$('#messengerWindow').toggle();
 		$('#messengerBtn').toggle();
 		$('#messengerCloseBtn').toggle();
-		$.ajax({
-			url: '/Friends/Messenger',
-			dataType: 'html',
-			type: 'GET',
-			success: function (response) {
-				if (response.indexOf("Error:") == 1) {
-					console.log(response);
-				}
-				else {
-					let messengerList = $('#messengerList');
-					messengerList.append(response);
-					$('.messenger-friend').each(function(index) {
-						$(this).on("click", function() {
-							selectedUserId = $(this).attr('Id');
-						});
-
-						var idstring = $(this).attr('Id');
-						if ($('#chatArea').has('#chat-' + idstring).length) {
-
-						}
-						else {
-							var div = document.createElement('div');
-							div.id= "chat-" + idstring;
-							div.classList = "messages tab-pane pt-4";
-							div.role="tabpanel";
-							div.ariaLabel = idstring;
-							document.getElementById('chatArea').appendChild(div);
-							var emptySpace = document.createElement('div');
-							emptySpace.classList = "m-0 p-0 chatempty";
-							div.appendChild(emptySpace);
-						}
-
-						var triggerTabList = [].slice.call(document.querySelectorAll('.messenger-friend'))
-						triggerTabList.forEach(function (triggerEl) {
-							var tabTrigger = new bootstrap.Tab(triggerEl)
-
-							triggerEl.addEventListener('click', function (event) {
-								event.preventDefault()
-								tabTrigger.show()
-							})
-						});
-					});
-				}
-			}
-		});
 	});
+
 	let closeBtn = document.getElementById('messengerCloseBtn');
 	closeBtn.addEventListener('click', function() {
 		$('#messengerWindow').toggle();
 		$('#messengerBtn').toggle();
 		$('#messengerCloseBtn').toggle();
 	})
+
+	$.ajax({
+		url: 'Friends/Messenger',
+		dataType: 'html',
+		type: 'GET',
+		success: function (response) {
+			if (response.indexOf("Error:") == 1) {
+				console.log(response);
+			}
+			else {
+				let messengerList = $('#messengerList');
+				messengerList.append(response);
+				$('.messenger-friend').each(function (index) {
+					$(this).on("click", function () {
+						selectedUserId = $(this).attr('Id');
+					});
+
+					var idstring = $(this).attr('Id');
+					if ($('#chatArea').has('#chat-' + idstring).length) {
+
+					}
+					else {
+						document.getElementById('chatArea').appendChild(document.getElementById('chat-' + idstring));
+						document.getElementById('chat-' + idstring).scrollTop = document.getElementById('chat-' + idstring).scrollHeight;
+					}
+
+					var triggerTabList = [].slice.call(document.querySelectorAll('.messenger-friend'))
+					triggerTabList.forEach(function (triggerEl) {
+						var tabTrigger = new bootstrap.Tab(triggerEl)
+
+						triggerEl.addEventListener('click', function (event) {
+							event.preventDefault()
+							tabTrigger.show()
+						})
+					});
+				});
+			}
+		}
+	});
 });

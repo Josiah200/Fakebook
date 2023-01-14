@@ -31,7 +31,8 @@ namespace Fakebook.Web
 					o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 			services.AddDbContext<FakebookContext>(options =>
-				options.UseInMemoryDatabase("Fakebook"));
+				options.UseInMemoryDatabase("Fakebook")
+				.EnableSensitiveDataLogging());
 
 			services.AddDbContext<FakebookIdentityContext>(options =>
 				options.UseInMemoryDatabase("Identity"));

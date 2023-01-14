@@ -46,5 +46,15 @@ namespace Fakebook.Infrastructure.Data
 			var acceptResult = await _dbContext.SaveChangesAsync();
 			return acceptResult == 1;
 		}
+
+		public Task<List<Friendship>> GetWithMessagesAsync(string userId)
+		{
+			return _dbContext.Friendships
+			.Where(f => (f.UserId == userId || f.FriendId == userId) && f.Status.Equals(Status.Accepted))
+			.Include(f => f.User)
+			.Include(f => f.Friend)
+			.Include(f => f.Messages.OrderByDescending(m => m.TimeStamp))
+			.ToListAsync();
+		}
 	}
 }

@@ -19,6 +19,7 @@ namespace Fakebook.Infrastructure.Data
 		public DbSet<Friendship> Friendships { get; set; }
 		public DbSet<Notification> Notifications { get; set; }
 		public DbSet<Connection> Connections { get; set; }
+		public DbSet<Message> Messages { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
@@ -74,6 +75,16 @@ namespace Fakebook.Infrastructure.Data
 
 			builder.Entity<Friendship>()
 				.HasKey(f => new { f.UserId, f.FriendId });
+
+			builder.Entity<Message>()
+				.HasOne(m => m.Sender)
+				.WithMany(u => u.SentMessages)
+				.HasForeignKey(m => m.SenderId);
+
+			builder.Entity<Message>()
+				.HasOne(m => m.Reciever)
+				.WithMany(u => u.RecievedMessages)
+				.HasForeignKey(m => m.RecieverId);
 		}
     }
 }

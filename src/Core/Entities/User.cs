@@ -15,6 +15,8 @@ namespace Fakebook.Core.Entities
 		public ICollection<Friendship> Friendships { get; set; }
 		public ICollection<Connection> Connections { get; set; }
 		public List<Notification> Notifications { get; set; }
+		public List<Message> SentMessages { get; set; }
+		public List<Message> RecievedMessages { get; set; }
 		public string? Bio { get; set; }
 		public string? Gender { get; set; }
 		public DateTime? Birthdate { get; set; }

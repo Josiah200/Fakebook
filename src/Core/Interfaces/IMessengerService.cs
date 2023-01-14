@@ -11,5 +11,7 @@ namespace Fakebook.Core.Interfaces
         Task<bool> SaveConnectionAsync(string userId, string connectionId);
 		Task<bool> DeleteConnectionAsync(string connectionId);
 		Task<List<Connection>> GetConnectionsAsync(string userId);
-    }
+		Task<bool> SaveMessageAsync(Message message);
+		Task<List<Message>> GetAllMessagesAsync(string firstUserId, string SecondUserId);
+	}
 }

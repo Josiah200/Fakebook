@@ -1,7 +1,7 @@
 @using Fakebook.Core.Entities
-@model List<Friendship>
+@model MessengerViewModel
 
-@foreach (Friendship friend in Model) 
+@foreach (Friendship friend in Model.Friends) 
 {
 	@if (friend.Status == Status.Accepted)
 	{
@@ -11,6 +11,44 @@
 				<p style="display: inline-block; text-decoration: none; color:#000000;" id="name-@friend.Friend.Id" class="messenger-friend-name">@friend.Friend.FirstName @friend.Friend.LastName</p>
 			</div>
 		</a>
+		// Message display to be moved to correct pane with JS
+		<div id="chat-@friend.Friend.Id" class="messages tab-pane pt-4">
+			<div class="m-0 p-0 chatempty"></div>
+			@foreach(List<Message> messageList in Model.Messages)
+			{
+				@if(messageList.Count > 0)
+				{
+					@if (messageList[0].SenderId == friend.Friend.Id || messageList[0].RecieverId == friend.Friend.Id)
+					{
+						@foreach(Message message in messageList)
+						{
+							@if (message.SenderId == friend.Friend.Id)
+							{
+								<div class="message-wrapper friend-message-wrapper">
+									<div class="message-header">
+										@message.Sender.FirstName
+									</div>
+									<div class="friend-message message">
+										@message.Content
+									</div>
+								</div>
+							}
+							@if (message.RecieverId == friend.Friend.Id)
+							{
+								<div class="message-wrapper sent-message-wrapper">
+									<div class="message-header">
+										@message.Sender.FirstName
+									</div>
+									<div class="sent-message message">
+										@message.Content
+									</div>
+								</div>
+							}
+						}
+					}
+				}
+			}
+		</div>
 	}
 }
  

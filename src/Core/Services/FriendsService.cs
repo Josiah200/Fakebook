@@ -28,6 +28,7 @@ namespace Fakebook.Core.Services
 		{
 			var friendship = new Friendship 
 			{
+				Id = Guid.NewGuid().ToString(),
 				UserId = sender.Id,
 				FriendId = reciever.Id,
 				Status = Status.Pending,
@@ -57,6 +58,10 @@ namespace Fakebook.Core.Services
 		public async Task<List<Friendship>> GetFriendsListByUserIdAsync(string userId)
 		{
 			return FixFriendsList(await _friendshipRepository.GetByUserIdAsync(userId), userId);
+		}
+		public async Task<List<Friendship>> GetFriendsWithMessagesAsync(string userId)
+		{
+			return FixFriendsList(await _friendshipRepository.GetWithMessagesAsync(userId), userId);
 		}
 
 		/// <summary>

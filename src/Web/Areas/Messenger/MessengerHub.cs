@@ -15,12 +15,16 @@ namespace Fakebook.Web.Areas.Messenger
 	[Authorize]
     public class MessengerHub : Hub
     {
-		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IMessengerService _messengerService;
+		private readonly IUserService _userService;
 
-		public MessengerHub(UserManager<ApplicationUser> userManager, IMessengerService messengerService)
+		private readonly UserManager<ApplicationUser> _userManager;
+
+		public MessengerHub(UserManager<ApplicationUser> userManager,
+			IUserService userService, IMessengerService messengerService)
 		{
 			_userManager = userManager;
+			_userService = userService;
 			_messengerService = messengerService;
 		}
 
@@ -42,6 +46,15 @@ namespace Fakebook.Web.Areas.Messenger
 					await Clients.Client(c.Id).SendAsync("RecieveMessage", userId, message);
 				}
 				await Clients.Client(connectionId).SendAsync("SendSuccess");
+
+				await _messengerService.SaveMessageAsync(new Message
+				{
+					Id = Guid.NewGuid().ToString(),
+					SenderId = userId,
+					RecieverId = targetId,
+					Content = message,
+					TimeStamp = DateTime.UtcNow
+				});
 			}
 		}
 
