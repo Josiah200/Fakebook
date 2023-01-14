@@ -80,7 +80,7 @@ $(window).on("load", function () {
 	})
 
 	$.ajax({
-		url: 'Friends/Messenger',
+		url: '/Friends/Messenger',
 		dataType: 'html',
 		type: 'GET',
 		success: function (response) {
