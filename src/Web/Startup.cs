@@ -10,6 +10,8 @@ using Fakebook.Core.Services;
 using Fakebook.Infrastructure.Data;
 using Fakebook.Infrastructure.Identity;
 using Fakebook.Web.Areas.Messenger;
+using System;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Fakebook.Web
 {
@@ -41,15 +43,22 @@ namespace Fakebook.Web
 
 		public void ConfigureProductionServices(IServiceCollection services)
 		{
-			services.AddControllersWithViews();
+			services.AddControllersWithViews()
+				.AddNewtonsoftJson(o =>
+					o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-			services.AddDbContext<FakebookContext>(options => 
-				options.UseSqlServer(
-					Configuration.GetConnectionString("FakebookConnection")));
+			// services.AddDbContext<FakebookContext>(options => 
+			// 	options.UseSqlServer(
+			// 		Configuration.GetConnectionString("FakebookConnection")));
+
+			// services.AddDbContext<FakebookIdentityContext>(options =>
+			// 	options.UseSqlServer(
+			// 		Configuration.GetConnectionString("IdentityConnection")));
+			services.AddDbContext<FakebookContext>(options =>
+				options.UseInMemoryDatabase("Fakebook"));
 
 			services.AddDbContext<FakebookIdentityContext>(options =>
-				options.UseSqlServer(
-					Configuration.GetConnectionString("IdentityConnection")));
+				options.UseInMemoryDatabase("Identity"));
 
 			ConfigureServices(services);
 		}
@@ -70,11 +79,11 @@ namespace Fakebook.Web
 				.AddEntityFrameworkStores<FakebookIdentityContext>()
 				.AddDefaultTokenProviders();
 				
-			services.AddAuthentication().AddFacebook(options =>
-			{
-				options.AppId = Configuration["Authentication:Facebook:AppId"];
-				options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-			});
+			// services.AddAuthentication().AddFacebook(options =>
+			// {
+			// 	options.AppId = Configuration["Authentication:Facebook:AppId"];
+			// 	options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+			// });
 			
 			services.AddCors(options =>
 			{
@@ -110,18 +119,22 @@ namespace Fakebook.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+			app.UseForwardedHeaders(new ForwardedHeadersOptions
+			{
+				ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+			});
+			
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
 				app.UseStatusCodePages();
-				app.UseStaticFiles();
             }
-
             app.UseRouting();
 
 			app.UseAuthentication();
 			app.UseAuthorization();
 			app.UseCors();
+			app.UseStaticFiles();
 
 			app.UseEndpoints(endpoints =>
             {

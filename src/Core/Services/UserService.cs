@@ -1,22 +1,33 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Fakebook.Core.Entities;
 using Fakebook.Core.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Fakebook.Core.Services
 {
     public class UserService : IUserService
 	{
 		private readonly IUserRepository _userRepository;
-		private static readonly byte[] defaultPicture = System.IO.File.ReadAllBytes(@"wwwroot/images/profilepicturedefault.png");
-        public UserService(IUserRepository userRepository)
+		private readonly IHostingEnvironment _hostingEnvironment;
+
+        public UserService(IUserRepository userRepository, IHostingEnvironment hostingEnvironment)
 		{
 			_userRepository = userRepository;
+			_hostingEnvironment = hostingEnvironment;
 		}
 		
 		public async Task<bool> NewUserAsync(string userId, string firstName, string lastName, string? gender, DateTime? birthdate, byte[] profilePicture = null)
 		{
+			var path = Path.Combine(_hostingEnvironment.WebRootPath, "images/profilepicturedefault.png");
+			Stream pictureStream = System.IO.File.OpenRead(path);
+			byte[] defaultPicture;
+			using (BinaryReader br = new(pictureStream))
+			{
+				defaultPicture = br.ReadBytes((int)pictureStream.Length);
+			}
 
 			var user = new User
 			{

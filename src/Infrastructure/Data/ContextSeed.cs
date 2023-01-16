@@ -9,6 +9,8 @@ using System;
 using Bogus;
 using Bogus.Extensions;
 using System.Text;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Fakebook.Infrastructure.Data
 {
@@ -25,7 +27,7 @@ namespace Fakebook.Infrastructure.Data
 					.RuleFor(u => u.FirstName, f => f.Name.FirstName())
 					.RuleFor(u => u.LastName, f => f.Name.LastName())
 					.RuleFor(u => u.PublicId, f => f.Random.String2(3, 8))
-					.RuleFor(u => u.ProfilePicture, System.IO.File.ReadAllBytes(@"../Web/wwwroot/images/profilepicturedefault.png"))
+					.RuleFor(u => u.ProfilePicture, f => UrlToByteArray(f.Internet.Avatar()))
 					.RuleFor(u => u.Bio, f => f.Random.Words(r.Next(0, 30)).OrNull(f, 0.3f))
 					.RuleFor(u => u.Gender, f => f.PickRandom(new string[] {"Male", "Female", "NB"}).OrNull(f, 0.3f))
 					.RuleFor(u => u.Birthdate, f => f.Date.Past(100).OrNull(f, 0.4f))
@@ -109,6 +111,12 @@ namespace Fakebook.Infrastructure.Data
 				friendData.RemoveAll(fr => fr.Id == badId);
 			}
 			return friendData;
+		}
+
+		private static byte[] UrlToByteArray(string url)
+		{
+			var webClient = new System.Net.WebClient();
+			return webClient.DownloadData(url);
 		}
 	}
 }
