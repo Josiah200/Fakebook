@@ -7,5 +7,6 @@ namespace Fakebook.Core.Entities
 		public string ReceiverId { get; set; }
 		public User Receiver { get; set; }
 		public DateTime TimeSent { get; set; }
+		public string Content { get; set; }
 	}
 }
