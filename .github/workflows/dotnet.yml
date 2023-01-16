@@ -1,0 +1,85 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  Deploy:
+
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 7.0.x
+        
+    - name: DotNet Restore
+      run: dotnet restore
+    
+    - name: DotNet Build
+      run: dotnet build --no-restore
+      
+    - name: DotNet Publish
+      run: dotnet publish -c Release
+      
+    - name: Stop fakebook Service
+      uses: garygrossgarten/github-action-ssh@v0.6.3
+      with:
+        command: systemctl disable kestrel-fakebook.service
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        privateKey: ${{ secrets.REMOTE_SSH_KEY }}
+      
+    - name: Copy Web to Server via SCP
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: /home/runner/work/Fakebook/Fakebook/src/Web/bin/Release/net7.0/publish/
+        concurrency: 10
+        remote: ${{ secrets.REMOTE_TARGET }}
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        privateKey: ${{ secrets.REMOTE_SSH_KEY }}
+      env:
+        ASPNETCORE_ENVIRONMENT: Production
+        
+    - name: Copy Core to Server via SCP
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: /home/runner/work/Fakebook/Fakebook/src/Core/bin/Release/net7.0/publish/
+        concurrency: 10
+        remote: ${{ secrets.REMOTE_TARGET }}
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        privateKey: ${{ secrets.REMOTE_SSH_KEY }}
+      env:
+        ASPNETCORE_ENVIRONMENT: Production
+        
+    - name: Copy Infrastructure to Server via SCP
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: /home/runner/work/Fakebook/Fakebook/src/Infrastructure/bin/Release/net7.0/publish/
+        concurrency: 10
+        remote: ${{ secrets.REMOTE_TARGET }}
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        privateKey: ${{ secrets.REMOTE_SSH_KEY }}
+      env:
+        ASPNETCORE_ENVIRONMENT: Production
+        
+    - name: Start fakebook Service
+      uses: garygrossgarten/github-action-ssh@v0.6.3
+      with:
+        command: systemctl enable kestrel-fakebook.service
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        privateKey: ${{ secrets.REMOTE_SSH_KEY }}
