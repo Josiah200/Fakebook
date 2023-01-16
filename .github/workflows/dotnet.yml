@@ -49,32 +49,6 @@ jobs:
       env:
         ASPNETCORE_ENVIRONMENT: Production
         
-    - name: Copy Core to Server via SCP
-      uses: garygrossgarten/github-action-scp@release
-      with:
-        local: /home/runner/work/Fakebook/Fakebook/src/Core/bin/Release/net7.0/publish/
-        concurrency: 10
-        remote: ${{ secrets.REMOTE_TARGET }}
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        passphrase: ${{ secrets.PASSPHRASE }}
-        privateKey: ${{ secrets.REMOTE_SSH_KEY }}
-      env:
-        ASPNETCORE_ENVIRONMENT: Production
-        
-    - name: Copy Infrastructure to Server via SCP
-      uses: garygrossgarten/github-action-scp@release
-      with:
-        local: /home/runner/work/Fakebook/Fakebook/src/Infrastructure/bin/Release/net7.0/publish/
-        concurrency: 10
-        remote: ${{ secrets.REMOTE_TARGET }}
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        passphrase: ${{ secrets.PASSPHRASE }}
-        privateKey: ${{ secrets.REMOTE_SSH_KEY }}
-      env:
-        ASPNETCORE_ENVIRONMENT: Production
-        
     - name: Start fakebook Service
       uses: garygrossgarten/github-action-ssh@v0.6.3
       with:
