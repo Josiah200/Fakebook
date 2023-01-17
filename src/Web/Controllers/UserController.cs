@@ -59,7 +59,7 @@ namespace Fakebook.Web.Controllers
 		[Route("UpdatePublicId")]
 		public async Task<IActionResult> UpdatePublicId([FromForm] NewPublicIdModel publicIdInput)
 		{
-			if (publicIdInput.PublicId.All(char.IsLetterOrDigit))
+			if (!publicIdInput.PublicId.All(char.IsLetterOrDigit))
 			{
 				return Content($"<h5>Only Letters and numbers allowed in Public Id.</h5>");
 			}
