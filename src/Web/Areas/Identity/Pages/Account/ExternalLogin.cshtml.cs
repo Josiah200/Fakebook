@@ -111,14 +111,19 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
 				var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
 
 				var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-				var pictureUrl = $"https://graph.facebook.com/{identifier}/picture?type=large";
-				ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 				byte[] profilePicture = null;
 
-                using (WebClient client = new())
-                {
-                    profilePicture = client.DownloadData(new Uri(pictureUrl));
-                }
+				ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+				if (info.LoginProvider == "Facebook")
+				{
+					var pictureUri = $"https://graph.facebook.com/{identifier}/picture?type=large";
+				
+                	using (WebClient client = new())
+                	{
+                    	profilePicture = client.DownloadData(new Uri(pictureUri));
+					}
+				}
 
 				var userResult = await _userService.NewUserAsync (
 					user.Id,

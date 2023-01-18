@@ -32,13 +32,17 @@ namespace Fakebook.Web
 			host.Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
+		{
+         	var host = Host.CreateDefaultBuilder(args)
 				.ConfigureLogging(logging =>
 				{
 					logging.ClearProviders();
 					logging.AddConsole();
 				})
                 .ConfigureWebHostDefaults(webBuilder => webBuilder.UseStartup<Startup>());
+			host.ConfigureAppConfiguration((config) => config.AddEnvironmentVariables(prefix: "ASPNETCORE_"));
+			return host;
+		}
     }
 }
