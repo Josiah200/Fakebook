@@ -433,3 +433,7 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 Fakebook.sln.DotSettings
 workspace.code-workspace
+
+## fakebook
+/src/web/db/
+/src/web/db/*

@@ -3,45 +3,52 @@ using System;
 using Fakebook.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+#nullable disable
 
 namespace Fakebook.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(FakebookContext))]
-    [Migration("20210517013759_LikesAndComments")]
-    partial class LikesAndComments
+    [Migration("20230119072719_SqliteInitial")]
+    partial class SqliteInitial
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.2");
 
             modelBuilder.Entity("Fakebook.Core.Entities.Comment", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DatePosted")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsReply")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ParentCommentId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PostId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentCommentId");
 
                     b.HasIndex("PostId");
 
@@ -50,22 +57,41 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("Fakebook.Core.Entities.Connection", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Connected")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Connections");
+                });
+
             modelBuilder.Entity("Fakebook.Core.Entities.Friendship", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FriendId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "FriendId");
 
@@ -74,53 +100,76 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.ToTable("Friendships");
                 });
 
-            modelBuilder.Entity("Fakebook.Core.Entities.Like<Fakebook.Core.Entities.Comment>", b =>
+            modelBuilder.Entity("Fakebook.Core.Entities.Like", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PostId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserId", "PostId");
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("CommentLikes");
+                    b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("Fakebook.Core.Entities.Like<Fakebook.Core.Entities.Post>", b =>
+            modelBuilder.Entity("Fakebook.Core.Entities.Message", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PostId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
-                    b.HasKey("UserId", "PostId");
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.HasIndex("PostId");
+                    b.Property<string>("FriendshipFriendId")
+                        .HasColumnType("TEXT");
 
-                    b.ToTable("PostLikes");
+                    b.Property<string>("FriendshipUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecieverId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecieverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.HasIndex("FriendshipUserId", "FriendshipFriendId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Notification", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ReceiverId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("TimeSent")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -132,27 +181,26 @@ namespace Fakebook.Infrastructure.Data.Migrations
             modelBuilder.Entity("Fakebook.Core.Entities.Photo", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("IsProfilePicture")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<byte[]>("PhotoByteArray")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("PostId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId")
-                        .IsUnique()
-                        .HasFilter("[PostId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -162,21 +210,21 @@ namespace Fakebook.Infrastructure.Data.Migrations
             modelBuilder.Entity("Fakebook.Core.Entities.Post", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DatePosted")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PhotoId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -188,53 +236,53 @@ namespace Fakebook.Infrastructure.Data.Migrations
             modelBuilder.Entity("Fakebook.Core.Entities.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Bio")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Birthdate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("BirthdateYearPublic")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("College")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Company")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("HighSchool")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Hometown")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("JobTitle")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<byte[]>("ProfilePicture")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("PublicId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -243,6 +291,10 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Fakebook.Core.Entities.Comment", b =>
                 {
+                    b.HasOne("Fakebook.Core.Entities.Comment", "Parent")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentCommentId");
+
                     b.HasOne("Fakebook.Core.Entities.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
@@ -255,9 +307,20 @@ namespace Fakebook.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Parent");
+
                     b.Navigation("Post");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Connection", b =>
+                {
+                    b.HasOne("Fakebook.Core.Entities.User", null)
+                        .WithMany("Connections")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Friendship", b =>
@@ -279,27 +342,14 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Fakebook.Core.Entities.Like<Fakebook.Core.Entities.Comment>", b =>
+            modelBuilder.Entity("Fakebook.Core.Entities.Like", b =>
                 {
-                    b.HasOne("Fakebook.Core.Entities.Comment", "Post")
+                    b.HasOne("Fakebook.Core.Entities.Comment", "Comment")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Fakebook.Core.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Fakebook.Core.Entities.Like<Fakebook.Core.Entities.Post>", b =>
-                {
                     b.HasOne("Fakebook.Core.Entities.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
@@ -312,9 +362,34 @@ namespace Fakebook.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Comment");
+
                     b.Navigation("Post");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Message", b =>
+                {
+                    b.HasOne("Fakebook.Core.Entities.User", "Reciever")
+                        .WithMany("RecievedMessages")
+                        .HasForeignKey("RecieverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fakebook.Core.Entities.User", "Sender")
+                        .WithMany("SentMessages")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fakebook.Core.Entities.Friendship", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("FriendshipUserId", "FriendshipFriendId");
+
+                    b.Navigation("Reciever");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Notification", b =>
@@ -359,6 +434,13 @@ namespace Fakebook.Infrastructure.Data.Migrations
             modelBuilder.Entity("Fakebook.Core.Entities.Comment", b =>
                 {
                     b.Navigation("Likes");
+
+                    b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("Fakebook.Core.Entities.Friendship", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Post", b =>
@@ -374,6 +456,8 @@ namespace Fakebook.Infrastructure.Data.Migrations
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("Connections");
+
                     b.Navigation("Friendships");
 
                     b.Navigation("Notifications");
@@ -381,6 +465,10 @@ namespace Fakebook.Infrastructure.Data.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("Posts");
+
+                    b.Navigation("RecievedMessages");
+
+                    b.Navigation("SentMessages");
                 });
 #pragma warning restore 612, 618
         }

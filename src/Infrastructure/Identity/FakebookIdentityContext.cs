@@ -7,10 +7,13 @@ namespace Fakebook.Infrastructure.Identity
 {
     public class FakebookIdentityContext : IdentityDbContext<ApplicationUser>
     {
+		public FakebookIdentityContext() {}
         public FakebookIdentityContext(DbContextOptions<FakebookIdentityContext> options)
             : base(options)
         {
         }
+		protected override void OnConfiguring(DbContextOptionsBuilder options)
+			=> options.UseSqlite($"Data Source=db/Identity.db");
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

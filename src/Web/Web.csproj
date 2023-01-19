@@ -9,16 +9,17 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="7.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.2" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="wwwroot\" />
@@ -98,6 +99,7 @@
 	</ItemGroup>
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
+		<RuntimeFrameworkVersion>7.0.2</RuntimeFrameworkVersion>
 		<RootNamespace>Fakebook.Web</RootNamespace>
 		<LangVersion>latest</LangVersion>
 		<Nullable>annotations</Nullable>

@@ -40,21 +40,6 @@ namespace Fakebook.Web
 			services.AddDbContext<FakebookIdentityContext>(options =>
 				options.UseInMemoryDatabase("Identity"));
 
-			// services.AddAuthentication()
-			// 	.AddFacebook(options =>
-			// 	{
-			// 		IConfigurationSection FBAuthNSection =
-			// 		Configuration.GetSection("Authentication:FB");
-			// 		options.AppId = Configuration["Authentication:Facebook:AppId"];
-			// 		options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-			// 		//Authentication:
-			// 	})
-			// 	.AddGoogle(options =>
-			// 	{
-			// 		options.ClientId = Configuration["ClientId"];
-			// 		options.ClientSecret = Configuration["ClientSecret"];
-			// 	});
-
 			ConfigureServices(services);
 		}
 
@@ -64,32 +49,15 @@ namespace Fakebook.Web
 				.AddNewtonsoftJson(o =>
 					o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-			// services.AddDbContext<FakebookContext>(options => 
-			// 	options.UseSqlServer(
-			// 		Configuration.GetConnectionString("FakebookConnection")));
-
-			// services.AddDbContext<FakebookIdentityContext>(options =>
-			// 	options.UseSqlServer(
-			// 		Configuration.GetConnectionString("IdentityConnection")));
 			services.AddDbContext<FakebookContext>(options =>
-				options.UseInMemoryDatabase("Fakebook"));
-
+				options.UseSqlite("Data Source=db/Fakebook.db"));
+				
 			services.AddDbContext<FakebookIdentityContext>(options =>
-				options.UseInMemoryDatabase("Identity"));
+				options.UseSqlite("Data Source=db/dentity.db"));
 
-			// services.AddAuthentication().AddFacebook(options =>
-			// {
-			// 	options.AppId = Configuration["ASPNETCORE_FACEBOOK_APP_ID"];
-			// 	options.AppSecret = Configuration["ASPNETCORE_FACEBOOK_APP_SECRET"];
-			// });
 			services.AddAuthentication()
 				.AddFacebook(options =>
 				{
-					// IConfigurationSection FBAuthNSection =
-					// Configuration.GetSection("Authentication:FB");
-					// options.AppId = Configuration["Authentication:Facebook:AppId"];
-					// options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-					// //Authentication:
 					options.AppId = Configuration["ASPNETCORE_FACEBOOK_APP_ID"];
 					options.AppSecret = Configuration["ASPNETCORE_FACEBOOK_APP_SECRET"];
 				})
