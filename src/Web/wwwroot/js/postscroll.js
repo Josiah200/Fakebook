@@ -57,6 +57,11 @@ function postTemplate(post) {
 	var likeString = "Like";
 	var postLikes = parseInt(post.likes);
 
+	const msEpoch = datePosted.getTime();
+	var offsetMinutes = datePosted.getTimezoneOffset();
+	var localMs = msEpoch - (offsetMinutes * 60 * 1000);
+	var localDate = new Date(localMs);
+
 	if (postLikes > 0) {
 		if (postLikes == 1) {
 			likes = `<div class="post-likes border-top">${post.likes} Like</div>`
@@ -78,7 +83,7 @@ function postTemplate(post) {
 			<div class="post-author p-1">
 				<img src="data:image/png;base64,${post.profilePicture}" style="width: 3rem; height: 3rem;" />	
 				<a href="/Profile/${post.userPublicId}"> ${post.firstName} ${post.lastName}</a>
-				<time class="post-date badge text-muted" title="${datePosted.toLocaleString()}">${timeString}</time>
+				<time class="post-date badge text-muted" title="${localDate.toLocaleString()}">${timeString}</time>
 			</div>
 			<div class="post-text p-1" id="post-text">${formatPost(post.text)}</div>
 			${likes}
@@ -108,6 +113,11 @@ function commentTemplate(comment) {
 
 	var commentLikes = parseInt(comment.likes);
 
+	const msEpoch = datePosted.getTime();
+	var offsetMinutes = datePosted.getTimezoneOffset();
+	var localMs = msEpoch - (offsetMinutes * 60 * 1000);
+	var localDate = new Date(localMs);
+
 	if (commentLikes > 0) {
 		if (commentLikes == 1) {
             likes = `<div class="comment-likes" id="likes-count-${comment.id}">${comment.likes} Like</div>`
@@ -129,7 +139,7 @@ function commentTemplate(comment) {
 			<div class="comment-info pb-1">
 				<img src="data:image/png;base64,${comment.profilePicture}" style="width: 1.7rem; height: 1.7rem;" />
 				<a href="/Profile/${comment.authorPublicId}"> ${comment.author}</a>
-				<time class="comment-date badge text-muted" title="${datePosted.toLocaleString()}">${timeString}</time>
+				<time class="comment-date badge text-muted" title="${localDate.toLocaleString()}">${timeString}</time>
 			</div>
 			<div class="comment-text" style="padding-left: .6em; padding-right: .6em">${formatPost(comment.text)}</div>
 			${likes}
@@ -154,9 +164,13 @@ function sanitize(string) {
 }
 
 function getTimeString(datePosted) {
-	const msPosted = new Date(datePosted);
-	const msNow = Date.now();
-	const msSince = (msNow - msPosted);
+
+	const msEpoch = datePosted.getTime();
+	var offsetMinutes = datePosted.getTimezoneOffset();
+	var localMs = msEpoch - (offsetMinutes * 60 * 1000);
+	var localDate = new Date(localMs);
+
+	const msSince = (Date.now() - localMs);
 	const daysSince = Math.round(msSince / (1000 * 60 * 60 * 24));
 	const hoursSince = Math.floor(msSince / 1000 / 3600);
 	const minutesSince = Math.floor((msSince / 1000) / 60);
@@ -177,11 +191,11 @@ function getTimeString(datePosted) {
 		return `${Math.floor(daysSince)}d`
 	}
 	else {
-		if (datePosted.getFullYear == Date.now.getFullYear) {
-			return datePosted.toLocaleDateString([], { year: '2-digit', month: '2-digit', day: '2-digit' });
+		if (localDate.getFullYear == Date.now.getFullYear) {
+			return localDate.toLocaleDateString([], { year: '2-digit', month: '2-digit', day: '2-digit' });
 		}
 		else {
-			return datePosted.toLocaleDateString([], { year: '2-digit', month: '2-digit', day: '2-digit' });
+			return localDate.toLocaleDateString([], { year: '2-digit', month: '2-digit', day: '2-digit' });
 		}
 	}
 }
