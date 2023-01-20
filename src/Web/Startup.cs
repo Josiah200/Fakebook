@@ -106,7 +106,6 @@ namespace Fakebook.Web
 			services.AddScoped<IPostRepository, PostRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IFriendshipRepository, FriendshipRepository>();
-			services.AddScoped<ICommentRepository, CommentRepository>();
 
 			services.AddScoped<IPostService, PostService>();
 			services.AddScoped<ICommentService, CommentService>();

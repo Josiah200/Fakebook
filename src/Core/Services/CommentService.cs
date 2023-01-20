@@ -8,9 +8,9 @@ namespace Fakebook.Core.Services
 {
     public class CommentService : ICommentService
     {
-		private readonly ICommentRepository _commentRepository;
+		private readonly IAsyncRepository<Comment> _commentRepository;
 
-		public CommentService(ICommentRepository commentRepository)
+		public CommentService(IAsyncRepository<Comment> commentRepository)
 		{
 			_commentRepository = commentRepository;
 		}
