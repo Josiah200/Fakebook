@@ -22,9 +22,6 @@ namespace Fakebook.Infrastructure.Data
 		public DbSet<Connection> Connections { get; set; }
 		public DbSet<Message> Messages { get; set; }
 
-		protected override void OnConfiguring(DbContextOptionsBuilder options)
-			=> options.UseSqlite($"Data Source=db/Fakebook.db");
-
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);

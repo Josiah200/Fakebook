@@ -339,3 +339,17 @@ a.active {
 .form-group {
 	margin-top: .5rem;
 }
+
+.reply {
+	margin-left: 1.2rem;
+}
+.comment,
+.reply {
+	border-radius: 10px;
+	padding: .3rem;
+	margin: .6rem;
+	display: inline-block;
+}
+.comment {
+	background-color: #f0f2f5;
+}

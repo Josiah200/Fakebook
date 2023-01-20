@@ -12,8 +12,6 @@ namespace Fakebook.Infrastructure.Identity
             : base(options)
         {
         }
-		protected override void OnConfiguring(DbContextOptionsBuilder options)
-			=> options.UseSqlite($"Data Source=db/Identity.db");
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

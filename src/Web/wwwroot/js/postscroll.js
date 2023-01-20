@@ -135,17 +135,19 @@ function commentTemplate(comment) {
 	}
 
 	return `
-		${comment.isReply ? `<div class="cmnt reply pl-4 pt-1" id=${comment.id}>` : `<div class="comment cmnt pt-1" id=${comment.id}>`}
-			<div class="comment-info pb-1">
-				<img src="data:image/png;base64,${comment.profilePicture}" style="width: 1.7rem; height: 1.7rem;" />
-				<a href="/Profile/${comment.authorPublicId}"> ${comment.author}</a>
-				<time class="comment-date badge text-muted" title="${localDate.toLocaleString()}">${timeString}</time>
+		<div class="comment-container">
+			${comment.isReply ? `<div class="cmnt reply pt-1" id=${comment.id}>` : `<div class="comment cmnt pt-1" id=${comment.id}>`}
+				<div class="comment-info pb-1">
+					<img src="data:image/png;base64,${comment.profilePicture}" style="width: 1.7rem; height: 1.7rem;" />
+					<a href="/Profile/${comment.authorPublicId}"> ${comment.author}</a>
+					<time class="comment-date badge text-muted" title="${localDate.toLocaleString()}">${timeString}</time>
+				</div>
+				<div class="comment-text" style="padding-left: .6em; padding-right: .6em">${formatPost(comment.text)}</div>
+				${likes}
+				<a type="button" class="comment-like-btn pl-1" id="like-${comment.id}">${likeString}</a>
+				${comment.isReply ? `<a type="button" class="reply-btn reply-btn-${comment.parentCommentId}">Reply</a>` : `<a type="button" id="comment-btn-${comment.id}" class="reply-btn">Reply</a>`}
+			${comment.replies ? comment.replies.map(commentTemplate).join("") : ''}
 			</div>
-			<div class="comment-text" style="padding-left: .6em; padding-right: .6em">${formatPost(comment.text)}</div>
-			${likes}
-			<a type="button" class="comment-like-btn pl-1" id="like-${comment.id}">${likeString}</a>
-			${comment.isReply ? `<a type="button" class="reply-btn reply-btn-${comment.parentCommentId}">Reply</a>` : `<a type="button" id="comment-btn-${comment.id}" class="reply-btn">Reply</a>`}
-		${comment.replies ? comment.replies.map(commentTemplate).join("") : ''}
 		</div>
 	`
 }
