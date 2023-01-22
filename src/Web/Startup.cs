@@ -53,7 +53,7 @@ namespace Fakebook.Web
 				options.UseSqlite("Data Source=db/Fakebook.db"));
 				
 			services.AddDbContext<FakebookIdentityContext>(options =>
-				options.UseSqlite("Data Source=db/dentity.db"));
+				options.UseSqlite("Data Source=db/Identity.db"));
 
 			services.AddAuthentication()
 				.AddFacebook(options =>
