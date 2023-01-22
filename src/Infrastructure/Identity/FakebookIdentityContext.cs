@@ -7,10 +7,10 @@ namespace Fakebook.Infrastructure.Identity
 {
     public class FakebookIdentityContext : IdentityDbContext<ApplicationUser>
     {
-		public FakebookIdentityContext() {}
         public FakebookIdentityContext(DbContextOptions<FakebookIdentityContext> options)
             : base(options)
         {
+			Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -51,7 +51,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Connection", b =>
@@ -70,7 +70,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Connections");
+                    b.ToTable("Connections", (string)null);
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Friendship", b =>
@@ -94,7 +94,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasIndex("FriendId");
 
-                    b.ToTable("Friendships");
+                    b.ToTable("Friendships", (string)null);
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Like", b =>
@@ -112,7 +112,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Likes", (string)null);
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Message", b =>
@@ -149,7 +149,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasIndex("FriendshipUserId", "FriendshipFriendId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Notification", b =>
@@ -172,7 +172,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasIndex("ReceiverId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Photo", b =>
@@ -201,7 +201,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Photos");
+                    b.ToTable("Photos", (string)null);
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Post", b =>
@@ -227,7 +227,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.User", b =>
@@ -283,7 +283,7 @@ namespace Fakebook.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Fakebook.Core.Entities.Comment", b =>

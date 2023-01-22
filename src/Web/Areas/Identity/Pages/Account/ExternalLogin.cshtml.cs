@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -119,9 +120,9 @@ namespace Fakebook.Web.Areas.Identity.Pages.Account
 				{
 					var pictureUri = $"https://graph.facebook.com/{identifier}/picture?type=large";
 				
-                	using (WebClient client = new())
+                	using (HttpClient client = new())
                 	{
-                    	profilePicture = client.DownloadData(new Uri(pictureUri));
+                    	profilePicture = await client.GetByteArrayAsync(new Uri(pictureUri));
 					}
 				}
 

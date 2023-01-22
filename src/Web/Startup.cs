@@ -14,7 +14,8 @@ using Fakebook.Infrastructure.Data;
 using Fakebook.Infrastructure.Identity;
 using Fakebook.Web.Areas.Messenger;
 using System;
-
+using Microsoft.EntityFrameworkCore.Sqlite;
+using Microsoft.Data.Sqlite;
 namespace Fakebook.Web
 {
 	public class Startup
@@ -45,15 +46,15 @@ namespace Fakebook.Web
 
 		public void ConfigureProductionServices(IServiceCollection services)
 		{
+			services.AddDbContext<FakebookContext>(options =>
+				options.UseSqlite(Configuration.GetConnectionString("FakebookConnection")));
+
+			services.AddDbContext<FakebookIdentityContext>(options =>
+				options.UseSqlite(Configuration.GetConnectionString("IdentityConnection")));
+
 			services.AddControllersWithViews()
 				.AddNewtonsoftJson(o =>
 					o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
-			services.AddDbContext<FakebookContext>(options =>
-				options.UseSqlite("Data Source=db/Fakebook.db"));
-				
-			services.AddDbContext<FakebookIdentityContext>(options =>
-				options.UseSqlite("Data Source=db/Identity.db"));
 
 			services.AddAuthentication()
 				.AddFacebook(options =>
@@ -73,6 +74,8 @@ namespace Fakebook.Web
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+
+
 			services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
@@ -91,7 +94,8 @@ namespace Fakebook.Web
 				options.AddDefaultPolicy(
 					builder =>
 					{
-						builder.WithOrigins("http://localhost:5000", "http://localhost:5001")
+						builder.WithOrigins("http://localhost:5000", "http://localhost:5001",
+								 "https://localhost:5001", "https://localhost:5000")
 						.AllowAnyHeader()
 						.WithMethods("GET", "POST")
 						.AllowCredentials();

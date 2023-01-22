@@ -11,6 +11,7 @@ using Bogus.Extensions;
 using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using System.Net.Http;
 
 namespace Fakebook.Infrastructure.Data
 {
@@ -22,12 +23,14 @@ namespace Fakebook.Infrastructure.Data
 			{	
 				var r = new Random();
 
+				// Seeding profile pictures from the web is inconsistant and slow.
 				var usersFaker = new Faker<User>()
 					.RuleFor(u => u.Id, f => Guid.NewGuid().ToString())
 					.RuleFor(u => u.FirstName, f => f.Name.FirstName())
-					.RuleFor(u => u.LastName, f => f.Name.LastName())
+					.RuleFor(u => u.LastName, f => f.Name.LastName() + "*")
 					.RuleFor(u => u.PublicId, f => f.Random.String2(3, 8))
 					.RuleFor(u => u.ProfilePicture, f => UrlToByteArray(f.Internet.Avatar()))
+					// .RuleFor(u => u.ProfilePicture, System.IO.File.ReadAllBytes(@"../Web/wwwroot/images/profilepicturedefault.png"))
 					.RuleFor(u => u.Bio, f => f.Random.Words(r.Next(0, 30)).OrNull(f, 0.3f))
 					.RuleFor(u => u.Gender, f => f.PickRandom(new string[] {"Male", "Female", "NB"}).OrNull(f, 0.3f))
 					.RuleFor(u => u.Birthdate, f => f.Date.Past(100).OrNull(f, 0.4f))
@@ -115,8 +118,9 @@ namespace Fakebook.Infrastructure.Data
 
 		private static byte[] UrlToByteArray(string url)
 		{
-			var webClient = new System.Net.WebClient();
-			return webClient.DownloadData(url);
+			using var httpClient = new HttpClient();
+			var data = httpClient.GetByteArrayAsync(url).Result;
+			return data;
 		}
 	}
 }
