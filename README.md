@@ -1,7 +1,7 @@
 # Fakebook
 Fakebook is a Facebook clone created in C# with ASP.NET Core. Users can create and customize their  own profiles, create posts, search for and add friends, and send instant messages to one another. All of this information is stored in a SQLite database.
 
-The site is live at [**fakebook.josiahmatheson.com**](https://josiahmatheson.com).
+The site is live at [**fakebook.josiahmatheson.com**](https://fakebook.josiahmatheson.com).
 ## Details:
 
 <sup>**Tech used:** C#, ASP.NET Core, SQLite, JavaScript, JQuery, Bootstrap, CSS, HTML</sup>
