@@ -75,7 +75,6 @@ namespace Fakebook.Web
 		public void ConfigureServices(IServiceCollection services)
 		{
 
-
 			services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
 				options.User.RequireUniqueEmail = true;

@@ -41,7 +41,7 @@ namespace Fakebook.Infrastructure.Data
 					.RuleFor(u => u.HighSchool, f => f.PickRandom(new string[] {"Savanna High School", "Darwin High", "Blue River High", "Blue River School"}).OrNull(f, 0.2f))
 					.RuleFor(u => u.College, f => f.PickRandom(new string[] {"Lone Pine College", "Mammoth College", "Saint Helena School of Fine Arts", "Storm Coast College", "White Mountain College"}).OrNull(f, 0.5f));
 
-				var userData = usersFaker.Generate(80);
+				var userData = usersFaker.Generate(100);
 
 				var postsFaker = new Faker<Post>()
 					.RuleFor(p => p.Id, f => Guid.NewGuid().ToString())

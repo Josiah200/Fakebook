@@ -23,9 +23,9 @@ namespace Fakebook.Infrastructure.Data
 		public Task<List<User>> GetPageAsync(string searchString, int page)
 		{
 			return _dbContext.Users
-				.Where(u => u.FirstName.ToLower().Contains(searchString) ||
-					(u.LastName.ToLower().Contains(searchString) ||
-					(u.FirstName.ToLower() + " " + u.LastName.ToLower()).Contains(searchString)))
+				.Where(u => u.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+					(u.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+					(u.FirstName + " " + u.LastName).Contains(searchString, StringComparison.OrdinalIgnoreCase)))
 				.OrderBy(u => u.FirstName)
 				.ThenBy(u => u.LastName)
 				.Skip(page * 40)

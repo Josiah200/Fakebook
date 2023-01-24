@@ -207,6 +207,10 @@ input[type="radio"]:focus,
 	z-index: 1;
 }
 
+#messengerList {
+	overflow-y: scroll !important;
+	height: 100%;
+}
 
 #postForm:hover .markdown-preview-btn {
 	display: block;
