@@ -7,7 +7,7 @@ The site is live at [**fakebook.josiahmatheson.com**](https://fakebook.josiahmat
 <sup>**Tech used:** C#, ASP.NET Core, SQLite, JavaScript, JQuery, Bootstrap, CSS, HTML</sup>
 
 ### Architecture:
-Fakebook uses Clean/Onion architecture, separating the app into 3 layers:
+Fakebook uses Clean/Onion Architecture, separating the app into 3 layers:
 
 * **Core** contains application business logic, and has no dependencies. This decoupling allows for changes to the details of the other layers without worrying about it breaking the core of the app.
 * **Infrastructure** handles our database access. Entity Framework allows us to build a database here using the logic outlined in the Core project. This layer also defines repositories, which act as endpoints for the Core project to access data. This is done using dependency injection, so that the Core project does not need to depend on Infrastructure or any of the technology that it uses to implement the database.
