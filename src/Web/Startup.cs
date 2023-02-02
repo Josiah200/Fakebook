@@ -16,6 +16,8 @@ using Fakebook.Web.Areas.Messenger;
 using System;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.Data.Sqlite;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace Fakebook.Web
 {
 	public class Startup

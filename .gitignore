@@ -434,6 +434,4 @@ $RECYCLE.BIN/
 Fakebook.sln.DotSettings
 workspace.code-workspace
 
-## fakebook
-/src/web/db/
-/src/web/db/*
+*.db
